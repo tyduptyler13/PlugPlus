@@ -1,8 +1,12 @@
 {
   "name": "Plug+",
   "version": "1.0",
-  "manifest_version": 1,
+  "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
+  "icons": {
+	  "64": "icon.png",
+	  "128": "largeIcon.png"
+  },
   "browser_action": {
 	"default_title": "Plug+",
     "default_icon": "icon.png",
