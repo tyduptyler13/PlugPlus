@@ -5,7 +5,7 @@
   "description": "A plug.dj script chrome plugin.",
   "icons": {
 	  "64": "icon.png",
-	  "128": "largeIcon.png"
+	  "267": "largeIcon.png"
   },
   "browser_action": {
 	"default_title": "Plug+",
