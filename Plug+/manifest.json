@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.1.10",
+  "version": "1.0.1.21",
   "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
   "icons": {
@@ -13,6 +13,6 @@
 	"default_popup": "menu.html"
   },
   "permissions": [
-    "http://blog.plug.dj/p/api-documentation.html"
+    "*://*.plug.dj"
   ]
 }
