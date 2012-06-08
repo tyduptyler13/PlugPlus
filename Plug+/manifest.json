@@ -13,6 +13,7 @@
 	"default_popup": "menu.html"
   },
   "permissions": [
-    "*://*.plug.dj"
+    "*://*.plug.dj",
+	"tabs"
   ]
 }
