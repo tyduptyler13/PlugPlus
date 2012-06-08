@@ -1,11 +1,11 @@
 {
   "name": "Plug+",
-  "version": "1.0.2.7",
+  "version": "1.0.2.20",
   "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
   "icons": {
 	  "64": "icon.png",
-	  "267": "largeIcon.png"
+	  "128": "largeIcon.png"
   },
   "browser_action": {
 	"default_title": "Plug+",
@@ -13,7 +13,19 @@
 	"default_popup": "menu.html"
   },
   "permissions": [
-    "*://*.plug.dj",
-	"tabs"
+    "*://www.plug.dj/*",
+	"tabs",
+	"storage",
+	"notifications"
+  ],
+  "web_accessible_recources": [
+  	"js/jquery-1.7.2.min.js", "js/jquery-ui-1.8.21.custom.min.js", "js/plugin.js", "css/dot-luv/jquery-ui-1.8.21.custom.css"
+  ],
+  "content_scripts": [
+  	{
+	  "matches": ["*://www.plug.dj/*"],
+	  "css": ["css/dot-luv/jquery-ui-1.8.21.custom.css"],
+	  "js": ["js/jquery-1.7.2.min.js", "js/jquery-ui-1.8.21.custom.min.js", "js/plugin.js"]
+	}
   ]
 }

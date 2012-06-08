@@ -21,5 +21,5 @@ Planned Features
 
 Change Log
 ------------------------
-1.0.2 - Packed and ready for first deployment
-1.0.1 - Basic Popup Ready
+* 1.0.2 - Packed and ready for first deployment
+* 1.0.1 - Basic Popup Ready
