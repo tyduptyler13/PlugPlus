@@ -14,7 +14,6 @@
   },
   "permissions": [
     "*://www.plug.dj/*",
-	"tabs",
 	"storage",
 	"notifications"
   ],
