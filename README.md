@@ -17,6 +17,7 @@ Planned Features
 * AutoWoot
 * AutoJoinQueue
 * Skin Overriding (only you can see them)
+* Notifications
 
 
 Change Log
