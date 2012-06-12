@@ -19,9 +19,13 @@ $('#plugPlus button').bind('click',function(eventData){
 	}
 });
 
-API.addEventListener(API.DJ_ADVANCE, autoWoot());
+API.addEventListener(API.DJ_ADVANCE, function(){
+	autoWoot();
+});
 
-API.addEventListener(API.DJ_UPDATE, autoJoin());
+API.addEventListener(API.DJ_UPDATE, function(){
+	autoJoin();
+});
 
 function autoWoot(){
 	var dj = API.getDJs()[0];
