@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.2.28",
+  "version": "1.0.2.32",
   "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
   "icons": {
@@ -17,8 +17,8 @@
 	"storage",
 	"notifications"
   ],
-  "web_accessible_recources": [
-  	"js/jquery-1.7.2.min.js", "js/jquery-ui-1.8.21.custom.min.js", "js/plugin.js", "css/dot-luv/jquery-ui-1.8.21.custom.css"
+  "web_accessible_resources": [
+  	"js/script.js"
   ],
   "content_scripts": [
   	{
