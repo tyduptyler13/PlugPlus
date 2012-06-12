@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.2.44",
+  "version": "1.0.2.45",
   "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
   "icons": {
@@ -26,5 +26,6 @@
 	  "css": ["css/dot-luv/jquery-ui-1.8.21.custom.css"],
 	  "js": ["js/jquery-1.7.2.min.js", "js/jquery-ui-1.8.21.custom.min.js", "js/plugin.js"]
 	}
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
