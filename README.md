@@ -6,18 +6,22 @@ Plug.dj script plugin for Chrome
 Current Features
 ------------------------
 * Featured Rooms
+* AutoWoot
+* AutoJoin
 
 
 Planned Features
 ------------------------
-* Custom Themes for any room that requests it. (It will only work for your room)
 * Bot Controlls (TBD)
 * Mod Features (TBD)
 * Language Filter
-* AutoWoot
-* AutoJoinQueue
-* Skin Overriding (only you can see them)
 * Notifications
+
+
+Possible Features
+------------------------
+* Custom Themes for any room that requests it. (It will only work for your room)
+* Skin Overriding (only you can see them)
 
 
 Change Log
