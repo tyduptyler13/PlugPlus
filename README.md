@@ -15,7 +15,7 @@ Planned Features
 * Bot Controlls (TBD)
 * Mod Features (TBD)
 * Language Filter
-* Notifications
+* Notifications (Working on)
 
 
 Possible Features
@@ -26,5 +26,6 @@ Possible Features
 
 Change Log
 ------------------------
+* 1.0.3 - Add Notifications
 * 1.0.2 - Packed and ready for first deployment
 * 1.0.1 - Basic Popup Ready
