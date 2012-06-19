@@ -26,8 +26,8 @@ if (localStorage["showNotifications"]=="true") {//One time check every time back
 		if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
 			nofify('icon.png',"Update","Plug+ has been updated!");
 			localStorage["lastVersion"] = chrome.app.getDetails().version;
-		} else {
-			localStorage["lastVersion"] = chrome.app.getDetails().version;
-		}
+		} 
+	} else {
+		localStorage["lastVersion"] = chrome.app.getDetails().version;
 	}
 }
