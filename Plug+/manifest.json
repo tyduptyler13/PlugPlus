@@ -7,6 +7,9 @@
 	  "64": "icon.png",
 	  "128": "largeIcon.png"
   },
+  "background": {
+	  "scripts": ["background.js"]
+  },
   "browser_action": {
 	"default_title": "Plug+",
     "default_icon": "icon.png",
