@@ -25,7 +25,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 if (localStorage["showNotifications"]=="true") {//One time check every time background starts.
 	if (localStorage["lastVersion"] !== undefined) {
 		if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
-			nofify('icon.png',"Update","Plug+ has been updated!");
+			notify('icon.png',"Update","Plug+ has been updated!");
 			localStorage["lastVersion"] = chrome.app.getDetails().version;
 		} 
 	} else {
