@@ -14,10 +14,11 @@ function notify(img, title, text){
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
+	console.log("Request made: "+request);
 	if (request.action=="notify"){
 		notify(request.img,request.title,request.text);
 	}else if (request.action=="getSave"){
-		sendResponce({value: localStorage[request.data]});
+		sendResponce({value: localStorage[request.save]});
 	}
 });
 

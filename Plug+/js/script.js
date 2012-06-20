@@ -22,6 +22,7 @@ $(document).ready(function(e) {
 	});
 
 	API.addEventListener(API.DJ_UPDATE, function(){
+		ppDJUpdate();
 		autoJoin();
 	});
 	
@@ -71,5 +72,9 @@ function firePPEvent(data){
 }
 
 function ppDJAdvance(){
+	
+}
+
+function ppDJUpdate(){
 	
 }
