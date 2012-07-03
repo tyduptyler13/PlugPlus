@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.3.8",
+  "version": "1.0.3.20",
   "manifest_version": 2,
   "description": "A plug.dj script chrome plugin.",
   "icons": {
@@ -21,7 +21,8 @@
 	"notifications"
   ],
   "web_accessible_resources": [
-  	"js/script.js"
+  	"js/script.js",
+	"icon.png"
   ],
   "content_scripts": [
   	{

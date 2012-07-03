@@ -4,9 +4,9 @@
   _gaq.push(['_trackPageview']);
 
   (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = 'https://ssl.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
 // Auto* section
@@ -14,7 +14,7 @@ PlugControls = "<div id='plugPlus' style='position:absolute;bottom:0px;width:310
 $(document).ready(function(e) {
 	if (document.location.pathname=="/") return;//Don't add to front page
 	
-    $('#dj-console').append(PlugControls);
+	$('#dj-console').append(PlugControls);
 	
 	API.addEventListener(API.DJ_ADVANCE, function(){
 		ppDJAdvance();
@@ -68,13 +68,23 @@ function autoJoin(){
 
 /* Begin Notifications */
 function firePPEvent(data){
-	$('#ppEvents').text(data).trigger('baseEvent');
+	$('#ppEvents').text(JSON.stringify(data));
+	$('#ppEvents').trigger('baseEvent');
+	console.log(data);
 }
 
 function ppDJAdvance(){
-	
+	var data = {};
+	data.image = API.getMedia().image;
+	data.title = "Song Update";
+	data.text = API.getMedia().title + " by " + API.getMedia().author;
+	firePPEvent(data);
 }
 
 function ppDJUpdate(){
-	
+	var data = {};
+	data.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getDJs()[0].avatarID + ".png";
+	data.title = "New DJ";
+	data.text = "DJ " + API.getDJs()[0].username + " is now playing.";
+	firePPEvent(data);
 }

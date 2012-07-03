@@ -23,12 +23,14 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 });
 
 if (localStorage["showNotifications"]=="true") {//One time check every time background starts.
+	var icon = chrome.extension.getURL("icon.png");
 	if (localStorage["lastVersion"] !== undefined) {
 		if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
-			notify('icon.png',"Update","Plug+ has been updated!");
+			notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version);
 			localStorage["lastVersion"] = chrome.app.getDetails().version;
 		} 
 	} else {
 		localStorage["lastVersion"] = chrome.app.getDetails().version;
+		notify(icon,"Version","Plug+ is now using version: " + chrome.app.getDetails().version);
 	}
 }
