@@ -8,20 +8,21 @@ Current Features
 * Featured Rooms
 * AutoWoot
 * AutoJoin
-
+* Notifications (Songs and DJ's) 
 
 Planned Features
 ------------------------
-* Bot Controlls (TBD)
-* Mod Features (TBD)
+* More Notifications
+* Settings (Disable unwanted features)
+* Bot Controlls
+* Mod Features
 * Language Filter
-* Notifications (Working on)
-
+* Disable Chat Completely
 
 Possible Features
 ------------------------
-* Custom Themes for any room that requests it. (It will only work for your room)
-* Skin Overriding (only you can see them)
+* Custom Themes for any room that requests it. (It will only work for your room and only for those with this plugin)
+* Skin Overriding (People with this plugin will see it)
 
 
 Change Log
