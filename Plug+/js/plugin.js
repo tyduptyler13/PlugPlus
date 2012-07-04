@@ -13,4 +13,3 @@ $("#ppEvents").get(0).addEventListener("baseEvent",function(){
 	
 	chrome.extension.sendRequest({action:"notify",img:_image ,title:_title ,text:_text});//Send
 });
-
