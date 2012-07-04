@@ -65,12 +65,14 @@ function autoJoin(){
 	}//Things shouldn't get here but we should check TODO
 }
 
-
 /* Begin Notifications */
+
+var baseEvent = document.createEvent('Event');
+baseEvent.initEvent('baseEvent',true,true);
+
 function firePPEvent(data){
 	$('#ppEvents').text(JSON.stringify(data));
-	$('#ppEvents').trigger('baseEvent');
-	console.log(data);
+	$('#ppEvents').get(0).dispatchEvent(baseEvent);
 }
 
 function ppDJAdvance(){
