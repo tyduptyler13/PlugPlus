@@ -12,7 +12,7 @@ function notify(img, title, text){
 	var notification = webkitNotifications.createNotification(img,title,text);
 	notification.show();
 	//fifunja solution
-	setTimeout(function() {notification.cancel();}, 2000);
+	setTimeout(function() {notification.cancel();}, 5000);
 	var _onunload = window.onunload;
 	window.onunload = function() {notification.cancel(); _onunload();}
 }
