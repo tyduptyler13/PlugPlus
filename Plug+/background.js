@@ -10,8 +10,11 @@
   
 function notify(img, title, text){
 	var notification = webkitNotifications.createNotification(img,title,text);
-	notification.onshow += setTimeout(notification.close,2000);
 	notification.show();
+	//fifunja solution
+	setTimeout(function() {notification.cancel();}, 2000);
+	var _onunload = window.onunload;
+	window.onunload = function() {notification.cancel(); _onunload();}
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {

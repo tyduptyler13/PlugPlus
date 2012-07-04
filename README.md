@@ -13,7 +13,7 @@ Current Features
 Planned Features
 ------------------------
 * More Notifications
-* Settings (Disable unwanted features)
+* Settings (Disable unwanted features and notification timeouts)
 * Bot Controlls
 * Mod Features
 * Language Filter
