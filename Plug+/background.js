@@ -7,14 +7,28 @@
     ga.src = 'https://ssl.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
-  
+
+var icon = chrome.extension.getURL("icon.png");
+
+if (localStorage["showNotifications"]==undefined){
+	localStorage["showNotifications"]="true";
+	notify(icon, "Plug+", "Check Plug+ button for new settings.");
+}
+	
+if (localStorage["notificationTimeout"]==undefined){
+	notify(icon, "Plug+", "Check Plug+ button for new settings.");
+	localStorage["notificationTimeout"]=5;
+}
+	
 function notify(img, title, text){
-	var notification = webkitNotifications.createNotification(img,title,text);
-	notification.show();
-	//fifunja solution
-	setTimeout(function() {notification.cancel();}, 5000);
-	var _onunload = window.onunload;
-	window.onunload = function() {notification.cancel(); _onunload();}
+	if (localStorage["showNotifications"]=="true"){
+		var notification = webkitNotifications.createNotification(img,title,text);
+		notification.show();
+		//fifunja solution
+		setTimeout(function() {notification.cancel();}, 5000);
+		var _onunload = window.onunload;
+		window.onunload = function() {notification.cancel(); _onunload();}
+	}
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
@@ -28,7 +42,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 });
 
 if (localStorage["showNotifications"]=="true") {//One time check every time background starts.
-	var icon = chrome.extension.getURL("icon.png");
 	if (localStorage["lastVersion"] !== undefined) {
 		if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
 			notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version);
