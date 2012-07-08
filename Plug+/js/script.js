@@ -71,7 +71,7 @@ var baseEvent = document.createEvent('Event');
 baseEvent.initEvent('baseEvent',true,true);
 
 function firePPEvent(data){
-	$('#ppEvents').text(JSON.stringify(data));
+	$('#ppEvents').html(JSON.stringify(data));
 	$('#ppEvents').get(0).dispatchEvent(baseEvent);
 }
 
