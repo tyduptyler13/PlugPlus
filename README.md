@@ -9,11 +9,11 @@ Current Features
 * AutoWoot
 * AutoJoin
 * Notifications (Songs and DJ's) 
+* Settings (Disable unwanted features and notification timeouts)
 
 Planned Features
 ------------------------
 * More Notifications
-* Settings (Disable unwanted features and notification timeouts)
 * Bot Controlls
 * Mod Features
 * Language Filter

@@ -15,15 +15,15 @@ table tr:not(:first) {
 	border-top: 1px #CCCCCC inset;
 }
 </style>
-<script src="js/menu.js"></script>
 <script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/menu.js"></script>
 <!--
 Yet to be used.
 <script src="js/jquery-ui-1.8.21.custom.min.js"></script>
 <link type="text/css" rel="stylesheet" href="css/dot-luv/jquery-ui-1.8.21.custom.css">
 -->
 </head>
-<body onLoad="start">
+<body>
 <span style="font-size:large; font-weight:bold;">Plug+</span>
 <hr>
 <div> Featured rooms:<br>
@@ -33,8 +33,8 @@ Yet to be used.
 Settings: <br>
 <form>
 Notifications: <input type="checkbox" id="notifications"><br>
-Notification timeout: <input type="range" min="1" max="15" id="timeoutRange"><span id="rageValue"></span><br>
-<input type="submit" onclick="save(); return false;" value="Save">
+Notification timeout: <input type="range" min="1" max="15" id="timeoutRange"><input readonly id="rangeValue" style="width:20px"><br>
+<input id="submit" type="submit" value="Save">
 </form>
 </div>
 <hr>

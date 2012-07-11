@@ -19,16 +19,21 @@ if (localStorage["notificationTimeout"]==undefined){
 	localStorage["notificationTimeout"]=5;
 }
 
+$('body').ready(start);
+
 function start(){
 	$('#timeoutRange').get(0).value = localStorage['notificationTimeout'];
-	$('#rangeValue').text($('#timeoutRange').get(0).value);
+	$('#rangeValue').get(0).value = $('#timeoutRange').get(0).value + "s";
 	$('#timeoutRange').change(function(e) {
-		$('#rangeValue').text($('#timeoutRange').get(0).value);
+		$('#rangeValue').get(0).value = $('#timeoutRange').get(0).value + "s";
 	});
+	$('#notifications').prop('checked', localStorage['showNotifications'] == "true");
+	$('#submit').click(function(){save(); return false;});
 }
 
 function save(){
-	
+	localStorage['showNotifications'] = $('#notifications').prop('checked')==true ? "true" : "false";
+	localStorage['notificationTimeout'] = $('#timeoutRange').get(0).value;
 }
 
 function notify(text){
@@ -38,6 +43,6 @@ function notify(text){
 		var notification = webkitNotifications.createNotification(img,title,text);
 		notification.show();
 		//fifunja solution
-		setTimeout(function() {notification.cancel();}, 5000);
+		setTimeout(function() {notification.cancel();}, 1000 * localStorage['notificationTimeout']);
 	}
 }
