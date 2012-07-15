@@ -18,11 +18,10 @@ Planned Features
 * Mod Features
 * Language Filter
 * Disable Chat Completely
-
-Possible Features
-------------------------
 * Custom Themes for any room that requests it. (It will only work for your room and only for those with this plugin)
 * Skin Overriding (People with this plugin will see it)
+* AutoWoot Delayed Vote (To avoid antiautowoot bots) (*NEW)
+* Disable AutoWoot During Battles (*NEW)
 
 
 Change Log
