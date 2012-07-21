@@ -29,3 +29,7 @@ Change Log
 * 1.0.3 - Add Notifications
 * 1.0.2 - Packed and ready for first deployment
 * 1.0.1 - Basic Popup Ready
+
+Some notes
+------------------------
+I will be updating the patches branch until major releases when I will push to the master branch. This will make forking easier with my almost daily updates.
