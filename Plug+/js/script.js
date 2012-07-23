@@ -37,7 +37,7 @@ $(document).ready(function(e) {
 	});
 	
 	$('#plugPlus button').bind('click',function(eventData){
-		var pressed = eventData.srcElement;
+		var pressed = eventData.currentTarget;
 		if($(pressed).data('active')!='true'){
 			$(pressed).data('active','true').css('background-color','green');
 			if (pressed.id == "ppaj"){
