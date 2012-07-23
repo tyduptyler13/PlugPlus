@@ -26,6 +26,16 @@ $(document).ready(function(e) {
 		autoJoin();
 	});
 	
+	API.addEventListener(API.CHAT,function(data){
+		if (data.message.indexOf(API.getSelf().username)!=-1){
+			var message = {};
+			message.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getUser(data.fromID).avatarID + ".png";
+			message.title = "Chat";
+			message.text = data.from + " said: \"" + data.message + "\"";
+			firePPEvent(message);
+		}
+	});
+	
 	$('#plugPlus button').bind('click',function(eventData){
 		var pressed = eventData.srcElement;
 		if($(pressed).data('active')!='true'){
