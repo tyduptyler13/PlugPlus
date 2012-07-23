@@ -26,8 +26,18 @@ $(document).ready(function(e) {
 		autoJoin();
 	});
 	
+	API.addEventListener(API.CHAT,function(data){
+		if (data.message.indexOf(API.getSelf().username)!=-1){
+			var message = {};
+			message.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getUser(data.fromID).avatarID + ".png";
+			message.title = "Chat";
+			message.text = data.from + " said: \"" + data.message + "\"";
+			firePPEvent(message);
+		}
+	});
+	
 	$('#plugPlus button').bind('click',function(eventData){
-		var pressed = eventData.srcElement;
+		var pressed = eventData.currentTarget;
 		if($(pressed).data('active')!='true'){
 			$(pressed).data('active','true').css('background-color','green');
 			if (pressed.id == "ppaj"){
@@ -36,10 +46,22 @@ $(document).ready(function(e) {
 			if (pressed.id == "ppaw"){
 				autoWoot();
 			}
+			setCookie(pressed.id,'true',7);
 		}else{
 			$(pressed).data('active','false').css('background-color','red');
+			setCookie(pressed.id,'false',7);
 		}
 	});
+	//Remember options for 7 days
+	if (getCookie('ppaw')=="true")
+		$('#ppaw').click();
+	else
+		setCookie('ppaw','false',7);
+
+	if (getCookie('ppaj')=="true")
+		$('#ppaj').click();
+	else
+		setCookie('ppaj','false',7);
 });
 
 
@@ -89,4 +111,29 @@ function ppDJUpdate(){
 	data.title = "New DJ";
 	data.text = "DJ " + API.getDJs()[0].username + " is now playing.";
 	firePPEvent(data);
+}
+
+/* Additional Functions */
+
+function setCookie(c_name,value,exdays)
+{
+var exdate=new Date();
+exdate.setDate(exdate.getDate() + exdays);
+var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+document.cookie=c_name + "=" + c_value + "; path="+document.location.pathname; //Force one cookie per room.
+}
+
+function getCookie(c_name)
+{
+var i,x,y,ARRcookies=document.cookie.split(";");
+for (i=0;i<ARRcookies.length;i++)
+{
+  x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+  y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+  x=x.replace(/^\s+|\s+$/g,"");
+  if (x==c_name)
+    {
+    return unescape(y);
+    }
+  }
 }
