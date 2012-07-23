@@ -32,4 +32,4 @@ Change Log
 
 Some notes
 ------------------------
-I will be updating the patches branch until major releases when I will push to the master branch. This will make forking easier with my almost daily updates.
+I will be updating the 'dev' branch until major releases when I will push to the master branch. This will make forking easier with my almost daily updates. *'patches' was renamed to 'dev'.
