@@ -53,15 +53,18 @@ $(document).ready(function(e) {
 		}
 	});
 	//Remember options for 7 days
-	if (getCookie('ppaw')=="true")
+	if (getCookie('ppaw')=="true"){
 		$('#ppaw').click();
-	else
+		autoWoot();
+	}else{
 		setCookie('ppaw','false',7);
-
-	if (getCookie('ppaj')=="true")
+	}
+	if (getCookie('ppaj')=="true"){
 		$('#ppaj').click();
-	else
+		autoJoin();
+	}else{
 		setCookie('ppaj','false',7);
+	}
 });
 
 
