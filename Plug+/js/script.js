@@ -10,11 +10,9 @@
   })();
 
 // Auto* section
-PlugControls = "<div id='plugPlus' style='position:absolute;bottom:0px;width:310px;color:black;margin:5px;'><button style='background-color:red; border-radius:5px;' id='ppaj' title='Join automatically whenever your turn ends.'>AutoJoin</button><button id='ppaw' style='float:right;background-color:red;border-radius:5px' title='Woot every song that plays.'>AutoWoot</button></div>";
+
 $(document).ready(function(e) {
 	if (document.location.pathname=="/") return;//Don't add to front page
-	
-	$('#dj-console').append(PlugControls);
 	
 	API.addEventListener(API.DJ_ADVANCE, function(){
 		ppDJAdvance();
@@ -36,7 +34,7 @@ $(document).ready(function(e) {
 		}
 	});
 	
-	$('#plugPlus button').bind('click',function(eventData){
+	$('#plugPlus .option').bind('click',function(eventData){
 		var pressed = eventData.currentTarget;
 		if($(pressed).data('active')!='true'){
 			$(pressed).data('active','true').css('background-color','green');

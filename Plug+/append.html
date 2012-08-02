@@ -1,0 +1,55 @@
+<style>
+#plugPlus{
+	position:absolute;
+	bottom:0px;
+	width:310px;
+	color:black;
+	margin:5px;
+}
+#plugPlus ul {
+	list-style:none;
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	width:100px;
+}
+#plugPlus ul.menu {
+	float:right;
+	background-color: #666;
+	color:white;
+}
+#plugPlus ul.menu div{
+	border: thin groove black;
+	border-radius:5px;
+}
+#plugPlus li:hover > .options {
+	display:block;
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+}
+#plugPlus .options {
+	position:absolute;
+	display:none;
+}
+#plugPlus .options:hover {
+	display:block;
+}
+#plugPlus .option{
+	cursor:pointer;
+	border-top: 1px black groove;
+}
+#plugPlus .option:last{
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+</style>
+<div id='plugPlus'>
+  <ul class="menu">
+    <li><div>Plug+</div>
+      <ul class="options">
+        <li class="option" style='background-color:red' id='ppaj' title='Join automatically whenever your turn ends.'>AutoJoin</li>
+        <li class="option" style='background-color:red' id='ppaw' title='Woot every song that plays.'>AutoWoot</li>
+      </ul>
+    </li>
+  </ul>
+</div>
