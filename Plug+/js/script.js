@@ -55,20 +55,17 @@ $(document).ready(function(e) {
 	//Remember options for 7 days
 	if (getCookie('ppaw')=="true"){
 		$('#ppaw').click();
-		autoWoot();
+		setTimeout(autoWoot,10000);//Wait an extra 10 seconds to autoWoot again.
 	}else{
 		setCookie('ppaw','false',7);
-	}
+	}	
 	if (getCookie('ppaj')=="true"){
 		$('#ppaj').click();
-		autoJoin();
+		setTimeout(autoJoin,10000);//Wait an extra 10 seconds to autoJoin again.
 	}else{
 		setCookie('ppaj','false',7);
 	}
 });
-
-
-
 
 
 function autoWoot(){
