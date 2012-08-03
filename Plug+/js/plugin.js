@@ -1,5 +1,6 @@
 var s = document.createElement('script');
 s.src = chrome.extension.getURL("js/script.js");
+s.type = "text/javascript";
 document.head.appendChild(s);
 
 /* Begin Notifications */
