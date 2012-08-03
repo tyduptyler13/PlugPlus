@@ -16,15 +16,17 @@
 }
 #plugPlus ul.menu {
 	float:right;
-	background-color: #666;
 	color:white;
 }
 #plugPlus ul.menu div{
 	border: thin groove black;
+	background-color: #666;
 	border-radius:5px;
 }
 #plugPlus li:hover > .options {
 	display:block;
+}
+#plugPlus li:hover > div{
 	border-bottom-left-radius:0;
 	border-bottom-right-radius:0;
 }
@@ -38,6 +40,13 @@
 #plugPlus .option{
 	cursor:pointer;
 	border-top: 1px black groove;
+	width:100px;
+	height:20px;
+	-webkit-transition: width 1s, height 1s;
+}
+#plugPlus .option:hover{
+	width:110px;
+	height:24px;
 }
 #plugPlus .option:last{
 	border-bottom-left-radius:5px;
