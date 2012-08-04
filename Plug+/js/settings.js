@@ -26,6 +26,7 @@ if (localStorage["notificationTimeout"]==undefined){
 $('body').ready(start);
 
 function start(){
+	$('.version').text("v" + chrome.app.getDetails().version);
 	$('#timeoutRange').get(0).value = localStorage['notificationTimeout'];
 	$('#rangeValue').get(0).value = $('#timeoutRange').get(0).value + "s";
 	$('#timeoutRange').change(function(e) {
