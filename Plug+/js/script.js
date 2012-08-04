@@ -41,7 +41,7 @@ pp.baseEvent.initEvent('baseEvent',true,true);
 
 pp.fireEvent = function(data){
 	$('#ppEvents').html(JSON.stringify(data));
-	$('#ppEvents').get(0).dispatchEvent(baseEvent);
+	$('#ppEvents').get(0).dispatchEvent(pp.baseEvent);
 }
 
 pp.djAdvance = function(){
@@ -49,7 +49,7 @@ pp.djAdvance = function(){
 	data.image = API.getMedia().image;
 	data.title = "Song Update";
 	data.text = API.getMedia().title + " by " + API.getMedia().author;
-	firePPEvent(data);
+	pp.fireEvent(data);
 }
 
 pp.djUpdate = function(){
@@ -57,7 +57,7 @@ pp.djUpdate = function(){
 	data.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getDJs()[0].avatarID + ".png";
 	data.title = "New DJ";
 	data.text = "DJ " + API.getDJs()[0].username + " is now playing.";
-	firePPEvent(data);
+	pp.fireEvent(data);
 }
 
 /* Additional Functions */
