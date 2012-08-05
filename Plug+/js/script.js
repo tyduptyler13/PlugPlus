@@ -192,4 +192,9 @@ $(document).ready(function(e) {
 	}else{
 		pp.setCookie('ppaj','false',7);
 	}
+	if (pp.getCookie('pplist')=="true"){
+		$('#pplist').click();
+	}else{
+		pp.setCookie('pplist','false',7);
+	}
 });
