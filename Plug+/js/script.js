@@ -84,11 +84,51 @@ pp.getCookie = function(c_name){
 /* Woot bonus features */
 
 pp.extra = {};
-pp.extra.generateList = function(){//Creates a list of all woots, mehs, mods, and other stats
-	
-}
 pp.extra.simpleList = function(){//Group of usernames with coloring to show woots, mehs, friends, mods
-	
+	var users = API.getUsers();
+	var list = Array();
+	var user = function(){
+		this.bgColor = "black";
+		this.border = false;
+		this.outline = false;
+		this.username = "";
+	}
+	for (var i = 0; i<users.length; ++i){
+		var tmp = new user();
+		if (users[i].moderator)
+			tmp.border = "#E90E82 thin solid";
+		if (users[i].owner)
+			tmp.border = "#E90E82 thick solid";
+		switch(users[i].vote){
+			case 1: tmp.bgColor = "green";break;
+			case -1: tmp.bgColor = "red";break;
+			default: tmp.bgColor = "grey";break;
+		}
+		if (users[i].relationship !=0)
+			tmp.outline = "#DEE97D solid " + users[i].relationship*2 + "px";
+		tmp.username = users[i].username;
+		list.push(tmp);
+	}
+	return list;
+}
+pp.extra.showWindow = function(){
+	$('body').append("<div class='pplist' title='Purple = Mod/Owner, Yellow = Follower/Friend, Red = Meh, Green = Woot'></div>");
+	pp.extra.updateList();
+}
+pp.extra.hideWindow = function(){
+	$('.pplist').remove();
+}
+pp.extra.updateList = function(){
+	$('.pplist').children().remove('div');
+	var users = pp.extra.simpleList();
+	for (var i = 0; i<users.length;++i){
+		var tmp = "<div style=\"display:inline-block;";
+		tmp += "background-color:"+users[i].bgColor+";";
+		if(users[i].border) tmp += "border:"+users[i].border+";";
+		if(users[i].outline) tmp += "outline:"+users[i].outline+";";
+		tmp += "\">"+users[i].username+"</div>";
+		$('.pplist').append(tmp);
+	}
 }
 
 /* Init */
@@ -104,6 +144,8 @@ $(document).ready(function(e) {
 		pp.djUpdate();
 		pp.autoJoin();
 	});
+	
+	API.addEventListener(API.VOTE_UPDATE, pp.extra.updateList);
 	
 	API.addEventListener(API.CHAT,function(data){
 		if (data.message.indexOf(API.getSelf().username)!=-1){
@@ -125,10 +167,16 @@ $(document).ready(function(e) {
 			if (pressed.id == "ppaw"){
 				pp.autoWoot();
 			}
+			if (pressed.id == "pplist"){
+				pp.extra.showWindow();
+			}
 			pp.setCookie(pressed.id,'true',7);
 		}else{
 			$(pressed).data('active','false').css('background-color','red');
 			pp.setCookie(pressed.id,'false',7);
+			if (pressed.id == "pplist"){
+				pp.extra.hideWindow();
+			}
 		}
 	});
 	//Remember options for 7 days

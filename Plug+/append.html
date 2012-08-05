@@ -5,7 +5,7 @@
 	width:310px;
 	color:black;
 	margin:5px;
-	z-index:1;
+	z-index:100;
 }
 #plugPlus ul {
 	list-style:none;
@@ -43,6 +43,7 @@
 	width:100px;
 	height:20px;
 	-webkit-transition: width 1s, height 1s;
+	background-color:red;
 }
 #plugPlus .option:hover{
 	width:110px;
@@ -52,13 +53,30 @@
 	border-bottom-left-radius:5px;
 	border-bottom-right-radius:5px;
 }
+.pplist div{
+	margin:10px;
+	padding:3px;
+}
+.pplist{
+	width: 500px;
+	position: relative;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, .7);
+	border-radius: 20px;
+	margin: auto;
+	top: 300px;
+}
+#footer-container{
+	z-index:1;
+}
 </style>
 <div id='plugPlus'>
   <ul class="menu">
     <li><div>Plug+</div>
       <ul class="options">
-        <li class="option" style='background-color:red' id='ppaj' title='Join automatically whenever your turn ends.'>AutoJoin</li>
-        <li class="option" style='background-color:red' id='ppaw' title='Woot every song that plays.'>AutoWoot</li>
+        <li class="option" id='ppaj' title='Join automatically whenever your turn ends.'>AutoJoin</li>
+        <li class="option" id='ppaw' title='Woot every song that plays.'>AutoWoot</li>
+        <li class="option" id='pplist' title='Show user votes in simple display'>PlugList</li>
       </ul>
     </li>
   </ul>

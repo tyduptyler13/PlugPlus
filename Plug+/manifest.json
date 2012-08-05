@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.4.10",
+  "version": "1.0.4.23",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "options_page": "settings.html",
@@ -29,7 +29,6 @@
   "content_scripts": [
   	{
 	  "matches": ["*://www.plug.dj/*"],
-	  "css": ["css/dot-luv/jquery-ui-1.8.21.custom.css"],
 	  "js": ["js/jquery-1.7.2.min.js", "js/jquery-ui-1.8.21.custom.min.js", "js/plugin.js"]
 	}
   ],
