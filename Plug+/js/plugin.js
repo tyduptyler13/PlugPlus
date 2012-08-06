@@ -1,13 +1,12 @@
-var s = document.createElement('script');
-s.src = chrome.extension.getURL("js/script.js");
-s.type = "text/javascript";
-document.head.appendChild(s);
-
-/* Begin Notifications */
-
+/* Init */
 if (document.location.pathname!="/"){
 	$("body").append("<div style='display:none;' id=\"ppEvents\" hidden></div>");
-
+	
+	var s = document.createElement('script');
+	s.src = chrome.extension.getURL("js/script.js");
+	s.type = "text/javascript";
+	document.head.appendChild(s);
+	
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
 		$('#dj-console').append(data);
