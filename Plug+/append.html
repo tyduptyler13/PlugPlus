@@ -1,0 +1,86 @@
+<style>
+#plugPlus{
+	position:absolute;
+	bottom:0px;
+	width:310px;
+	color:black;
+	margin:5px;
+	z-index:100;
+}
+#plugPlus ul {
+	list-style:none;
+	padding:0px;
+	margin:0px;
+	text-align:center;
+	width:100px;
+}
+#plugPlus ul.menu {
+	float:right;
+	color:white;
+}
+#plugPlus ul.menu div{
+	border: thin groove black;
+	background-color: #666;
+	border-radius:5px;
+}
+#plugPlus li:hover > .options {
+	display:block;
+}
+#plugPlus li:hover > div{
+	border-bottom-left-radius:0;
+	border-bottom-right-radius:0;
+}
+#plugPlus .options {
+	position:absolute;
+	display:none;
+}
+#plugPlus .options:hover {
+	display:block;
+}
+#plugPlus .option{
+	cursor:pointer;
+	border-top: 1px black groove;
+	width:100px;
+	height:20px;
+	-webkit-transition: width 1s, height 1s;
+	background-color:red;
+}
+#plugPlus .option:hover{
+	width:110px;
+	height:24px;
+}
+#plugPlus .option:last{
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+}
+.pplist div{
+	margin:10px;
+	padding:3px;
+}
+.pplist{
+	width: 500px;
+	position: relative;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, .7);
+	border-radius: 20px;
+	margin: auto;
+	top: 300px;
+	padding: 15px;
+	max-height:275px;
+	overflow-y:auto;
+}
+#footer-container{
+	z-index:1;
+}
+</style>
+<div id='plugPlus'>
+  <ul class="menu">
+    <li><div>Plug+</div>
+      <ul class="options">
+        <li class="option" id='ppaj' title='Join automatically whenever your turn ends.'>AutoJoin</li>
+        <li class="option" id='ppaw' title='Woot every song that plays.'>AutoWoot</li>
+        <li class="option" id='pplist' title='Show user votes in simple display'>PlugList</li>
+      </ul>
+    </li>
+  </ul>
+</div>
