@@ -1,13 +1,14 @@
-  //Tracking
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-32685589-1']);
-  _gaq.push(['_trackPageview']);
+//Tracking
+var _gaq = _gaq || [];
+_gaq.push(['plug._setAccount', 'UA-32685589-1']);
+_gaq.push(['plug._trackPageview']);
 
-  (function() {
+//Don't load this for now. Plug does it for us.
+/*(function() {
 	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = 'https://ssl.google-analytics.com/ga.js';
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+})();*/
 
 //Plug object
 
@@ -197,4 +198,14 @@ $(document).ready(function(e) {
 	}else{
 		pp.setCookie('pplist','false',7);
 	}
+	
+	/*Bug fix for z-index */
+	$('.options').hover(
+		function(){//In
+			$('#footer-container').css('z-index','1');
+		},
+		function(){//Out
+			$('#footer-container').css('z-index','8000');
+		}
+	);
 });

@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.4.25",
+  "version": "1.0.4.28",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "options_page": "settings.html",
@@ -22,7 +22,7 @@
 	"notifications"
   ],
   "web_accessible_resources": [
-  	"js/script.js",
+  	"js/plugplus.js",
 	"icon.png",
 	"append.html"
   ],
