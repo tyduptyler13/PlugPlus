@@ -84,8 +84,8 @@ pp.getCookie = function(c_name){
 
 /* Woot bonus features */
 
-pp.extra = {};
-pp.extra.simpleList = function(){//Group of usernames with coloring to show woots, mehs, friends, mods
+pp.pluglist = {};
+pp.pluglist.simpleList = function(){//Group of usernames with coloring to show woots, mehs, friends, mods
 	var users = API.getUsers();
 	var list = Array();
 	var user = function(){
@@ -112,16 +112,16 @@ pp.extra.simpleList = function(){//Group of usernames with coloring to show woot
 	}
 	return list;
 }
-pp.extra.showWindow = function(){
+pp.pluglist.showWindow = function(){
 	$('body').append("<div class='pplist' title='Purple = Mod/Owner, Yellow = Follower/Friend, Red = Meh, Green = Woot'></div>");
-	pp.extra.updateList();
+	pp.pluglist.updateList();
 }
-pp.extra.hideWindow = function(){
+pp.pluglist.hideWindow = function(){
 	$('.pplist').remove();
 }
-pp.extra.updateList = function(){
+pp.pluglist.updateList = function(){
 	$('.pplist').children().remove('div');
-	var users = pp.extra.simpleList();
+	var users = pp.pluglist.simpleList();
 	for (var i = 0; i<users.length;++i){
 		var tmp = "<div style=\"display:inline-block;";
 		tmp += "background-color:"+users[i].bgColor+";";
@@ -131,6 +131,11 @@ pp.extra.updateList = function(){
 		$('.pplist').append(tmp);
 	}
 }
+pp.chat = {};
+pp.chat.filter = function() {
+	
+}
+
 
 /* Init */
 $(document).ready(function(e) {
@@ -146,7 +151,7 @@ $(document).ready(function(e) {
 		pp.autoJoin();
 	});
 	
-	API.addEventListener(API.VOTE_UPDATE, pp.extra.updateList);
+	API.addEventListener(API.VOTE_UPDATE, pp.pluglist.updateList);
 	
 	API.addEventListener(API.CHAT,function(data){
 		if (data.message.indexOf(API.getSelf().username)!=-1){
@@ -169,14 +174,14 @@ $(document).ready(function(e) {
 				pp.autoWoot();
 			}
 			if (pressed.id == "pplist"){
-				pp.extra.showWindow();
+				pp.pluglist.showWindow();
 			}
 			pp.setCookie(pressed.id,'true',7);
 		}else{
 			$(pressed).data('active','false').css('background-color','red');
 			pp.setCookie(pressed.id,'false',7);
 			if (pressed.id == "pplist"){
-				pp.extra.hideWindow();
+				pp.pluglist.hideWindow();
 			}
 		}
 	});
