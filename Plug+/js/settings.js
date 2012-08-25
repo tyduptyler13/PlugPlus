@@ -23,22 +23,28 @@ if (localStorage["notificationTimeout"]==undefined){
 }
 
 //Manage settings
-$('body').ready(start);
 
-function start(){
-	$('.version').text("v" + chrome.app.getDetails().version);
-	$('#timeoutRange').get(0).value = localStorage['notificationTimeout'];
-	$('#rangeValue').get(0).value = $('#timeoutRange').get(0).value + "s";
-	$('#timeoutRange').change(function(e) {
-		$('#rangeValue').get(0).value = $('#timeoutRange').get(0).value + "s";
+$(function(){
+	$('#n1').prop('checked', localStorage['showNotifications'] == "true");
+	$('#n1').button();
+	$('.version').text("v" + chrome.app.getDetails().version); 
+	$('#tr').slider({
+		range: "min",
+		value: localStorage['notificationTimeout'],
+		min: 1,
+		max: 15,
+		slide: function( event, ui){
+			$('#rv').text(ui.value+"s");
+		}
 	});
-	$('#notifications').prop('checked', localStorage['showNotifications'] == "true");
-	$('#submit').click(function(){save(); return false;});
-}
+	$('#rv').text($('#tr').slider("value") + "s");
+	$('#submit').button().click(function(){save(); return false;});
+});
 
 function save(){
-	localStorage['showNotifications'] = $('#notifications').prop('checked')==true ? "true" : "false";
-	localStorage['notificationTimeout'] = $('#timeoutRange').get(0).value;
+	localStorage['showNotifications'] = $('#n1').prop('checked')==true ? "true" : "false";
+	localStorage['notificationTimeout'] = $('#tr').slider('value');
+	$('#status').show('slow',function(){$(this).hide(2000)});
 }
 
 function notify(text){

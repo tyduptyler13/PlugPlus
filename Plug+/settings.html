@@ -25,8 +25,8 @@ td {
 	border-radius:20px;
 	padding:20px;
 	color:white;
-	width:500px;
-	min-height:300px;
+	width:700px;
+	min-height:500px;
 	margin:auto;
 	text-align: left;
 	position:relative;
@@ -58,17 +58,15 @@ td {
   <tr>
     <td><div class="settings">
         <h3>Plug+ Settings</h3>
-        <form>
-          <label for"notifications">Notifications</label>
-          <input type="checkbox" id="notifications">
-          <br>
-          <label for="timeoutRange">Notification timeout</label>
-          <input type="range" min="1" max="15" id="timeoutRange">
-          <input readonly id="rangeValue" style="width:20px">
-          <br>
-          <input id="submit" type="submit" value="Save">
-        </form>
-        <div>More settings coming soon!</div>
+        <hr>
+        <input type="checkbox" id="n1"><label for="n1">Notifications</label><br>
+        <div class="na">
+			Notification timeout: <span id="rv">5s</span><br>
+        	<div id="tr"></div>
+        	<br>
+        </div>
+        <button id="submit" type="submit">Save</button>&nbsp;<span id="status" style="color:green; display:none;">Saved!</span>
+        
         <div class="version">Version goes here</div>
       </div></td>
   </tr>
