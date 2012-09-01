@@ -1,5 +1,6 @@
-//Tracking
 "use strict";//Secure code
+//Tracking
+
 
 var _gaq = _gaq || [];
 _gaq.push(['plug._setAccount', 'UA-32685589-1']);
@@ -77,7 +78,7 @@ pp.getCookie = function(c_name){
 	}
 }
 
-/* Woot bonus features */
+/* Plug+ special functions */
 
 pp.pluglist = {};
 pp.pluglist.simpleList = function(){//Group of usernames with coloring to show woots, mehs, friends, mods
@@ -127,8 +128,23 @@ pp.pluglist.updateList = function(){
 	}
 }
 pp.chat = {};
-pp.chat.filter = function() {
-	
+pp.chat.setupFilter = function() {
+	var plugCommand = Chat.chatCommand;
+	Chat.chatCommand = function(value){
+		if (value.indexOf('/block')==0){
+			return true;
+		}
+		return plugCommand(value);
+	}
+}
+pp.chat.notify = function(data){
+	if (data.message.indexOf(API.getSelf().username)!=-1){
+		var message = {};
+		message.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getUser(data.fromID).avatarID + ".png";
+		message.title = "Chat";
+		message.text = data.from + " said: \"" + data.message + "\"";
+		pp.fireEvent(message);
+	}
 }
 
 
@@ -148,15 +164,7 @@ $(document).ready(function(e) {
 	
 	API.addEventListener(API.VOTE_UPDATE, pp.pluglist.updateList);
 	
-	API.addEventListener(API.CHAT,function(data){
-		if (data.message.indexOf(API.getSelf().username)!=-1){
-			var message = {};
-			message.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getUser(data.fromID).avatarID + ".png";
-			message.title = "Chat";
-			message.text = data.from + " said: \"" + data.message + "\"";
-			pp.fireEvent(message);
-		}
-	});
+	API.addEventListener(API.CHAT,function(data){pp.chat.notify(data);});
 	
 	$('#plugPlus .option').bind('click',function(eventData){
 		var pressed = eventData.currentTarget;
