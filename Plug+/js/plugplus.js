@@ -129,12 +129,15 @@ pp.pluglist.updateList = function(){
 }
 pp.chat = {};
 pp.chat.setupFilter = function() {
-	var plugCommand = Chat.chatCommand;
+	Chat.plugChatCommand = Chat.chatCommand;
 	Chat.chatCommand = function(value){
 		if (value.indexOf('/block')==0){
 			return true;
 		}
-		return plugCommand(value);
+		if (value.indexOf('/filter')==0){
+			
+		}
+		return Chat.plugChatCommand(value);
 	}
 }
 pp.chat.notify = function(data){
