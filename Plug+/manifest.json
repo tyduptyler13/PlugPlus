@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.4.32",
+  "version": "1.0.4.33",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "options_page": "settings.html",

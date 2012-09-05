@@ -10,7 +10,7 @@ Current Features
 * AutoJoin
 * Notifications (Songs, DJ's, and Chat) 
 * Settings (Disable unwanted features and notification timeouts)
-* New user list view (Shows all users, votes, and relation to you)
+* PlugList (Shows all users, votes, and relation to you)
 
 Next Release
 ------------------------
@@ -31,10 +31,11 @@ Planned Features
 
 Change Log
 ------------------------
-* 1.0.4 - Clean up to add features
-* 1.0.3 - Add Notifications
-* 1.0.2 - Packed and ready for first deployment
-* 1.0.1 - Basic Popup Ready
+* 1.0.5 - Chat Features
+* 1.0.4 - Clean up and added Plug List and Settings page
+* 1.0.3 - Notifications
+* 1.0.2 - Auto Features
+* 1.0.1 - Extension Dropdown
 
 Some notes
 ------------------------
