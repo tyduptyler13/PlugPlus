@@ -10,48 +10,44 @@
   })();
 
 var icon = chrome.extension.getURL("icon.png");
-
-if (localStorage["showNotifications"]==undefined){
-	localStorage["showNotifications"]="true";
-	notify(icon, "Plug+", "Check Plug+ button for new settings.");
-}
 	
-if (localStorage["notificationTimeout"]==undefined){
-	notify(icon, "Plug+", "Check Plug+ button for new settings.");
-	localStorage["notificationTimeout"]=5;
-}
-	
-function notify(img, title, text){
-	if (localStorage["showNotifications"]=="true"){
-		var notification = webkitNotifications.createNotification(img,title,text);
-		notification.show();
-		//fifunja solution
+function notify(img, title, text, timeout){
+	var notification = webkitNotifications.createNotification(img,title,text);
+	notification.show();
+	if (timeout != 0){
 		setTimeout(function() {notification.cancel();}, 1000 * localStorage['notificationTimeout']);
 		var _onunload = window.onunload;
-		window.onunload = function() {notification.cancel(); _onunload();}
+		window.onunload = function() {
+			notification.cancel();
+			_onunload();
+		}
 	}
 }
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
-	if (!checkURL(request.img))
-		request.img = chrome.extension.getURL("icon.png");
-	if (request.action=="notify"){
-		notify(request.img,request.title,request.text);
-	}else if (request.action=="getSave"){
-		sendResponce({value: localStorage[request.save]});
+	try{
+		if (!checkURL(request.img))
+			request.img = chrome.extension.getURL("icon.png");
+		if (request.timeout == undefined || !isNaN(request.timeout))
+			request.timeout = 7;
+		if (request.action=="notify"){
+			notify(request.img,request.title,request.text,request.timeout);
+		} else {
+			console.warn("Request not defined!");
+		}
+	}catch(err){
+		console.error("Request variable missing.");
 	}
 });
 
-if (localStorage["showNotifications"]=="true") {//One time check every time background starts.
-	if (localStorage["lastVersion"] !== undefined) {
-		if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
-			notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version);
-			localStorage["lastVersion"] = chrome.app.getDetails().version;
-		} 
-	} else {
+if (localStorage["lastVersion"] !== undefined) {
+	if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
+		notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version);
 		localStorage["lastVersion"] = chrome.app.getDetails().version;
-		notify(icon,"Version","Plug+ is now using version: " + chrome.app.getDetails().version);
-	}
+	} 
+} else {
+	localStorage["lastVersion"] = chrome.app.getDetails().version;
+	notify(icon,"Version","Plug+ is now using version: " + chrome.app.getDetails().version);
 }
 
 function checkURL(value) {

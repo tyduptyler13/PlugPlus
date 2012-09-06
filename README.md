@@ -31,7 +31,7 @@ Planned Features
 
 Change Log
 ------------------------
-* 1.0.5 - Chat Features
+* 1.0.5 - Chat Features and moved settings to chat commands
 * 1.0.4 - Clean up and added Plug List and Settings page
 * 1.0.3 - Notifications
 * 1.0.2 - Auto Features
