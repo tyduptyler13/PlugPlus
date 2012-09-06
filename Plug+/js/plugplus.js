@@ -28,7 +28,7 @@ pp.autoJoin = function(){
 		$('#button-dj-play').click();//Join
 	}else if ($('#button-dj-waitlist-join').css('display')!="none"){//Waitlist available
 		$('#button-dj-waitlist-join').click();//Join
-	}//Things shouldn't get here but we should check TODO
+	}
 }
 
 /* Begin Notifications */
@@ -132,13 +132,29 @@ pp.chat.setupFilter = function() {
 	Chat.plugChatCommand = Chat.chatCommand;
 	Chat.chatCommand = function(value){
 		if (value.indexOf('/block')==0){
+			var tmp = value.substr(6,value.length-7);
+			console.log(tmp);
 			return true;
 		}
 		if (value.indexOf('/filter')==0){
-			
+			var tmp = value.substr(7,value.length-8);
+			console.log(tmp);
+			return true;
 		}
 		return Chat.plugChatCommand(value);
 	}
+	Chat.plugReceived = Chat.received;
+	Chat.received = function(obj){
+		console.log(obj);
+		return this.plugReceived(obj);
+	}
+}
+pp.chat.filter = {
+	this.users : Array();
+	this.words : Array();
+}
+pp.chat.disable = function(value){//When true will disable chat entirely.
+	
 }
 pp.chat.notify = function(data){
 	if (data.message.indexOf(API.getSelf().username)!=-1){
