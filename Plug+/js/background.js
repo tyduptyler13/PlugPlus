@@ -15,7 +15,7 @@ function notify(img, title, text, timeout){
 	var notification = webkitNotifications.createNotification(img,title,text);
 	notification.show();
 	if (timeout != 0){
-		setTimeout(function() {notification.cancel();}, 1000 * localStorage['notificationTimeout']);
+		setTimeout(function() {notification.cancel();}, 1000 * timeout);
 		var _onunload = window.onunload;
 		window.onunload = function() {
 			notification.cancel();

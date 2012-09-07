@@ -57,25 +57,19 @@ pp.djUpdate = function(){
 	pp.fireEvent(data);
 }
 
-/* Additional Functions */
+/* Saving functions */
 
-pp.setCookie = function(c_name,value,exdays){
-	var exdate=new Date();
-	exdate.setDate(exdate.getDate() + exdays);
-	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-	document.cookie=c_name + "=" + c_value; //Cookie will work in all rooms.
-}
-
-pp.getCookie = function(c_name){
-	var i,x,y,ARRcookies=document.cookie.split(";");
-	for (i=0;i<ARRcookies.length;i++){
-		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
-		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
-		x=x.replace(/^\s+|\s+$/g,"");
-  		if (x==c_name){
-    		return unescape(y);
-		}
-	}
+pp.settings = localStorage['Plug+'] != undefined ? JSON.parse(localStorage['Plug+']) : {timeout:7,notify:true,filter:false,ppaj:false,ppaw:false,list:false};
+pp.saveSettings = function(){
+	localStorage['Plug+'] = JSON.stringify({
+		timeout : pp.settings.timeout,
+		notify  : pp.settings.notify,
+		filter  : pp.settings.filter,
+		ppaj    : pp.settings.ppaj,
+		ppaw    : pp.settings.ppaw,
+		list    : pp.settings.list,
+		filters : pp.chat.filters
+	});
 }
 
 /* Plug+ special functions */
@@ -131,37 +125,65 @@ pp.chat = {};
 pp.chat.setupFilter = function() {
 	Chat.plugChatCommand = Chat.chatCommand;
 	Chat.chatCommand = function(value){
-		if (value.indexOf('/block')==0){
-			var tmp = value.substr(6,value.length-7);
-			console.log(tmp);
+		if (value.indexOf('/block')==0){//Use same username twice to remove it.
+			var tmp = value.substr(7,value.length-6);
+			console.log("Plug+: blocked "+tmp);
 			return true;
 		}
-		if (value.indexOf('/filter')==0){
-			var tmp = value.substr(7,value.length-8);
-			console.log(tmp);
+		if (value.indexOf('/filter')==0){//Use same word twice to remove it.
+			var tmp = value.substr(8,value.length-7);
+			console.log("Plug+: filter added "+tmp);
 			return true;
+		}
+		if (value.indexOf('/notify')==0){
+			
+		}
+		if (value.indexOf('/help')==0){
+			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em>Block a user</em><br>/filter <em>Block words</em><br>/notify # <em>Set timeout for notifications</em><br>";this.plugReceive(obj);//Skip filter
+			return Chat.plugChatCommand(value);//Display both help menus.
 		}
 		return Chat.plugChatCommand(value);
 	}
-	Chat.plugReceived = Chat.received;
-	Chat.received = function(obj){
-		console.log(obj);
-		return this.plugReceived(obj);
+	Chat.plugReceive = Chat.receive;
+	Chat.receive = function(obj){
+		if (obj.from != undefined){
+			pp.chat.filters.users.forEach(function(user){
+				if (obj.from == user){
+					console.log("Plug+: Message blocked from " + user);
+					return;
+				}
+			});
+		}
+		if (obj.message != undefined){
+			pp.chat.filters.words.forEach(function(word){
+				if (obj.message.indexOf(word)!=-1){
+					var stars = "";
+					for (i=0;i<word.length;++i){
+						stars += "*";
+					}
+					obj.message = obj.message.split(word).join(stars);
+				}
+			});
+		}
+		this.plugReceive(obj);
 	}
 }
-pp.chat.filter = {
+pp.chat.filters = pp.settings.filters != undefined ? pp.settings.filters : {
 	users : Array(),
 	words : Array()
 }
+/*
 pp.chat.disable = function(value){//When true will disable chat entirely.
 	
 }
+*/
 pp.chat.notify = function(data){
 	if (data.message.indexOf(API.getSelf().username)!=-1){
 		var message = {};
 		message.image = "http://www.plug.dj/images/avatars/thumbs/" + API.getUser(data.fromID).avatarID + ".png";
 		message.title = "Chat";
 		message.text = data.from + " said: \"" + data.message + "\"";
+		message.timeout = pp.settings.timeout;
 		pp.fireEvent(message);
 	}
 }
@@ -169,63 +191,97 @@ pp.chat.notify = function(data){
 
 /* Init */
 $(document).ready(function(e) {
+
+	console.log("Plug+: loading 0%");
+
 	if (document.location.pathname=="/") return;//Don't add to front page
-	
+
+	pp.chat.setupFilter();//Setup filter.
+
 	API.addEventListener(API.DJ_ADVANCE, function(){
 		pp.djAdvance();
 		pp.autoWoot();
 	});
-
+	
 	API.addEventListener(API.DJ_UPDATE, function(){
 		pp.djUpdate();
 		pp.autoJoin();
 	});
-	
+
 	API.addEventListener(API.VOTE_UPDATE, pp.pluglist.updateList);
-	
+
 	API.addEventListener(API.CHAT,function(data){pp.chat.notify(data);});
-	
+
+	console.log("Plug+: loading 20%");
+
 	$('#plugPlus .option').bind('click',function(eventData){
 		var pressed = eventData.currentTarget;
 		if($(pressed).data('active')!='true'){
 			$(pressed).data('active','true').css('background-color','green');
-			if (pressed.id == "ppaj"){
+			switch(pressed.id){
+			case "ppaj":
 				pp.autoJoin();
-			}
-			if (pressed.id == "ppaw"){
+				pp.settings.ppaj = true;
+			break;
+			case "ppaw":
 				pp.autoWoot();
-			}
-			if (pressed.id == "pplist"){
+				pp.settings.ppaw = true;
+			break;
+			case "pplist":
 				pp.pluglist.showWindow();
+				pp.settings.list = true;
+			break;
+			case "notice":
+				pp.settings.notice = true;
+			break;
+			case "filter":
+				pp.settings.filter = true;
+			break;
+			default:
+				console.warn("Unknown button pressed...");
+			break;
 			}
-			pp.setCookie(pressed.id,'true',7);
 		}else{
 			$(pressed).data('active','false').css('background-color','red');
-			pp.setCookie(pressed.id,'false',7);
-			if (pressed.id == "pplist"){
+			switch(pressed.id){
+			case "ppaj":
+				pp.settings.ppaj = false;
+			break;
+			case "ppaw":
+				pp.settings.ppaw = false;
+			break;
+			case "pplist":
 				pp.pluglist.hideWindow();
+				pp.settings.list = false;
+			break;
+			case "notice":
+				pp.settings.notice = false;
+			break;
+			case "filter":
+				pp.settings.filter = false;
+			break;
+			default:
+				console.warn("Unknown button pressed...");
+			break;
 			}
 		}
+		pp.saveSettings();
 	});
-	//Remember options for 7 days
-	if (pp.getCookie('ppaw')=="true"){
+	
+	console.log("Plug+: loading 66%");
+	//Remember options
+	if (pp.settings.ppaw==true){
 		$('#ppaw').click();
 		setTimeout(pp.autoWoot,10000);//Wait an extra 10 seconds to autoWoot again.
-	}else{
-		pp.setCookie('ppaw','false',7);
 	}	
-	if (pp.getCookie('ppaj')=="true"){
+	if (pp.settings.ppaj==true){
 		$('#ppaj').click();
 		setTimeout(pp.autoJoin,10000);//Wait an extra 10 seconds to autoJoin again.
-	}else{
-		pp.setCookie('ppaj','false',7);
 	}
-	if (pp.getCookie('pplist')=="true"){
+	if (pp.settings.list==true){
 		$('#pplist').click();
-	}else{
-		pp.setCookie('pplist','false',7);
 	}
-	
+	console.log("Plug+: loading 90%");
 	/*Bug fix for z-index */
 	$('.options').hover(
 		function(){//In
@@ -235,4 +291,5 @@ $(document).ready(function(e) {
 			$('#footer-container').css('z-index','8000');
 		}
 	);
+	console.log("Plug+: Setup complete.");
 });
