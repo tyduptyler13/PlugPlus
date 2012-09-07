@@ -57,7 +57,7 @@ pp.djUpdate = function(){
 	pp.fireEvent(data);
 }
 
-/* Saving functions */
+/* Settings */
 
 pp.settings = localStorage['Plug+'] != undefined ? JSON.parse(localStorage['Plug+']) : {timeout:7,notify:true,filter:false,ppaj:false,ppaw:false,list:false};
 pp.saveSettings = function(){
@@ -70,6 +70,29 @@ pp.saveSettings = function(){
 		list    : pp.settings.list,
 		filters : pp.chat.filters
 	});
+}
+pp.applySettings = function(){
+	if (pp.settings.ppaw){
+		setTimeout(function(){//Change to set interval
+			$('#ppaw').click();
+			pp.autoWoot();
+		},5000);//Wait an extra 10 seconds to autoWoot again.
+	}
+	if (pp.settings.ppaj){
+		setTimeout(function(){//Change to set interval
+			$('#ppaj').click();
+			pp.autoJoin()
+		},5000);//Wait an extra 10 seconds to autoJoin again.
+	}
+	if (pp.settings.list){
+		$('#pplist').click();
+	}
+	if (pp.settings.notify){
+		$('#notify').click();
+	}
+	if (pp.settings.filter){
+		$('#filter').click();
+	}
 }
 
 /* Plug+ special functions */
@@ -121,6 +144,9 @@ pp.pluglist.updateList = function(){
 		$('.pplist').append(tmp);
 	}
 }
+
+/* Chat functions */
+
 pp.chat = {};
 pp.chat.setupFilter = function() {
 	Chat.plugChatCommand = Chat.chatCommand;
@@ -192,8 +218,6 @@ pp.chat.notify = function(data){
 /* Init */
 $(document).ready(function(e) {
 
-	console.log("Plug+: loading 0%");
-
 	if (document.location.pathname=="/") return;//Don't add to front page
 
 	pp.chat.setupFilter();//Setup filter.
@@ -212,8 +236,6 @@ $(document).ready(function(e) {
 
 	API.addEventListener(API.CHAT,function(data){pp.chat.notify(data);});
 
-	console.log("Plug+: loading 20%");
-
 	$('#plugPlus .option').bind('click',function(eventData){
 		var pressed = eventData.currentTarget;
 		if($(pressed).data('active')!='true'){
@@ -231,14 +253,14 @@ $(document).ready(function(e) {
 				pp.pluglist.showWindow();
 				pp.settings.list = true;
 			break;
-			case "notice":
-				pp.settings.notice = true;
+			case "notify":
+				pp.settings.notify = true;
 			break;
 			case "filter":
 				pp.settings.filter = true;
 			break;
 			default:
-				console.warn("Unknown button pressed...");
+				console.warn("Unknown button pressed: " + pressed.id);
 			break;
 			}
 		}else{
@@ -254,37 +276,20 @@ $(document).ready(function(e) {
 				pp.pluglist.hideWindow();
 				pp.settings.list = false;
 			break;
-			case "notice":
-				pp.settings.notice = false;
+			case "notify":
+				pp.settings.notify = false;
 			break;
 			case "filter":
 				pp.settings.filter = false;
 			break;
 			default:
-				console.warn("Unknown button pressed...");
+				console.warn("Unknown button pressed: " + pressed.id);
 			break;
 			}
 		}
 		pp.saveSettings();
 	});
 	
-	console.log("Plug+: loading 66%");
-	//Remember options
-	console.log(pp.settings);
-	if (pp.settings.ppaw){
-		$('#ppaw').click();
-		setTimeout(pp.autoWoot,10000);//Wait an extra 10 seconds to autoWoot again.
-	}
-	console.log("Plug+: loading 72%");
-	if (pp.settings.ppaj){
-		$('#ppaj').click();
-		setTimeout(pp.autoJoin,10000);//Wait an extra 10 seconds to autoJoin again.
-	}
-	console.log("Plug+ loading 80%");
-	if (pp.settings.list){
-		$('#pplist').click();
-	}
-	console.log("Plug+: loading 90%");
 	/*Bug fix for z-index */
 	$('.options').hover(
 		function(){//In
@@ -294,5 +299,8 @@ $(document).ready(function(e) {
 			$('#footer-container').css('z-index','8000');
 		}
 	);
+	
+	pp.applySettings();
+	
 	console.log("Plug+: Setup complete.");
 });
