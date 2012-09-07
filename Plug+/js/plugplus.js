@@ -150,8 +150,8 @@ pp.chat.setupFilter = function() {
 	}
 }
 pp.chat.filter = {
-	this.users : Array();
-	this.words : Array();
+	users : Array(),
+	words : Array()
 }
 pp.chat.disable = function(value){//When true will disable chat entirely.
 	
