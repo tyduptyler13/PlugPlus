@@ -271,17 +271,17 @@ $(document).ready(function(e) {
 	console.log("Plug+: loading 66%");
 	//Remember options
 	console.log(pp.settings);
-	if (pp.settings.ppaw==true){
+	if (pp.settings.ppaw){
 		$('#ppaw').click();
 		setTimeout(pp.autoWoot,10000);//Wait an extra 10 seconds to autoWoot again.
 	}
 	console.log("Plug+: loading 72%");
-	if (pp.settings.ppaj==true){
+	if (pp.settings.ppaj){
 		$('#ppaj').click();
 		setTimeout(pp.autoJoin,10000);//Wait an extra 10 seconds to autoJoin again.
 	}
 	console.log("Plug+ loading 80%");
-	if (pp.settings.list==true){
+	if (pp.settings.list){
 		$('#pplist').click();
 	}
 	console.log("Plug+: loading 90%");
