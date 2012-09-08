@@ -37,8 +37,10 @@ pp.baseEvent = document.createEvent('Event');
 pp.baseEvent.initEvent('baseEvent',true,true);
 
 pp.fireEvent = function(data){
-	$('#ppEvents').html(JSON.stringify(data));
-	$('#ppEvents').get(0).dispatchEvent(pp.baseEvent);
+	if (pp.settings.notify){
+		$('#ppEvents').html(JSON.stringify(data));
+		$('#ppEvents').get(0).dispatchEvent(pp.baseEvent);
+	}
 }
 
 pp.djAdvance = function(){
@@ -153,12 +155,40 @@ pp.chat.setupFilter = function() {
 	Chat.chatCommand = function(value){
 		if (value.indexOf('/block')==0){//Use same username twice to remove it.
 			var tmp = value.substr(7,value.length-6);
-			console.log("Plug+: blocked "+tmp);
+			if (tmp == ""){
+				var obj={};obj.type="update";obj.message="Usage: /block <user>";this.plugReceive(obj);
+				return true;
+			}
+			for (var i = 0; i < pp.chat.filters.users.length; ++i){
+				if (tmp == pp.chat.filters.users[i]){
+					pp.chat.filters.users.pop(i);
+					var obj={};obj.type="update";obj.message="User unblocked.";this.plugReceive(obj);
+					pp.saveSettings();
+					return true;
+				}
+			}
+			pp.chat.filters.users.push(tmp);
+			var obj={};obj.type="update";obj.message="User blocked.";this.plugReceive(obj);
+			pp.saveSettings();
 			return true;
 		}
 		if (value.indexOf('/filter')==0){//Use same word twice to remove it.
 			var tmp = value.substr(8,value.length-7);
-			console.log("Plug+: filter added "+tmp);
+			if (tmp == ""){
+				var obj={};obj.type="update";obj.message="Usage: /filter <word>";this.plugReceive(obj);
+				return true;
+			}
+			for (var i = 0; i < pp.chat.filters.words.length; ++i){
+				if (tmp == pp.chat.filters.words[i]){
+					pp.chat.filters.words.pop(i);
+					var obj={};obj.type="update";obj.message="Word removed form list.";this.plugReceive(obj);
+					pp.saveSettings();
+					return true;
+				}
+			}
+			pp.chat.filters.words.push(tmp);
+			var obj={};obj.type="update";obj.message="Word added to filter.";this.plugReceive(obj);
+			pp.saveSettings();
 			return true;
 		}
 		if (value.indexOf('/notify')==0){
@@ -172,24 +202,28 @@ pp.chat.setupFilter = function() {
 	}
 	Chat.plugReceive = Chat.receive;
 	Chat.receive = function(obj){
-		if (obj.from != undefined){
-			pp.chat.filters.users.forEach(function(user){
-				if (obj.from == user){
-					console.log("Plug+: Message blocked from " + user);
-					return;
-				}
-			});
-		}
-		if (obj.message != undefined){
-			pp.chat.filters.words.forEach(function(word){
-				if (obj.message.indexOf(word)!=-1){
-					var stars = "";
-					for (i=0;i<word.length;++i){
-						stars += "*";
+		console.log(obj);
+		if (pp.settings.filter){
+			if (obj.from != undefined){
+				pp.chat.filters.users.forEach(function(user){
+					if (obj.from == user){
+						console.log("Plug+: Message blocked from " + user);
+						return;
 					}
-					obj.message = obj.message.split(word).join(stars);
-				}
-			});
+				});
+			}
+			if (obj.message != undefined){
+				pp.chat.filters.words.forEach(function(word){
+					var tmp = obj.message.match(new RegExp(word,"i"))
+					if (tmp != null){
+						var stars = "";
+						for (var i=0;i<word.length;++i){
+							stars += "*";
+						}
+						obj.message = obj.message.split(tmp).join(stars);
+					}
+				});
+			}
 		}
 		this.plugReceive(obj);
 	}
