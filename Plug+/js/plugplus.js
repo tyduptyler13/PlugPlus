@@ -156,52 +156,52 @@ pp.chat.setupFilter = function() {
 		if (value.indexOf('/block')==0){//Use same username twice to remove it.
 			var tmp = value.substr(7,value.length-6);
 			if (tmp == ""){
-				var obj={};obj.type="update";obj.message="Usage: /block <user>";this.plugReceive(obj);
+				var obj={};obj.type="update";obj.message="Usage: /block (user)";this.receive(obj);
 				return true;
 			}
 			for (var i = 0; i < pp.chat.filters.users.length; ++i){
 				if (tmp == pp.chat.filters.users[i]){
 					pp.chat.filters.users.pop(i);
-					var obj={};obj.type="update";obj.message="User unblocked.";this.plugReceive(obj);
+					var obj={};obj.type="update";obj.message="User unblocked.";this.receive(obj);
 					pp.saveSettings();
 					return true;
 				}
 			}
 			pp.chat.filters.users.push(tmp);
-			var obj={};obj.type="update";obj.message="User blocked.";this.plugReceive(obj);
+			var obj={};obj.type="update";obj.message="User blocked.";this.receive(obj);
 			pp.saveSettings();
 			return true;
 		}
 		if (value.indexOf('/filter')==0){//Use same word twice to remove it.
 			var tmp = value.substr(8,value.length-7);
 			if (tmp == ""){
-				var obj={};obj.type="update";obj.message="Usage: /filter <word>";this.plugReceive(obj);
+				var obj={};obj.type="update";obj.message="Usage: /filter (word)";this.receive(obj);
 				return true;
 			}
 			for (var i = 0; i < pp.chat.filters.words.length; ++i){
 				if (tmp == pp.chat.filters.words[i]){
 					pp.chat.filters.words.pop(i);
-					var obj={};obj.type="update";obj.message="Word removed form list.";this.plugReceive(obj);
+					var obj={};obj.type="update";obj.message="Word removed form list.";this.receive(obj);
 					pp.saveSettings();
 					return true;
 				}
 			}
 			pp.chat.filters.words.push(tmp);
-			var obj={};obj.type="update";obj.message="Word added to filter.";this.plugReceive(obj);
+			var obj={};obj.type="update";obj.message="Word added to filter.";this.receive(obj);
 			pp.saveSettings();
 			return true;
 		}
 		if (value.indexOf('/notify')==0){
-			
+			//TODO
 		}
 		if (value.indexOf('/help')==0){
-			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em>Block a user</em><br>/filter <em>Block words</em><br>/notify # <em>Set timeout for notifications</em><br>";this.plugReceive(obj);//Skip filter
+			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em>Block a user</em><br>/filter <em>Block words</em><br>/notify # <em>Set timeout for notifications</em><br>";this.receive(obj);
 			return Chat.plugChatCommand(value);//Display both help menus.
 		}
 		return Chat.plugChatCommand(value);
 	}
-	Chat.plugReceive = Chat.receive;
-	Chat.receive = function(obj){
+	pp.chat.oldChat = SocketListener.chat;
+	SocketListener.chat = function(obj){
 		console.log(obj);
 		if (pp.settings.filter){
 			if (obj.from != undefined){
@@ -214,18 +214,19 @@ pp.chat.setupFilter = function() {
 			}
 			if (obj.message != undefined){
 				pp.chat.filters.words.forEach(function(word){
-					var tmp = obj.message.match(new RegExp(word,"i"))
+					var reg = new RegExp(word,"i");
+					var tmp = obj.message.match(reg)
 					if (tmp != null){
 						var stars = "";
 						for (var i=0;i<word.length;++i){
 							stars += "*";
 						}
-						obj.message = obj.message.split(tmp).join(stars);
+						obj.message = obj.message.replace(reg,stars);
 					}
 				});
 			}
 		}
-		this.plugReceive(obj);
+		pp.chat.oldChat(obj);
 	}
 }
 pp.chat.filters = pp.settings.filters != undefined ? pp.settings.filters : {
