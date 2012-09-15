@@ -192,10 +192,23 @@ pp.chat.setupFilter = function() {
 			return true;
 		}
 		if (value.indexOf('/notify')==0){
-			//TODO
+			var tmp = value.substr(8,value.length-7);
+			try{
+				tmp = parseInt(tmp);
+			}catch(e){
+				console.error("Plug+ could not parse the command!");
+				return true;
+			}
+			pp.settings.timeout = tmp;
+			pp.saveSettings();
+			var obj={};obj.type="update";obj.message="Notification timeout has been set.";this.receive(obj);
+			return true;
+		}
+		if (value.indexOf('/autodelay')==0){
+			return true;
 		}
 		if (value.indexOf('/help')==0){
-			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em>Block a user</em><br>/filter <em>Block words</em><br>/notify # <em>Set timeout for notifications</em><br>";this.receive(obj);
+			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em> Block a user</em><br>/filter <em>Block words</em><br>/notify # <em> Set timeout for notifications</em><br>/autodelay # <em> Delay Auto functions</em>";this.receive(obj);
 			return Chat.plugChatCommand(value);//Display both help menus.
 		}
 		return Chat.plugChatCommand(value);
