@@ -202,36 +202,36 @@ pp.chat.setupFilter = function() {
 	}
 	pp.chat.oldChat = SocketListener.chat;
 	SocketListener.chat = function(obj){
-		console.log(obj);
 		if (pp.settings.filter){
 			if (obj.from != undefined){
-				pp.chat.filters.users.forEach(function(user){
+				for (var i=0; i<pp.chat.filters.users.length; ++i){
+					var user = pp.chat.filters.users[i];
 					if (obj.from == user){
 						console.log("Plug+: Message blocked from " + user);
 						return;
 					}
-				});
+				}
 			}
 			if (obj.message != undefined){
-				pp.chat.filters.words.forEach(function(word){
+				for (var i=0;i<pp.chat.filters.words.length; ++i){
+					var word = pp.chat.filters.words[i];
 					var reg = new RegExp(word,"i");
 					var tmp = obj.message.match(reg)
 					if (tmp != null){
 						var stars = "";
-						for (var i=0;i<word.length;++i){
+						for (var x=0;x<word.length;++x){
 							stars += "*";
 						}
 						obj.message = obj.message.replace(reg,stars);
 					}
-				});
+				}
 			}
-		}
-		pp.chat.oldChat(obj);
+		} pp.chat.oldChat(obj);
 	}
 }
 pp.chat.filters = pp.settings.filters != undefined ? pp.settings.filters : {
-	users : Array(),
-	words : Array()
+	users : new Array(),
+	words : new Array()
 }
 /*
 pp.chat.disable = function(value){//When true will disable chat entirely.
