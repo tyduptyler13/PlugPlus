@@ -13,21 +13,35 @@ var pp = {};
 // Auto* section
 
 pp.autoWoot = function(){
-	var dj = API.getDJs()[0];
-	if(dj == null) return; //no dj
-	if(dj == API.getSelf()) return; //don't woot yourself
-	if($('#ppaw').data('active')!='true') return; //AutoWoot Off
-	$('#button-vote-positive').click(); //Woot
+	function aw(){
+		var dj = API.getDJs()[0];
+		if(dj == null) return; //no dj
+		if(dj == API.getSelf()) return; //don't woot yourself
+		if($('#ppaw').data('active')!='true') return; //AutoWoot Off
+		$('#button-vote-positive').click(); //Woot
+	}
+	if (pp.settings.autoTimeout == undefined || pp.settings.autoTimeout <= 0){
+		aw();
+	}else{
+		setTimeout(aw,pp.settings.autoTimeout*1000);
+	}
 }
 
 pp.autoJoin = function(){
-	if ($('#ppaj').data('active')!='true') return; //autoJoin off
-	if ($('#button-dj-quit').css('display')!="none") return;//Already a dj.
-	if ($('#button-dj-waitlist-leave').css('display')!="none") return; //Already on waitlist
-	if ($('#button-dj-play').css('display')!="none"){//Check for waitlist.
-		$('#button-dj-play').click();//Join
-	}else if ($('#button-dj-waitlist-join').css('display')!="none"){//Waitlist available
-		$('#button-dj-waitlist-join').click();//Join
+	function aj(){
+		if ($('#ppaj').data('active')!='true') return; //autoJoin off
+		if ($('#button-dj-quit').css('display')!="none") return;//Already a dj.
+		if ($('#button-dj-waitlist-leave').css('display')!="none") return; //Already on waitlist
+		if ($('#button-dj-play').css('display')!="none"){//Check for waitlist.
+			$('#button-dj-play').click();//Join
+		}else if ($('#button-dj-waitlist-join').css('display')!="none"){//Waitlist available
+			$('#button-dj-waitlist-join').click();//Join
+		}
+	}
+	if (pp.settings.autoTimeout == undefined || pp.settings.autoTimeout <= 0){
+		aj();
+	}else{
+		setTimeout(aj,pp.settings.autoTimeout*1000);
 	}
 }
 
@@ -61,16 +75,17 @@ pp.djUpdate = function(){
 
 /* Settings */
 
-pp.settings = localStorage['Plug+'] != undefined ? JSON.parse(localStorage['Plug+']) : {timeout:7,notify:true,filter:false,ppaj:false,ppaw:false,list:false};
+pp.settings = localStorage['Plug+'] != undefined ? JSON.parse(localStorage['Plug+']) : {autoTimeout:0, timeout:7, notify:true, filter:false, ppaj:false, ppaw:false, list:false};
 pp.saveSettings = function(){
 	localStorage['Plug+'] = JSON.stringify({
-		timeout : pp.settings.timeout,
-		notify  : pp.settings.notify,
-		filter  : pp.settings.filter,
-		ppaj    : pp.settings.ppaj,
-		ppaw    : pp.settings.ppaw,
-		list    : pp.settings.list,
-		filters : pp.chat.filters
+		autoTimeout : pp.settings.atimeout,
+		timeout     : pp.settings.timeout,
+		notify      : pp.settings.notify,
+		filter      : pp.settings.filter,
+		ppaj        : pp.settings.ppaj,
+		ppaw        : pp.settings.ppaw,
+		list        : pp.settings.list,
+		filters     : pp.chat.filters
 	});
 }
 pp.applySettings = function(){
@@ -205,6 +220,16 @@ pp.chat.setupFilter = function() {
 			return true;
 		}
 		if (value.indexOf('/autodelay')==0){
+			var tmp = value.substr(11,value.length-10);
+			try{
+				tmp = parseInt(tmp);
+			}catch(e){
+				console.error("Plug+ could not parse the command!");
+				return true;
+			}
+			pp.settings.autoTimeout = tmp;
+			pp.saveSettings();
+			var obj={};obj.type="update";obj.message="Auto timeout has been set.";this.receive(obj);
 			return true;
 		}
 		if (value.indexOf('/help')==0){
