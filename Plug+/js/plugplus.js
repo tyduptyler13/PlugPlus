@@ -177,13 +177,13 @@ pp.chat.setupFilter = function() {
 			for (var i = 0; i < pp.chat.filters.users.length; ++i){
 				if (tmp == pp.chat.filters.users[i]){
 					pp.chat.filters.users.pop(i);
-					var obj={};obj.type="update";obj.message="User unblocked.";this.receive(obj);
+					var obj={};obj.type="update";obj.message="Plug+: User unblocked.";this.receive(obj);
 					pp.saveSettings();
 					return true;
 				}
 			}
 			pp.chat.filters.users.push(tmp);
-			var obj={};obj.type="update";obj.message="User blocked.";this.receive(obj);
+			var obj={};obj.type="update";obj.message="Plug+: User blocked. Use the same command to unblock existing users.";this.receive(obj);
 			pp.saveSettings();
 			return true;
 		}
@@ -196,13 +196,13 @@ pp.chat.setupFilter = function() {
 			for (var i = 0; i < pp.chat.filters.words.length; ++i){
 				if (tmp == pp.chat.filters.words[i]){
 					pp.chat.filters.words.pop(i);
-					var obj={};obj.type="update";obj.message="Word removed form list.";this.receive(obj);
+					var obj={};obj.type="update";obj.message="Plug+: Word removed form list.";this.receive(obj);
 					pp.saveSettings();
 					return true;
 				}
 			}
 			pp.chat.filters.words.push(tmp);
-			var obj={};obj.type="update";obj.message="Word added to filter.";this.receive(obj);
+			var obj={};obj.type="update";obj.message="Plug+: Word added to filter. Use the same command to remove the word.";this.receive(obj);
 			pp.saveSettings();
 			return true;
 		}
@@ -216,7 +216,7 @@ pp.chat.setupFilter = function() {
 			}
 			pp.settings.timeout = tmp;
 			pp.saveSettings();
-			var obj={};obj.type="update";obj.message="Notification timeout has been set.";this.receive(obj);
+			var obj={};obj.type="update";obj.message="Plug+: Notification timeout has been set.";this.receive(obj);
 			return true;
 		}
 		if (value.indexOf('/autodelay')==0){
@@ -229,11 +229,17 @@ pp.chat.setupFilter = function() {
 			}
 			pp.settings.autoTimeout = tmp;
 			pp.saveSettings();
-			var obj={};obj.type="update";obj.message="Auto timeout has been set.";this.receive(obj);
+			var obj={};obj.type="update";obj.message="Plug+: Auto timeout has been set.";this.receive(obj);
 			return true;
 		}
+		if (value.indexOf('/disable')==0){
+			var obj={};obj.type="update";obj.message="Plug+: Chat has been destroyed. To regain chat functionality you will need to refresh.";this.receive(obj);
+			SocketListener.chat = function(){};
+			return true;
+			
+		}
 		if (value.indexOf('/help')==0){
-			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em> Block a user</em><br>/filter <em>Block words</em><br>/notify # <em> Set timeout for notifications</em><br>/autodelay # <em> Delay Auto functions</em>";this.receive(obj);
+			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em> Block a user</em><br>/filter <em> Block words</em><br>/notify # <em> Set timeout for notifications</em><br>/autodelay # <em> Delay Auto functions</em><br>/disable <em> Disable chat (refresh to undo)</em>";this.receive(obj);
 			return Chat.plugChatCommand(value);//Display both help menus.
 		}
 		return Chat.plugChatCommand(value);
