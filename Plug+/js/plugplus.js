@@ -1,4 +1,4 @@
-"use strict";//Secure code
+//"use strict";//Secure code
 //Tracking
 
 
@@ -13,6 +13,16 @@ var pp = {};
 // Auto* section
 
 pp.autoWoot = function(){
+	try{
+		if (pp.settings.page['autowoot'] == false){
+			var obj={};obj.type="update";obj.message="Plug+: Autowoot is disabled for this page.";Chat.receive(obj);
+			console.log("Autowoot is not allowed on this page at this time.");
+			setTimeout(function(){$("#ppaw").click()},100);//Needs to wait for other calls
+			return;
+		}
+	}catch(e){
+		console.warn(e);
+	}
 	function aw(){
 		var dj = API.getDJs()[0];
 		if(dj == null) return; //no dj
@@ -76,6 +86,7 @@ pp.djUpdate = function(){
 /* Settings */
 
 pp.settings = localStorage['Plug+'] != undefined ? JSON.parse(localStorage['Plug+']) : {autoTimeout:0, timeout:7, notify:true, filter:false, ppaj:false, ppaw:false, list:false};
+pp.settings.page = {};
 pp.saveSettings = function(){
 	localStorage['Plug+'] = JSON.stringify({
 		autoTimeout : pp.settings.atimeout,
@@ -88,17 +99,25 @@ pp.saveSettings = function(){
 		filters     : pp.chat.filters
 	});
 }
+pp.getPageSettings = function(){
+	var tmp = Models.room.data.description;
+	try{
+		tmp = tmp.split("[CONFIG]\n")[1].split('\n');//Only want whats after config.
+		for (var i=0;i<tmp.length;++i){
+			var value = tmp[i].split("=");
+			pp.settings.page[value[0].toLowerCase()] = (value[1].toLowerCase=="off" || value[1]=="false")?true:false;
+		}
+	}catch(e){}//Ignore all errors.
+}
 pp.applySettings = function(){
 	if (pp.settings.ppaw){
-		setTimeout(function(){//Change to set interval
+		setTimeout(function(){
 			$('#ppaw').click();
-			pp.autoWoot();
 		},5000);//Wait an extra 10 seconds to autoWoot again.
 	}
 	if (pp.settings.ppaj){
-		setTimeout(function(){//Change to set interval
+		setTimeout(function(){
 			$('#ppaj').click();
-			pp.autoJoin()
 		},5000);//Wait an extra 10 seconds to autoJoin again.
 	}
 	if (pp.settings.list){
@@ -380,6 +399,8 @@ $(document).ready(function(e) {
 	);
 	
 	pp.applySettings();
+	
+	setTimeout(pp.getPageSettings,4500);
 	
 	console.log("Plug+: Setup complete.");
 });
