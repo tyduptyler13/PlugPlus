@@ -11,21 +11,20 @@ Current Features
 * Notifications (Songs, DJ's, and Chat) 
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
+* Language Filter
+* Disable Chat Completely
+* AutoWoot Delayed Vote
+* Disable AutoWoot (For Page Owners)
 
-Next Release (AVAILABLE SOON!)
+Next Release
 ----
-* Language Filter (Finished)
-* Disable Chat Completely (Finished)
-* AutoWoot Delayed Vote (To avoid antiautowoot bots) (Finished)
-* Disable AutoWoot During Battles (Finished)
+Custom Skins and Backgrounds
 
 Planned Features
 ----
 * More Notifications
 * Bot Controlls
 * Mod Features
-* Custom Themes for any room that requests it. (It will only work for your room and only for those with this plugin)
-* Skin Overriding (People with this plugin will see it)
 * Language Support
 
 
