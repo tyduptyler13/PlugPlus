@@ -12,12 +12,12 @@ Current Features
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
 
-Next Release
+Next Release (AVAILABLE SOON!)
 ----
 * Language Filter (Finished)
 * Disable Chat Completely (Finished)
 * AutoWoot Delayed Vote (To avoid antiautowoot bots) (Finished)
-* Disable AutoWoot During Battles (In progress)
+* Disable AutoWoot During Battles (Finished)
 
 Planned Features
 ----
