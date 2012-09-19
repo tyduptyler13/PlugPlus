@@ -42,12 +42,12 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 
 if (localStorage["lastVersion"] !== undefined) {
 	if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
-		notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version);
+		notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version,0);
 		localStorage["lastVersion"] = chrome.app.getDetails().version;
 	} 
 } else {
 	localStorage["lastVersion"] = chrome.app.getDetails().version;
-	notify(icon,"Version","Plug+ is now using version: " + chrome.app.getDetails().version);
+	notify(icon,"Version","Plug+ is now using version: " + chrome.app.getDetails().version,0);
 }
 
 function checkURL(value) {
