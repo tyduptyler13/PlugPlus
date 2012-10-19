@@ -15,7 +15,7 @@ var pp = {};
 pp.autoWoot = function(){
 	try{
 		if (pp.settings.page['autowoot'] == false){
-			var obj={};obj.type="update";obj.message="Plug+: Autowoot is disabled for this page.";Chat.receive(obj);
+			var obj={};obj.type="update";obj.message="Plug+: Autowoot is disabled for this page.";Models.chat.receive(obj);
 			console.log("Autowoot is not allowed on this page at this time.");
 			setTimeout(function(){$("#ppaw").click()},100);//Needs to wait for other calls
 			return;
@@ -185,12 +185,13 @@ pp.pluglist.updateList = function(){
 
 pp.chat = {};
 pp.chat.setupFilter = function() {
-	Chat.plugChatCommand = Chat.chatCommand;
-	Chat.chatCommand = function(value){
+	Models.chat.plugChatCommand = Models.chat.chatCommand;
+	Models.chat.chatCommand = function(value){
 		if (value.indexOf('/block')==0){//Use same username twice to remove it.
 			var tmp = value.substr(7,value.length-6);
 			if (tmp == ""){
 				var obj={};obj.type="update";obj.message="Usage: /block (user)";this.receive(obj);
+				var obj={};obj.type="update";obj.message="Current blocked users: <br>"+pp.chat.filters.users.toString().replace(/,/g,'<br>');this.receive(obj);
 				return true;
 			}
 			for (var i = 0; i < pp.chat.filters.users.length; ++i){
@@ -210,6 +211,7 @@ pp.chat.setupFilter = function() {
 			var tmp = value.substr(8,value.length-7);
 			if (tmp == ""){
 				var obj={};obj.type="update";obj.message="Usage: /filter (word)";this.receive(obj);
+				var obj={};obj.type="update";obj.message="Current blocked words: <br>"+pp.chat.filters.words.toString().replace(/,/g,'<br>');this.receive(obj);
 				return true;
 			}
 			for (var i = 0; i < pp.chat.filters.words.length; ++i){
@@ -230,9 +232,11 @@ pp.chat.setupFilter = function() {
 			try{
 				tmp = parseInt(tmp);
 			}catch(e){
-				console.error("Plug+ could not parse the command!");
+				var obj={};obj.type="update";obj.message="Usage: /notify #<br>(# is greater than 0 or 0 for messages to never expire.)";this.receive(obj);
 				return true;
 			}
+			if (tmp < 0)
+				tmp = 0;
 			pp.settings.timeout = tmp;
 			pp.saveSettings();
 			var obj={};obj.type="update";obj.message="Plug+: Notification timeout has been set.";this.receive(obj);
@@ -243,9 +247,11 @@ pp.chat.setupFilter = function() {
 			try{
 				tmp = parseInt(tmp);
 			}catch(e){
-				console.error("Plug+ could not parse the command!");
+				var obj={};obj.type="update";obj.message="Usage: /autodelay #<br>(# is greater than 0 or 0 to disable)";this.receive(obj);
 				return true;
 			}
+			if (tmp < 0)
+				tmp = 0;
 			pp.settings.autoTimeout = tmp;
 			pp.saveSettings();
 			var obj={};obj.type="update";obj.message="Plug+: Auto timeout has been set.";this.receive(obj);
@@ -253,15 +259,14 @@ pp.chat.setupFilter = function() {
 		}
 		if (value.indexOf('/disable')==0){
 			var obj={};obj.type="update";obj.message="Plug+: Chat has been destroyed. To regain chat functionality you will need to refresh.";this.receive(obj);
-			SocketListener.chat = function(){};
+			SocketListener.chat = function(){};//Junk the chat function.
 			return true;
-			
 		}
 		if (value.indexOf('/help')==0){
 			var obj={};obj.type="update";obj.message="<strong>Plug+ Commands:</strong><br>/block <em> Block a user</em><br>/filter <em> Block words</em><br>/notify # <em> Set timeout for notifications</em><br>/autodelay # <em> Delay Auto functions</em><br>/disable <em> Disable chat (refresh to undo)</em>";this.receive(obj);
-			return Chat.plugChatCommand(value);//Display both help menus.
+			return Models.chat.plugChatCommand(value);//Display both help menus.
 		}
-		return Chat.plugChatCommand(value);
+		return Models.chat.plugChatCommand(value);
 	}
 	pp.chat.oldChat = SocketListener.chat;
 	SocketListener.chat = function(obj){
@@ -289,7 +294,8 @@ pp.chat.setupFilter = function() {
 					}
 				}
 			}
-		} pp.chat.oldChat(obj);
+		}
+		pp.chat.oldChat(obj);
 	}
 }
 pp.chat.filters = pp.settings.filters != undefined ? pp.settings.filters : {
@@ -331,7 +337,8 @@ $(document).ready(function(e) {
 	});
 
 	API.addEventListener(API.VOTE_UPDATE, pp.pluglist.updateList);
-
+	API.addEventListener(API.USER_JOIN, pp.pluglist.updateList);
+	API.addEventListener(API.USER_LEAVE, pp.pluglist.updateList);
 	API.addEventListener(API.CHAT,function(data){pp.chat.notify(data);});
 
 	$('#plugPlus .option').bind('click',function(eventData){
@@ -387,16 +394,6 @@ $(document).ready(function(e) {
 		}
 		pp.saveSettings();
 	});
-	
-	/*Bug fix for z-index */
-	$('.options').hover(
-		function(){//In
-			$('#footer-container').css('z-index','1');
-		},
-		function(){//Out
-			$('#footer-container').css('z-index','8000');
-		}
-	);
 	
 	pp.applySettings();
 	
