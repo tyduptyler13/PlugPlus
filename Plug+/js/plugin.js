@@ -18,13 +18,15 @@ if (document.location.pathname!="/"){
 		chrome.extension.sendRequest({action:"notify",img:data.image ,title:data.title ,text:data.text,timeout:data.timeout});//Send
 	});
 	
+	$(function(){
 		/*Bug fix for z-index */
-	$('.options').hover(
-		function(){//In
-			$('#footer-container').css('z-index','1');
-		},
-		function(){//Out
-			$('#footer-container').css('z-index','8000');
-		}
-	);
+		$('.options').hover(
+			function(){//In
+				$('#footer-container').css('z-index','1');
+			},
+			function(){//Out
+				$('#footer-container').css('z-index','8000');
+			}
+		);
+	});
 }
