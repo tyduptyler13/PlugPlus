@@ -246,6 +246,9 @@ pp.chat.setupFilter = function() {
 			var tmp = value.substr(11,value.length-10);
 			try{
 				tmp = parseInt(tmp);
+				if (tmp === NaN){
+					throw null;
+				}
 			}catch(e){
 				var obj={};obj.type="update";obj.message="Usage: /autodelay #<br>(# is greater than 0 or 0 to disable)";this.receive(obj);
 				return true;
