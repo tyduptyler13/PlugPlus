@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.0.5.27",
+  "version": "1.0.5.28",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
@@ -27,7 +27,7 @@
   ],
   "content_scripts": [
   	{
-	  "matches": ["*://www.plug.dj/*"],
+	  "matches": ["*://*.plug.dj/*"],
 	  "js": ["js/jquery-1.8.3.min.js", "js/plugin.js"]
 	}
   ],
