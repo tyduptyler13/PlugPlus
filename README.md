@@ -3,6 +3,10 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
+Notice
+----
+Plug+ has had a permissions change in recent versions and this may require you to manually enable Plug+ in your extentions to use it again: chrome://chrome/extensions/
+
 Current Features
 ----
 * Featured Rooms
