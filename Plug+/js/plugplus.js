@@ -159,7 +159,7 @@ pp.pluglist.simpleList = function(){//Group of usernames with coloring to show w
 	return list;
 }
 pp.pluglist.showWindow = function(){
-	$('body').append("<div class='pplist' title='Purple = Mod/Owner, Yellow = Follower/Friend, Red = Meh, Green = Woot'></div>");
+	$('body').append("<div class='pplist' title='Purple = Authority, Yellow = Follower/Friend, Red = Meh, Green = Woot'></div>");
 	pp.pluglist.updateList();
 }
 pp.pluglist.hideWindow = function(){
