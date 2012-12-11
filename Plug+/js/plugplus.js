@@ -145,10 +145,7 @@ pp.pluglist.simpleList = function(){//Group of usernames with coloring to show w
 	}
 	for (var i = 0; i<users.length; ++i){
 		var tmp = new user();
-		if (users[i].moderator)
-			tmp.border = "#E90E82 thin solid";
-		if (users[i].owner)
-			tmp.border = "#E90E82 thick solid";
+		tmp.border = "#E90E82 "+users[i].permission+"px solid";
 		switch(users[i].vote){
 			case 1: tmp.bgColor = "green";break;
 			case -1: tmp.bgColor = "red";break;
