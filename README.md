@@ -3,10 +3,6 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
-Notice
-----
-Plug+ has had a permissions change in recent versions and this may require you to manually enable Plug+ in your extentions to use it again: chrome://chrome/extensions/
-
 Current Features
 ----
 * Featured Rooms
@@ -15,14 +11,8 @@ Current Features
 * Notifications (Songs, DJ's, and Chat) 
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
-* Language Filter
-* Disable Chat Completely
 * AutoWoot Delayed Vote
-* Disable AutoWoot (For Page Owners)
-
-Next Release
-----
-Custom Skins and Backgrounds
+* Page controlls. (See wiki)
 
 Planned Features
 ----
@@ -34,12 +24,14 @@ Planned Features
 
 Change Log
 ----
-* 1.0.5 - Chat Features and moved settings to chat commands
-* 1.0.4 - Clean up and added Plug List and Settings page
-* 1.0.3 - Notifications
-* 1.0.2 - Auto Features
-* 1.0.1 - Extension Dropdown
+* `1.1` - Huge update (All features reworked and cleaned up)
+* `1.0.5` - Chat Features and moved settings to chat commands
+* `1.0.4` - Clean up and added Plug List and Settings page
+* `1.0.3` - Notifications
+* `1.0.2` - Auto Features
+* `1.0.1` - Extension Dropdown
 
-Some notes
+NOTICE
 ----
-I will be updating the 'dev' branch until major releases when I will push to the master branch. This will make forking easier with my almost daily updates. *'patches' was renamed to 'dev'.
++ Dev version has been removed. To use a dev version just clone this repository to a location on your computer. Tutorial will be in the wiki.
++ I have changed to a creative commons license. Basicly anyone can use my code under the condition they leave proper credit to the original work.

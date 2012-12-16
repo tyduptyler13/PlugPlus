@@ -1,7 +1,7 @@
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-32685589-1']);
   _gaq.push(['_trackPageview']);
-  _gaq.push(['_setCustomVar',2,'Version',chrome.app.getDetails().version]);
+  _gaq.push(['_setCustomVar',2,'Version',chrome.app.getDetails().version.toString(),2]);
 
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
