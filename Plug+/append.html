@@ -1,88 +1,55 @@
 <style>
-body{
-	min-height:786px;/*A fix for the menu*/
-}
-#plugPlus{
+.plugPlus{
 	position:absolute;
-	bottom:0px;
-	width:310px;
-	color:black;
-	margin:5px;
-	z-index:99;
-}
-#plugPlus ul {
-	list-style:none;
-	padding:0px;
-	margin:0px;
-	text-align:center;
-	width:100px;
-}
-#plugPlus ul.menu {
-	float:right;
-	color:white;
-}
-#plugPlus ul.menu div{
-	border: thin groove black;
-	background-color: #666;
+	margin-top: 5px;
+	width: 1200px;
+	padding:2px;
+	background:black;
 	border-radius:5px;
+	color:white;
+	font-family: Impact, Charcoal, sans-serif;
+	padding-left:0;
+	border:1px white solid;
 }
-#plugPlus li:hover > .options {
-	display:block;
+.plugPlus *{
+	display:inline;
+	background:#999;
+	border:1px solid #999;
+	border-radius:4px;
+	margin: 2px;
+	margin-right: 5px;
 }
-#plugPlus li:hover > div{
-	border-bottom-left-radius:0;
-	border-bottom-right-radius:0;
+.plugPlus #title{
+	margin-left:-1px;
+	color: #F60;
+	font-weight: 300;
+	font-size: 18px;
+	text-shadow: black 1px 1px;
+	background:white;
+	border: 3px white solid;
+	border-radius: 6px;
 }
-#plugPlus .options {
-	position:absolute;
-	display:none;
+.plugPlus .plugButton:hover{
+	background-color:#CCCCCC;
 }
-#plugPlus .options:hover {
-	display:block;
+.plugPlus .plugButton#on{
+	background-color:green;
+	border:1px solid green;
 }
-#plugPlus .option{
-	cursor:pointer;
-	border-top: 1px black groove;
-	width:100px;
-	height:20px;
-	-webkit-transition: width 1s, height 1s;
+.plugPlus .plugButton#on:hover{
+	background-color: #18D004;
+}
+.plugPlus .plugButton#off{
 	background-color:red;
+	border:1px solid red;
 }
-#plugPlus .option:hover{
-	width:110px;
-	height:24px;
-}
-#plugPlus .option:last{
-	border-bottom-left-radius:5px;
-	border-bottom-right-radius:5px;
-}
-.pplist div{
-	margin:10px;
-	padding:3px;
-}
-.pplist{
-	width: 500px;
-	position: relative;
-	z-index: 99;
-	background-color: rgba(0, 0, 0, .7);
-	border-radius: 20px;
-	margin: auto;
-	top: 300px;
-	padding: 15px;
-	max-height:275px;
-	overflow-y:auto;
+.plugPlus .plugButton#off:hover{
+	background-color: #FF8080;
 }
 </style>
-<div id='plugPlus'>
-  <ul class="menu">
-    <li><div>Plug+</div>
-      <ul class="options">
-        <li class="option" id='ppaj' title='Join automatically whenever your turn ends.'>Auto Join</li>
-        <li class="option" id='ppaw' title='Woot every song that plays.'>Auto Woot</li>
-        <li class="option" id='pplist' title='Show user votes in simple display'>Plug List</li>
-        <li class="option" id='notify' title='Show notifications'>Notify</li>
-        <li class="option" id='filter' title='Chat filter'>Filter</li>
-      </ul>
-    </li>
-  </ul>
+<div class='plugPlus'>
+	<div id='title'>Plug+</div>
+	<div class='plugButton'>Button</div>
+	<div class='plugButton' id='off'>Off Button</div>
+	<div class='plugButton' id='on'>On Button</div>
 </div>

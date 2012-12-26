@@ -3,6 +3,9 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
+*WARNING*
+THE CURRENT DEV BUILD DOES NOT WORK DO NOT UPDATE TO IT
+
 Current Features
 ----
 * Featured Rooms
