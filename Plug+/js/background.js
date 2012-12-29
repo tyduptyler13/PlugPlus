@@ -28,7 +28,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 	try{
 		if (!checkURL(request.img))
 			request.img = chrome.extension.getURL("icon.png");
-		if (request.timeout == undefined || !isNaN(request.timeout))
+		if (request.timeout == undefined || isNaN(request.timeout))
 			request.timeout = 7;
 		if (request.action=="notify"){
 			notify(request.img,request.title,request.text,request.timeout);

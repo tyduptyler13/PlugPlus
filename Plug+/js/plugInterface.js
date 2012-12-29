@@ -1,6 +1,4 @@
-//"use strict";//Secure code
 //Tracking
-
 
 var _gaq = _gaq || [];
 _gaq.push(['plug._setAccount', 'UA-32685589-1']);
@@ -9,26 +7,23 @@ _gaq.push(['plug._trackPageview']);
 //Plug object
 
 var pp = {};
-
-/* Begin Notifications */
-
-pp.PlugPlusEvent = document.createEvent('Event');
-pp.PlugPlusEvent.initEvent('PlugPlusEvent',true,true);
-
-pp.fireEvent = function(data){
-	if (pp.settings.notify){
-		$('#ppEvents').html(JSON.stringify(data));
-		$('#ppEvents').get(0).dispatchEvent(pp.PlugPlusEvent);
-	}
-}
-
 PlugData = function(type, eventData){//Standarized message container.
 	this.type = type;
 	this.data = eventData;
 }
 
+/* Events */
+
+pp.plugEvent = document.createEvent('Event');
+pp.plugEvent.initEvent('plugEvent',true,true);
+
+pp.fireEvent = function(data){
+	$('#plugEvents').html(JSON.stringify(data));
+	$('#plugEvents').get(0).dispatchEvent(pp.plugEvent);
+}
+
 /* Init */
-$(document).ready(function(e) {	
+$(function(){	
 	API.addEventListener(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE", e);
 		pp.fireEvent(data);
@@ -53,4 +48,12 @@ $(document).ready(function(e) {
 		var data = new PlugData("CHAT", e);
 		pp.fireEvent(data);
 	});
+	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",pp.plugPlusEvent);
 });
+
+/* Message Handling */
+
+pp.plugPlusEvent = function(){
+	var data = $.parseJSON($('#plugPlusEvents').text());
+	console.log(data);
+}
