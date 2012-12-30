@@ -14,8 +14,10 @@ Current Features
 * Notifications (Songs, DJ's, and Chat) 
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
-* AutoWoot Delayed Vote
-* Page controlls. (See wiki)
+* ~~AutoWoot Delayed Vote~~
+* ~~Page controlls. (See wiki)~~
+
+Striked out options will be coming soon.
 
 Planned Features
 ----
