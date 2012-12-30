@@ -28,6 +28,7 @@ $(function(){
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
 		$('#audience').append(data);
+		//TODO
 	},"html");
 	
 	var s = document.createElement('script');

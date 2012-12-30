@@ -13,7 +13,7 @@
 	padding:2px;
 	padding-left:0;
 	border-radius:5px;
-	border:1px white solid;
+	border:2px white solid;
 }
 .plugPlusBar *{
 	display:inline;
@@ -54,20 +54,20 @@
 	background-color:transparent;
 }
 .plugPlusDropDown{
+	background-color: rgba(0,0,0,.7);
 	display:none;
 	max-height:255px;
 	width:1000px;
-	height:auto;
 	margin:auto;
-	border:2px white solid;
+	border:1px white solid;
 	border-top:none;
 	border-bottom-left-radius: 8px;
 	border-bottom-right-radius: 8px;
 	padding:4px;
 	overflow: hidden;
-	transition: width 1s ease-in-out;
 }
 .plugPlusDropDown .plugPlusContent{
+	background-color: transparent;
 	max-height:245px;
 	height:auto;
 	height:100%;
@@ -78,7 +78,11 @@
 		<div id='title'>Plug+</div>
 		<div class='plugButton'>Button</div>
 		<div class='plugButton' id='off'>Off Button</div>
-		<div class='plugButton' id='on'>On Button</div>
+		<div class='plugButton' id='on'>On Button</div>|
+        <div class='plugButton' id='autowoot'>AutoWoot</div>
+        <div class='plugButton' id='autojoin'>AutoJoin</div>
+        <div class='plugButton' id='pluglist'>Plug List</div>
+        <div class='plugButton' id='settings'>Settings</div>
 	</div>
     <div class='plugPlusDropDowns'>
     	<div class='plugPlusDropDown'>
