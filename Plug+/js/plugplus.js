@@ -9,6 +9,7 @@ PlugData = function(type, eventData){//Standarized message container.
 PlugPlus = {
 	plugPlusEvent : document.createEvent('Event'),
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
+	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
 	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents').get(0).dispatchEvent(this.plugPlusEvent);},
 }
 
@@ -35,7 +36,7 @@ $(function(){
 	document.head.appendChild(s);
 
 	$("#plugEvents")[0].addEventListener("plugEvent",function(){
-		var data = $.parseJSON($('#ppEvents').text());//Get data from hidden div.
+		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
 		console.log(data);
 	});
 	

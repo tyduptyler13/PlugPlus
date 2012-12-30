@@ -6,7 +6,7 @@ _gaq.push(['plug._trackPageview']);
 
 //Plug object
 
-var pp = {};
+PP = {};
 PlugData = function(type, eventData){//Standarized message container.
 	this.type = type;
 	this.data = eventData;
@@ -14,46 +14,40 @@ PlugData = function(type, eventData){//Standarized message container.
 
 /* Events */
 
-pp.plugEvent = document.createEvent('Event');
-pp.plugEvent.initEvent('plugEvent',true,true);
+PP.plugEvent = document.createEvent('Event');
+PP.plugEvent.initEvent('plugEvent',true,true);
 
-pp.fireEvent = function(data){
+PP.fireEvent = function(data){
 	$('#plugEvents').html(JSON.stringify(data));
-	$('#plugEvents').get(0).dispatchEvent(pp.plugEvent);
+	$('#plugEvents').get(0).dispatchEvent(PP.plugEvent);
 }
 
 /* Init */
 $(function(){	
 	API.addEventListener(API.DJ_ADVANCE, function(e){
-		var data = new PlugData("DJ_ADVANCE", e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("DJ_ADVANCE", e));
 	});
 	API.addEventListener(API.DJ_UPDATE, function(e){
-		var data = new PlugData("DJ_UPDATE",e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("DJ_UPDATE",e));
 	});
 	API.addEventListener(API.VOTE_UPDATE, function(e){
-		var data = new PlugData("VOTE_UPDATE",e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("VOTE_UPDATE",e));
 	});
 	API.addEventListener(API.USER_JOIN, function(e){
-		var data = new PlugData("USER_JOIN",e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("USER_JOIN",e));
 	});
 	API.addEventListener(API.USER_LEAVE, function(e){
-		var data = new PlugData("USER_LEAVE", e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("USER_LEAVE", e));
 	});
 	API.addEventListener(API.CHAT, function(e){
-		var data = new PlugData("CHAT", e);
-		pp.fireEvent(data);
+		PP.fireEvent(new PlugData("CHAT", e));
 	});
-	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",pp.plugPlusEvent);
+	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
 });
 
 /* Message Handling */
 
-pp.plugPlusEvent = function(){
+PP.plugPlusEvent = function(){
 	var data = $.parseJSON($('#plugPlusEvents').text());
 	console.log(data);
 }
