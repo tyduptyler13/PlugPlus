@@ -10,7 +10,6 @@
 }
 .plugPlusBar{
 	width: 1200px;
-	padding:2px;
 	padding-left:0;
 	border-radius:5px;
 	border:2px white solid;
@@ -33,8 +32,12 @@
 	border: 3px white solid;
 	border-radius: 6px;
 }
+.plugPlus .plugButton{
+	display: inline-block;
+}
 .plugPlus .plugButton:hover{
 	background-color:#CCCCCC;
+	cursor:pointer;
 }
 .plugPlus .plugButton#on{
 	background-color:green;
@@ -76,20 +79,17 @@
 <section class='plugPlus'>
 	<div class='plugPlusBar'>
 		<div id='title'>Plug+</div>
-		<div class='plugButton'>Button</div>
-		<div class='plugButton' id='off'>Off Button</div>
-		<div class='plugButton' id='on'>On Button</div>|
         <div class='plugButton' id='autowoot'>AutoWoot</div>
         <div class='plugButton' id='autojoin'>AutoJoin</div>
         <div class='plugButton' id='pluglist'>Plug List</div>
         <div class='plugButton' id='settings'>Settings</div>
 	</div>
     <div class='plugPlusDropDowns'>
-    	<div class='plugPlusDropDown'>
-        	<div class='plugPlusContent' id='plugPlusList'>List</div>
+    	<div class='plugPlusDropDown' id='plugPlusList'>
+        	<div class='plugPlusContent'>List</div>
         </div>
-        <div class='plugPlusDropDown'>
-        	<div class='plugPlusContent' id='plugPlusSettings'>Settings</div>
+        <div class='plugPlusDropDown' id='plugPlusSettings'>
+        	<div class='plugPlusContent'>Settings</div>
         </div>
     </div>
 </section>

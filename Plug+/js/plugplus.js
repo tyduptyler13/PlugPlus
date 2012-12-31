@@ -11,6 +11,10 @@ PlugPlus = {
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
 	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents').get(0).dispatchEvent(this.plugPlusEvent);},
+	settings : 0,
+	pluglist : 0,
+	autowoot : 0,
+	autojoin : 0
 }
 
 
@@ -28,7 +32,12 @@ $(function(){
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
 		$('#audience').append(data);
-		//TODO
+		PlugPlus.autojoin = $('#autojoin').attr('id','off');
+		PlugPlus.autowoot = $('#autowoot').attr('id','off');
+		PlugPlus.settings = $('#settings').attr('id','');
+		PlugPlus.pluglist = $('#pluglist').attr('id','');
+		PlugPlus.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();});
+		PlugPlus.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();});
 	},"html");
 	
 	var s = document.createElement('script');
