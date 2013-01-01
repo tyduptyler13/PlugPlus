@@ -23,13 +23,13 @@
 	margin-right: 5px;
 }
 .plugPlusBar #title{
-	margin-left:-1px;
+	margin-left:-2px;
 	color: #F60;
 	font-weight: 300;
 	font-size: 18px;
 	text-shadow: black 1px 1px;
 	background:white;
-	border: 3px white solid;
+	border: 2px white solid;
 	border-radius: 6px;
 }
 .plugPlus .plugButton{
@@ -75,6 +75,21 @@
 	height:auto;
 	height:100%;
 }
+.plugPlusDropDown .plugPlusContent *:not(span){
+	background-color: transparent;
+	display:block;
+}
+#plugPlusListArea *{
+	background-color:#666666;
+	display:inline;
+}
+#plugPlusListArea #voteup{
+	background-color: green;
+}
+#plugPlusListArea #votedown{
+	background-color: red;
+}
+
 </style>
 <section class='plugPlus'>
 	<div class='plugPlusBar'>
@@ -86,7 +101,13 @@
 	</div>
     <div class='plugPlusDropDowns'>
     	<div class='plugPlusDropDown' id='plugPlusList'>
-        	<div class='plugPlusContent'>List</div>
+        	<div class='plugPlusContent'>
+            	<div style="border-bottom:thin white solid; padding-bottom: 3px;">
+                	List
+                    <div style="float:right; display:inline-block;">Legend: <span style="background-color:green">Woot</span>, <span style="background-color:red">Meh</span>, <span style="border:thin #e90e82 solid">Admin</span>, <span style="outline: solid #dee97d thin">Friend</span></div>
+                </div>
+                <div id='plugPlusListArea'></div>
+            </div>
         </div>
         <div class='plugPlusDropDown' id='plugPlusSettings'>
         	<div class='plugPlusContent'>Settings</div>

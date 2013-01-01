@@ -10,6 +10,7 @@ PP = {};
 PlugData = function(type, eventData){//Standarized message container.
 	this.type = type;
 	this.data = eventData;
+	this.users = API.getUsers();//Send user list any time something happens.
 }
 
 /* Events */
@@ -37,7 +38,7 @@ $(function(){
 		PP.fireEvent(new PlugData("USER_JOIN",e));
 	});
 	API.addEventListener(API.USER_LEAVE, function(e){
-		PP.fireEvent(new PlugData("USER_LEAVE", e));
+		PP.fireEvent(new PlugData("USER_LEAVE",e));
 	});
 	API.addEventListener(API.CHAT, function(e){
 		PP.fireEvent(new PlugData("CHAT", e));
