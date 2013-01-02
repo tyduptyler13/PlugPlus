@@ -48,7 +48,7 @@ PlugPlus = {
 
 /* Init */
 $(function(){
-	if (document.location.pathname=="/") return;
+	if (document.location.pathname=="/" | $('.plugPlus')) return;//Only one instance of plug at a time.
 	
 	PlugPlus.loadSettings();
 	
