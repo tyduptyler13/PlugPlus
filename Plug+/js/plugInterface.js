@@ -29,7 +29,7 @@ $(function(){
 		PP.fireEvent(new PlugData("DJ_ADVANCE", e));
 	});
 	API.addEventListener(API.DJ_UPDATE, function(e){
-		PP.fireEvent(new PlugData("DJ_UPDATE",e));
+		PP.fireEvent(new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList())));//Custom extended list.
 	});
 	API.addEventListener(API.VOTE_UPDATE, function(e){
 		PP.fireEvent(new PlugData("VOTE_UPDATE",e));
