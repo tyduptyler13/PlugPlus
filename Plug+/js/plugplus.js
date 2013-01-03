@@ -24,7 +24,26 @@ PlugPlus = {
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
 	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents').get(0).dispatchEvent(this.plugPlusEvent);},
 	updateList : function(users){
-		
+		var list = new Array();
+		var User = function(){
+			this.id = "";//Vote
+			this.border = "";
+			this.outline = "";
+			this.username = "";
+		};
+		users.forEach(function(user){
+			var tmp = new User();
+			tmp.id = user.vote==1?"voteup":(user.vote==-1?"votedown":"");
+			tmp.border = user.permission>0?"border: #E90E82 "+user.permission+"px solid;":"";
+			tmp.outline = user.relationship>0?"outline: #DEE97D "+user.relationship*2+"px solid;":"";
+			tmp.username = user.username;
+			list.push(tmp);
+		});
+		$('#plugPlusListArea').children().remove('div');
+		list.forEach(function(user){
+			var tmp = "<div id=\""+user.id+"\" style=\""+user.border+user.outline+"\">"+user.username+"</div>";
+			$('#plugPlusListArea').append(tmp);
+		});
 	},
 	loadSettings : function(){this.updateSettings($.parseJSON(localStorage['settings']))},
 	updateSettings : function(data){//Preserve defaults if settings are incomplete or non existant.
@@ -76,7 +95,10 @@ $(function(){
 
 	$("#plugEvents")[0].addEventListener("plugEvent",function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
+		if (data.users)
+			PlugPlus.updateList(data.users);
 		switch(data.type){
+			
 			case "DJ_ADVANCE":
 			case "DJ_UPDATE":
 			case "VOTE_UPDATE":
@@ -84,6 +106,7 @@ $(function(){
 			case "USER_LEAVE":
 				break;
 			case "CHAT":
+				break;
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
 		console.log(data);
