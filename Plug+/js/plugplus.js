@@ -22,7 +22,7 @@ PlugPlus = {
 	plugPlusEvent : document.createEvent('Event'),
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
-	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents').get(0).dispatchEvent(this.plugPlusEvent);},
+	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
 	updateList : function(users){
 		var list = new Array();
 		var User = function(){

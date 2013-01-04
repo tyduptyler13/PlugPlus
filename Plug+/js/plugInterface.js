@@ -21,7 +21,7 @@ PP.plugEvent.initEvent('plugEvent',true,true);
 
 PP.fireEvent = function(data){
 	$('#plugEvents').html(JSON.stringify(data));
-	$('#plugEvents').get(0).dispatchEvent(PP.plugEvent);
+	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
 }
 
 /* Init */
