@@ -9,6 +9,7 @@ _gaq.push(['plug._trackPageview']);
 PP = {};
 PlugData = function(type, eventData){//Standarized message container.
 	this.type = type;
+	this.you = API.getSelf();
 	this.data = eventData;
 	this.users = API.getUsers();//Send user list any time something happens.
 }
@@ -26,7 +27,7 @@ PP.fireEvent = function(data){
 /* Init */
 $(function(){	
 	API.addEventListener(API.DJ_ADVANCE, function(e){
-		PP.fireEvent(new PlugData("DJ_ADVANCE", e));
+		PP.fireEvent(new PlugData("DJ_ADVANCE",e));
 	});
 	API.addEventListener(API.DJ_UPDATE, function(e){
 		PP.fireEvent(new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList())));//Custom extended list.

@@ -57,10 +57,13 @@ PlugPlus = {
 	},
 	saveSettings : function(){localStorage['settings'] = JSON.stringify(PlugSettings)},
 	notify : function(_title, _image, _text){chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout})},
-	settings : 0,
-	pluglist : 0,
-	autowoot : 0,
-	autojoin : 0
+	autowoot : function(data){},
+	autojoin : function(data){},
+	djUpdate : function(data){},
+	songUpdate : function(data){},
+	chat : function(data){},
+	userJoin : function(user){},
+	userLeave : function(user){}
 }
 
 
@@ -98,15 +101,12 @@ $(function(){
 		if (data.users)
 			PlugPlus.updateList(data.users);
 		switch(data.type){
-			
-			case "DJ_ADVANCE":
-			case "DJ_UPDATE":
-			case "VOTE_UPDATE":
-			case "USER_JOIN":
-			case "USER_LEAVE":
-				break;
-			case "CHAT":
-				break;
+			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);break;
+			case "DJ_UPDATE":PlugPlus.autojoin(data);PlugPlus.djUpdate(data);break;
+			case "VOTE_UPDATE":PlugPlus.userVote(data.data);break;
+			case "USER_JOIN":PlugPlus.userJoin(data.data);break;
+			case "USER_LEAVE":PlugPlus.userLeave(data.data);break;
+			case "CHAT":PlugPlus.chat(data.data);break;
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
 		console.log(data);
