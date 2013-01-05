@@ -3,9 +3,6 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
-*WARNING*
-THE CURRENT DEV BUILD DOES NOT WORK DO NOT UPDATE TO IT
-
 Current Features
 ----
 * Featured Rooms
@@ -14,16 +11,17 @@ Current Features
 * Notifications (Songs, DJ's, and Chat) 
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
-* ~~AutoWoot Delayed Vote~~
+* AutoWoot Delayed Vote
 * ~~Page controlls. (See wiki)~~
 
 Striked out options will be coming soon.
 
 Planned Features
 ----
-* More Notifications
-* Bot Controlls
-* Mod Features
+* Mod Features(bots)
+  * Automated messages/functions
+  * Spam Hammer :D
+  * Song limiter
 * Language Support
 
 
