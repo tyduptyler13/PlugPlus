@@ -22,7 +22,7 @@ PlugPlus = {
 	plugPlusEvent : document.createEvent('Event'),
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
-	fireEvent : function(data){$('#plugEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
+	fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
 	updateList : function(users){
 		var list = new Array();
 		var User = function(){
@@ -45,25 +45,77 @@ PlugPlus = {
 			$('#plugPlusListArea').append(tmp);
 		});
 	},
-	loadSettings : function(){this.updateSettings($.parseJSON(localStorage['settings']))},
+	loadSettings : function(){this.updateSettings($.parseJSON(localStorage['PlugPlusSettings']))},
 	updateSettings : function(data){//Preserve defaults if settings are incomplete or non existant.
 		for (var setting in PlugSettings){
 			try{
-				PlugSettings[setting] = data[setting]?data[setting]:PlugSettings[setting];
+				PlugSettings[setting] = data[setting]!=undefined?data[setting]:PlugSettings[setting];
 			} catch (e){
 				console.warn("P+ setting \"",setting, "\" appears to be corrupted, incorrectly formatted, or missing. Default value was used.");
 			}
 		}
 	},
-	saveSettings : function(){localStorage['settings'] = JSON.stringify(PlugSettings)},
+	applySettings : function(){//Apply settings only if they are true. Default state is false.
+		if (PlugSettings.autoJoin){
+			PlugPlus.button.autojoin.attr('id','on');
+			PlugPlus.autojoin();
+		}
+		if (PlugSettings.autoWoot){
+			PlugPlus.button.autowoot.attr('id','on');
+			PlugPlus.autowoot();
+		}
+		if (PlugSettings.pluglist){
+			$('#plugPlusSettings').slideUp();
+			$('#plugPlusList').slideToggle();
+		}
+	},
+	saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings)},
 	notify : function(_title, _image, _text){chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout})},
-	autowoot : function(data){},
-	autojoin : function(data){},
-	djUpdate : function(data){},
-	songUpdate : function(data){},
-	chat : function(data){},
-	userJoin : function(user){},
-	userLeave : function(user){}
+	autowoot : function(){
+		console.log("Autowoot",PlugSettings.autoWoot);
+		if (PlugSettings.autoWoot)
+			$('#button-vote-positive').click();
+	},
+	autojoin : function(data){
+		console.log(data);
+		if (!PlugSettings.autoJoin) return;//Exit if autojoin is not enabled.
+		if (data!=undefined){//Try anyways if data does not exist.
+			var list = data.data;
+			var you = data.you;
+			var inlist = false;
+			list.forEach(function(user){
+				if (user.id = you.id)
+					inlist = true;
+			});
+			if (inlist)return;
+		}
+		PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
+	},
+	djUpdate : function(data){
+		console.log(data);
+		switch(PlugSettings.djUpdate){
+			case 0:break;//No notification.
+			case 1:if (data[0].relationship==0) break;//Skip if not a friend.
+			case 2:PlugPlus.notify("New dj",PlugPlus.avatarURL+data[0].avatarID+".png","User: "+data[0].username+" is now playing.");
+			default:console.warn("A setting seems to have a bad value!",PlugSettings);
+		}
+	},
+	songUpdate : function(data){
+		console.log(data);
+	},
+	chat : function(data){
+		console.log(data);
+	},
+	userJoin : function(user){
+		console.log(user);
+	},
+	userLeave : function(user){
+		console.log(user);
+	},
+	userVote : function(data){
+		console.log(data);
+	},
+	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0}
 }
 
 
@@ -83,12 +135,31 @@ $(function(){
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
 		$('#audience').append(data);
-		PlugPlus.autojoin = $('#autojoin').attr('id','off');
-		PlugPlus.autowoot = $('#autowoot').attr('id','off');
-		PlugPlus.settings = $('#settings').attr('id','');
-		PlugPlus.pluglist = $('#pluglist').attr('id','');
-		PlugPlus.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();});
-		PlugPlus.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();});
+		PlugPlus.button.autojoin = $('#autojoin').attr('id','off');
+		PlugPlus.button.autowoot = $('#autowoot').attr('id','off');
+		PlugPlus.button.settings = $('#settings').attr('id','');
+		PlugPlus.button.pluglist = $('#pluglist').attr('id','');
+		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings()});
+		PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings()});
+		PlugPlus.button.autojoin.click(function(){
+			PlugSettings.autoJoin = !PlugSettings.autoJoin;
+			if (PlugSettings.autoJoin){
+				PlugPlus.button.autojoin.attr('id','on');
+			}else{
+				PlugPlus.button.autojoin.attr('id','off');
+			}
+			PlugPlus.saveSettings();
+		});
+		PlugPlus.button.autowoot.click(function(){
+			PlugSettings.autoWoot = !PlugSettings.autoWoot;
+			if (PlugSettings.autoWoot){
+				PlugPlus.button.autowoot.attr('id','on');
+			}else{
+				PlugPlus.button.autowoot.attr('id','off');
+			}
+			PlugPlus.saveSettings();
+		});
+		PlugPlus.applySettings();
 	},"html");
 	
 	var s = document.createElement('script');
@@ -98,10 +169,9 @@ $(function(){
 
 	$("#plugEvents")[0].addEventListener("plugEvent",function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
-		if (data.users)
-			PlugPlus.updateList(data.users);
+		if (data.users) PlugPlus.updateList(data.users);
 		switch(data.type){
-			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);break;
+			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);PlugPlus.autowoot();break;
 			case "DJ_UPDATE":PlugPlus.autojoin(data);PlugPlus.djUpdate(data);break;
 			case "VOTE_UPDATE":PlugPlus.userVote(data.data);break;
 			case "USER_JOIN":PlugPlus.userJoin(data.data);break;
