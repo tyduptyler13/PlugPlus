@@ -44,12 +44,16 @@ $(function(){
 	API.addEventListener(API.CHAT, function(e){
 		PP.fireEvent(new PlugData("CHAT", e));
 	});
-	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
+	setTimeout('$(\'#plugPlusEvents\')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent)',500);
+
 });
 
 /* Message Handling */
 
 PP.plugPlusEvent = function(){
 	var data = $.parseJSON($('#plugPlusEvents').text());
+	switch(data.type){
+		case "JoinWaitList" : API.waitListJoin();break;
+	}
 	console.log(data);
 }

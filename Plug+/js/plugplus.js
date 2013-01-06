@@ -19,7 +19,7 @@ PlugSettings = {
 /* Functions */
 PlugPlus = {
 	avatarURL : "http://www.plug.dj/images/avatars/thumbs/",
-	plugPlusEvent : document.createEvent('Event'),
+	plugPlusEvent : new CustomEvent("plugPlusEvent",{bubbles:false,cancelable:true}),
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
 	fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
@@ -57,8 +57,7 @@ PlugPlus = {
 	},
 	applySettings : function(){//Apply settings only if they are true. Default state is false.
 		if (PlugSettings.autoJoin){
-			PlugPlus.button.autojoin.attr('id','on');
-			PlugPlus.autojoin();
+			setTimeout("PlugPlus.button.autojoin.attr('id','on');PlugPlus.autojoin();",1000);//Wait 1 second before sending anything. The event isn't ready.
 		}
 		if (PlugSettings.autoWoot){
 			PlugPlus.button.autowoot.attr('id','on');
@@ -72,50 +71,78 @@ PlugPlus = {
 	saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings)},
 	notify : function(_title, _image, _text){chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout})},
 	autowoot : function(){
-		console.log("Autowoot",PlugSettings.autoWoot);
 		if (PlugSettings.autoWoot)
 			$('#button-vote-positive').click();
 	},
-	autojoin : function(data){
-		console.log(data);
-		if (!PlugSettings.autoJoin) return;//Exit if autojoin is not enabled.
-		if (data!=undefined){//Try anyways if data does not exist.
-			var list = data.data;
-			var you = data.you;
-			var inlist = false;
-			list.forEach(function(user){
-				if (user.id = you.id)
-					inlist = true;
-			});
-			if (inlist)return;
-		}
-		PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
+	autojoin : function(){
+		console.log("Autojoin");
+		if (PlugSettings.autoJoin)
+			PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
 	},
 	djUpdate : function(data){
-		console.log(data);
+		console.log("djUpdate",data);
 		switch(PlugSettings.djUpdate){
 			case 0:break;//No notification.
 			case 1:if (data[0].relationship==0) break;//Skip if not a friend.
-			case 2:PlugPlus.notify("New dj",PlugPlus.avatarURL+data[0].avatarID+".png","User: "+data[0].username+" is now playing.");
+			case 2:PlugPlus.notify("New dj",PlugPlus.avatarURL+data[0].avatarID+".png","User: "+data[0].username+" is now playing.");break;
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
 	songUpdate : function(data){
-		console.log(data);
+		console.log("songUpdate",data);
+		switch(PlugSettings.songUpdate){
+			case 0:break;
+			case 1:if (data.dj.relationship==0) break;
+			case 2:PlugPlus.notify("Song Update",PlugPlus.avatarURL+data.dj.avatarID+".png",data.dj.username+" is now playing the song \""+data.media.title+"\" by "+data.media.author);break;
+			default:console.warn("A setting seems to have a bad value!",PlugSettings);
+		}
 	},
-	chat : function(data){
-		console.log(data);
+	chat : function(data, from, you){
+		console.log("chat",data);
+		var setting = PlugSettings.chatLevel;
+		if (setting==0) return;
+		if (setting == 1){
+			if (data.message.indexOf(you.username)==-1) return;
+		}else if (setting==2){
+			if (from.relationship==0) return;
+		}else{
+			PlugPlus.notify("Chat",PlugPlus.avatarURL+from.avatarID+".png",from.username+": "+data.message);
+		}
 	},
 	userJoin : function(user){
-		console.log(user);
+		console.log("userjoin",user);
+		switch(PlugSettings.userLevel){
+			case 0:break;
+			case 1:if (data.relationship==0) break;
+			case 2:PlugPlus.notify("User Enter Notice",PlugPlus.avatarURL+data.avatarID+".png",data.username+" has joined the room. Say hello!");break;
+			default:console.warn("A setting seems to have a bad value!",PlugSettings);
+		}
 	},
 	userLeave : function(user){
-		console.log(user);
+		console.log("userleave",user);
+		switch(PlugSettings.userLevel){
+			case 0:break;
+			case 1:if (data.relationship==0) break;
+			case 2:PlugPlus.notify("User Exit Notice",PlugPlus.avatarURL+data.avatarID+".png",data.username+" has left the room.");break;
+			default:console.warn("A setting seems to have a bad value!",PlugSettings);
+		}
 	},
 	userVote : function(data){
-		console.log(data);
+		console.log("uservote",data);
+		switch(PlugSettings.userLevel){
+			case 0:break;
+			case 1:if (data.user.relationship==0) break;
+			case 2:PlugPlus.notify("Vote Update",PlugPlus.avatarURL+data.user.avatarID+".png",data.user.username+" has "+data.vote==1?"wooted":"meh'd"+" this song.");break;
+			default:console.warn("A setting seems to have a bad value!",PlugSettings);
+		}
 	},
-	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0}
+	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0},
+	getUser: function(users,name){
+		user.forEach(function(user){
+			if (user.username==name)
+				return user;
+		});
+	}
 }
 
 
@@ -125,9 +152,6 @@ $(function(){
 	if (document.location.pathname=="/" | $('.plugPlus')) return;//Only one instance of plug at a time.
 	
 	PlugPlus.loadSettings();
-	
-	//Event
-	PlugPlus.plugPlusEvent.initEvent('plugPlusEvent',true,true);
 
 	$("body").append("<div style='display:none;' id=\"plugEvents\" hidden></div>");
 	$("body").append("<div style='display:none;' id=\"plugPlusEvents\" hidden></div>");
@@ -145,6 +169,7 @@ $(function(){
 			PlugSettings.autoJoin = !PlugSettings.autoJoin;
 			if (PlugSettings.autoJoin){
 				PlugPlus.button.autojoin.attr('id','on');
+				PlugPlus.autojoin();
 			}else{
 				PlugPlus.button.autojoin.attr('id','off');
 			}
@@ -154,6 +179,7 @@ $(function(){
 			PlugSettings.autoWoot = !PlugSettings.autoWoot;
 			if (PlugSettings.autoWoot){
 				PlugPlus.button.autowoot.attr('id','on');
+				PlugPlus.autowoot();
 			}else{
 				PlugPlus.button.autowoot.attr('id','off');
 			}
@@ -172,14 +198,13 @@ $(function(){
 		if (data.users) PlugPlus.updateList(data.users);
 		switch(data.type){
 			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);PlugPlus.autowoot();break;
-			case "DJ_UPDATE":PlugPlus.autojoin(data);PlugPlus.djUpdate(data);break;
+			case "DJ_UPDATE":PlugPlus.autojoin();PlugPlus.djUpdate(data.data);break;
 			case "VOTE_UPDATE":PlugPlus.userVote(data.data);break;
 			case "USER_JOIN":PlugPlus.userJoin(data.data);break;
 			case "USER_LEAVE":PlugPlus.userLeave(data.data);break;
-			case "CHAT":PlugPlus.chat(data.data);break;
+			case "CHAT":PlugPlus.chat(data.data,PlugPlus.getUser(data.users,data.data.from),data.you);break;
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
-		console.log(data);
 	});
 	
 });
