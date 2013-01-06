@@ -12,7 +12,7 @@ PlugSettings = {
 	autoJoin : false,
 	pluglist : false,
 	songUpdate : 2, //0 = none, 1 = only friends, 2 = all
-	djUpdate: 2, //0 = none, 1 = only friends, 2 = all
+	djUpdate: 1, //0 = none, 1 = only friends, 2 = all
 	notifyTimeout: 7 //Time in seconds before the notification closes automatically. 0 means never timeout.
 }
 
@@ -104,7 +104,7 @@ PlugPlus = {
 		if (setting == 1){
 			if (data.message.indexOf(you.username)==-1) return;
 		}else if (setting==2){
-			if (from.relationship==0) return;
+			if (from.relationship==0&&data.message.indexOf(you.username)==-1) return;
 		}else{
 			PlugPlus.notify("Chat",PlugPlus.avatarURL+from.avatarID+".png",from.username+": "+data.message);
 		}

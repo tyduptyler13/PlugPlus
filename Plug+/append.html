@@ -117,7 +117,41 @@
 			<div class='plugPlusContent'>
 				<div style="border-bottom:thin white sold;">Settings</div>
 				<form id="plugPlusSettingsForm">
-					
+					<table>
+						<tr>
+							<th>Notifications</th>
+							<th>Options</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>Global Notifications</td>
+							<td><input type="checkbox" id="PPNotifications"/></td>
+							<td>Uncheck this to disable all notifications completely</td>
+						</tr>
+						<tr>
+							<td>Chat Level</td>
+							<td>
+								<select id="PPChatLevel">
+									<option value="0">None</option>
+									<option value="1">Only Mentions</option>
+									<option value="2">Mentions and friends</option>
+									<option value="3">All</option>
+								</select>
+							</td>
+							<td>Choose what chats you would like to be notified of.</td>
+						</tr>
+						<tr>
+							<td>User Level</td>
+							<td>
+								<select id="PPUserLevel">
+									<option value="0">None</option>
+									<option value="1">Friends</option>
+									<option value="2">All</option>
+								</select>
+							</td>
+							<td>Choose what degree of notification you would like for users leaving, joining, and voting.</td>
+						</tr>
+					</table>
 				</form>
 			</div>
 		</div>
