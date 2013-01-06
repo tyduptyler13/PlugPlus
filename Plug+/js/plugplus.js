@@ -13,7 +13,7 @@ PlugSettings = {
 	pluglist : false,
 	songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 	djUpdate: 2, //0 = none, 1 = only friends, 2 = all
-	notifyTimeout: 7 //Time in seconds before the notification closes automatically.
+	notifyTimeout: 7 //Time in seconds before the notification closes automatically. 0 means never timeout.
 }
 
 /* Functions */
@@ -84,7 +84,7 @@ PlugPlus = {
 		switch(PlugSettings.djUpdate){
 			case 0:break;//No notification.
 			case 1:if (data[0].relationship==0) break;//Skip if not a friend.
-			case 2:PlugPlus.notify("New dj",PlugPlus.avatarURL+data[0].avatarID+".png","User: "+data[0].username+" is now playing.");break;
+			case 2:PlugPlus.notify("New dj",PlugPlus.avatarURL+data[0].avatarID+".png",data[0].username+" is now playing.");break;
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
@@ -138,7 +138,7 @@ PlugPlus = {
 	},
 	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0},
 	getUser: function(users,name){
-		user.forEach(function(user){
+		users.forEach(function(user){
 			if (user.username==name)
 				return user;
 		});
