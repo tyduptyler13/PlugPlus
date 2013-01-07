@@ -12,17 +12,16 @@ Current Features
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
 * AutoWoot Delayed Vote
-* ~~Page controlls. (See wiki)~~
-
-Striked out options will be coming soon.
 
 Planned Features
 ----
+* Page controlls. (See wiki)
 * Mod Features(bots)
   * Automated messages/functions
   * Spam Hammer :D
   * Song limiter
 * Language Support
+* Music purchase sites (spotify, etc)
 
 
 Change Log
