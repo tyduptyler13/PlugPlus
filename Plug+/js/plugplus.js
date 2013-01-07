@@ -70,7 +70,10 @@ PlugPlus = {
 		this.settingsForm.update();
 	},
 	saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings)},
-	notify : function(_title, _image, _text){chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout})},
+	notify : function(_title, _image, _text){
+		if (PlugSettings.notifications)
+			chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
+	},
 	autowoot : function(){
 		if (PlugSettings.autoWoot){
 			if (PlugSettings.autoWootDelay>0){
@@ -104,7 +107,7 @@ PlugPlus = {
 		}
 	},
 	chat : function(data, from, you){
-		//console.log("chat",data);
+		console.log("chat",data,from,you);
 		var setting = PlugSettings.chatLevel;
 		if (setting==0) return;
 		if (setting == 1){
@@ -119,8 +122,8 @@ PlugPlus = {
 		//console.log("userjoin",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
-			case 1:if (data.relationship==0) break;
-			case 2:PlugPlus.notify("User Enter Notice",PlugPlus.avatarURL+data.avatarID+".png",data.username+" has joined the room. Say hello!");break;
+			case 1:if (user.relationship==0) break;
+			case 2:PlugPlus.notify("User Enter Notice",PlugPlus.avatarURL+user.avatarID+".png",user.username+" has joined the room. Say hello!");break;
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
@@ -128,8 +131,8 @@ PlugPlus = {
 		//console.log("userleave",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
-			case 1:if (data.relationship==0) break;
-			case 2:PlugPlus.notify("User Exit Notice",PlugPlus.avatarURL+data.avatarID+".png",data.username+" has left the room.");break;
+			case 1:if (user.relationship==0) break;
+			case 2:PlugPlus.notify("User Exit Notice",PlugPlus.avatarURL+user.avatarID+".png",user.username+" has left the room.");break;
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
@@ -144,10 +147,10 @@ PlugPlus = {
 	},
 	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0},
 	getUser: function(users,name){
-		users.forEach(function(user){
-			if (user.username==name)
-				return user;
-		});
+		for (var x=0;x<users.length;x++){
+			if (users[x].username==name)
+				return users[x];
+		}
 	},
 	settingsForm : {
 		autoSave : function(){$('.PPSetting').change(this.save);console.log("AutoSave",this)},
@@ -176,6 +179,8 @@ PlugPlus = {
 			PlugSettings.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
 			PlugSettings.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
 			PlugSettings.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+			//Save settings
+			PlugPlus.saveSettings();
 			//Show settings saved
 			$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
 		}
