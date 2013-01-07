@@ -67,20 +67,26 @@ PlugPlus = {
 			$('#plugPlusSettings').slideUp();
 			$('#plugPlusList').slideToggle();
 		}
+		this.settingsForm.update();
 	},
 	saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings)},
 	notify : function(_title, _image, _text){chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout})},
 	autowoot : function(){
-		if (PlugSettings.autoWoot)
-			$('#button-vote-positive').click();
+		if (PlugSettings.autoWoot){
+			if (PlugSettings.autoWootDelay>0){
+				setTimeout("$('#button-vote-positive').click();",PlugSettings.autoWootDelay*1000);
+			}else{
+				$('#button-vote-positive').click();
+			}
+		}
 	},
 	autojoin : function(){
-		console.log("Autojoin");
+		//console.log("Autojoin");
 		if (PlugSettings.autoJoin)
 			PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
 	},
 	djUpdate : function(data){
-		console.log("djUpdate",data);
+		//console.log("djUpdate",data);
 		switch(PlugSettings.djUpdate){
 			case 0:break;//No notification.
 			case 1:if (data[0].relationship==0) break;//Skip if not a friend.
@@ -89,7 +95,7 @@ PlugPlus = {
 		}
 	},
 	songUpdate : function(data){
-		console.log("songUpdate",data);
+		//console.log("songUpdate",data);
 		switch(PlugSettings.songUpdate){
 			case 0:break;
 			case 1:if (data.dj.relationship==0) break;
@@ -98,7 +104,7 @@ PlugPlus = {
 		}
 	},
 	chat : function(data, from, you){
-		console.log("chat",data);
+		//console.log("chat",data);
 		var setting = PlugSettings.chatLevel;
 		if (setting==0) return;
 		if (setting == 1){
@@ -110,7 +116,7 @@ PlugPlus = {
 		}
 	},
 	userJoin : function(user){
-		console.log("userjoin",user);
+		//console.log("userjoin",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (data.relationship==0) break;
@@ -119,7 +125,7 @@ PlugPlus = {
 		}
 	},
 	userLeave : function(user){
-		console.log("userleave",user);
+		//console.log("userleave",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (data.relationship==0) break;
@@ -132,7 +138,7 @@ PlugPlus = {
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (data.user.relationship==0) break;
-			case 2:PlugPlus.notify("Vote Update",PlugPlus.avatarURL+data.user.avatarID+".png",data.user.username+" has "+data.vote==1?"wooted":"meh'd"+" this song.");break;
+			case 2:PlugPlus.notify("Vote Update",PlugPlus.avatarURL+data.user.avatarID+".png",data.user.username+" has "+(data.vote==1?"wooted":"meh'd")+" this song.");break;
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
@@ -142,6 +148,37 @@ PlugPlus = {
 			if (user.username==name)
 				return user;
 		});
+	},
+	settingsForm : {
+		autoSave : function(){$('.PPSetting').change(this.save);console.log("AutoSave",this)},
+		update : function(){
+			$('#PPNotifications').attr('checked',PlugSettings.notifications);
+			$('#PPChatLevel').attr('value',PlugSettings.chatLevel);
+			$('#PPUserLevel').attr('value',PlugSettings.userLevel);
+			$('#PPSongUpdate').attr('value',PlugSettings.songUpdate);
+			$('#PPDJUpdate').attr('value',PlugSettings.djUpdate);
+			$('#PPAutoWootDelay').attr('value',PlugSettings.autoWootDelay);
+			$('#PPNotifyTimeout').attr('value',PlugSettings.notifyTimeout);
+		},
+		save : function(){
+			//Checks
+			if ($('#PPAutoWootDelay')[0].valueAsNumber>90)
+				$('#PPAutoWootDelay').attr('value',90);
+			if ($('#PPAutoWootDelay')[0].valueAsNumber<0)
+				$('#PPAutoWootDelay').attr('value',0);
+			if ($('#PPNotifyTimeout')[0].valueAsNumber<0)
+				$('#PPNotifyTimeout').attr('value',0);
+			//Save
+			PlugSettings.notifications = $('#PPNotifications').is(':checked');
+			PlugSettings.chatLevel = $('#PPChatLevel')[0].selectedIndex;
+			PlugSettings.userLevel = $('#PPUserLevel')[0].selectedIndex;
+			PlugSettings.songUpdate = $('#PPSongUpdate')[0].selectedIndex;
+			PlugSettings.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
+			PlugSettings.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
+			PlugSettings.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+			//Show settings saved
+			$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
+		}
 	}
 }
 
@@ -186,6 +223,9 @@ $(function(){
 			PlugPlus.saveSettings();
 		});
 		PlugPlus.applySettings();
+		PlugPlus.settingsForm.autoSave();
+		$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();console.log("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
+		console.log("Plug+: Setup complete.");
 	},"html");
 	
 	var s = document.createElement('script');

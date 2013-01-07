@@ -3,7 +3,6 @@
 	position:absolute;
 	margin-top: 5px;
 	color:white;
-	font-family: Impact, Charcoal, sans-serif;
 }
 .plugPlus *{
 	background-color:black;
@@ -23,6 +22,7 @@
 	margin-right: 5px;
 }
 .plugPlusBar #title{
+	font-family: Impact, Charcoal, sans-serif;
 	margin-left:-2px;
 	color: #F60;
 	font-weight: 300;
@@ -77,9 +77,8 @@
 	height:100%;
 	font-size:12px;
 }
-.plugPlusDropDown .plugPlusContent *:not(span){
+.plugPlusDropDown .plugPlusContent *{
 	background-color: transparent;
-	display:block;
 }
 #plugPlusListArea *{
 	background-color:#666666;
@@ -93,7 +92,26 @@
 #plugPlusListArea #votedown{
 	background-color: red;
 }
-
+#plugPlusSettingsForm select,input:not(#PPNotifications){
+	width:100%;
+	background-color:black !important;
+	color:white;
+}
+#plugPlusSettingsForm table{
+	width:100%;
+}
+#plugPlusSettingsForm table td{
+	text-align:right;
+}
+#plugPlusSettingsForm table tr td:nth-child(3){
+	text-align:left;
+}
+#PPSaved{
+	color:green;
+	position:absolute;
+	left:50%;
+	display:none;
+}
 </style>
 <section class='plugPlus'>
 	<div class='plugPlusBar'>
@@ -115,23 +133,22 @@
 		</div>
 		<div class='plugPlusDropDown' id='plugPlusSettings'>
 			<div class='plugPlusContent'>
-				<div style="border-bottom:thin white sold;">Settings</div>
+				<div style="border-bottom:thin white solid;">Settings <span id="PPSaved">Saved</span></div>
 				<form id="plugPlusSettingsForm">
 					<table>
 						<tr>
-							<th>Notifications</th>
-							<th>Options</th>
+							<th colspan="2">Options</th>
 							<th>Description</th>
 						</tr>
 						<tr>
 							<td>Global Notifications</td>
-							<td><input type="checkbox" id="PPNotifications"/></td>
+							<td>Enabled<input class="PPSetting" type="checkbox" id="PPNotifications"/></td>
 							<td>Uncheck this to disable all notifications completely</td>
 						</tr>
 						<tr>
 							<td>Chat Level</td>
 							<td>
-								<select id="PPChatLevel">
+								<select class="PPSetting" id="PPChatLevel">
 									<option value="0">None</option>
 									<option value="1">Only Mentions</option>
 									<option value="2">Mentions and friends</option>
@@ -143,7 +160,7 @@
 						<tr>
 							<td>User Level</td>
 							<td>
-								<select id="PPUserLevel">
+								<select class="PPSetting" id="PPUserLevel">
 									<option value="0">None</option>
 									<option value="1">Friends</option>
 									<option value="2">All</option>
@@ -151,6 +168,37 @@
 							</td>
 							<td>Choose what degree of notification you would like for users leaving, joining, and voting.</td>
 						</tr>
+						<tr>
+							<td>Song Update</td>
+							<td>
+								<select class="PPSetting" id="PPSongUpdate">
+									<option value="0">None</option>
+									<option value="1">Friends</option>
+									<option value="2">All</option>
+								</select>
+							</td>
+							<td>Choose what songs you would like to be notified of.</td>
+						</tr>
+						<tr>
+							<td>DJ Update</td>
+							<td>
+								<select class="PPSetting" id="PPDJUpdate">
+									<option value="0">None</option>
+									<option value="1">Friends</option>
+									<option value="2">All</option>
+								</select>
+							</td>
+							<td>Select what DJs you would like to be notified of.</td>
+						</tr>
+						<tr>
+							<td>AutoWoot Delay</td>
+							<td><input class="PPSetting" id="PPAutoWootDelay" type="number" min="0" max="90"/></td>
+							<td>Choose a number in seconds to wait before wooting. (0-90)</td>
+						</tr>
+						<tr>
+							<td>Notification Timeout</td>
+							<td><input class="PPSetting" id="PPNotifyTimeout" type="number" min="0"/></td>
+							<td>Length in seconds before a notification is closed automatically. 0 will disable timeouts. (0-&infin;)</td>
 					</table>
 				</form>
 			</div>
