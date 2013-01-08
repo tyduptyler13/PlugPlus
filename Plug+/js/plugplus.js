@@ -84,12 +84,10 @@ PlugPlus = {
 		}
 	},
 	autojoin : function(){
-		//console.log("Autojoin");
 		if (PlugSettings.autoJoin)
 			PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
 	},
 	djUpdate : function(data){
-		//console.log("djUpdate",data);
 		switch(PlugSettings.djUpdate){
 			case 0:break;//No notification.
 			case 1:if (data[0].relationship==0) break;//Skip if not a friend.
@@ -98,7 +96,6 @@ PlugPlus = {
 		}
 	},
 	songUpdate : function(data){
-		//console.log("songUpdate",data);
 		switch(PlugSettings.songUpdate){
 			case 0:break;
 			case 1:if (data.dj.relationship==0) break;
@@ -107,7 +104,6 @@ PlugPlus = {
 		}
 	},
 	chat : function(data, from, you){
-		console.log("chat",data,from,you);
 		var setting = PlugSettings.chatLevel;
 		if (setting==0) return;
 		if (setting == 1){
@@ -119,7 +115,6 @@ PlugPlus = {
 		}
 	},
 	userJoin : function(user){
-		//console.log("userjoin",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (user.relationship==0) break;
@@ -128,7 +123,6 @@ PlugPlus = {
 		}
 	},
 	userLeave : function(user){
-		//console.log("userleave",user);
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (user.relationship==0) break;
@@ -137,7 +131,6 @@ PlugPlus = {
 		}
 	},
 	userVote : function(data){
-		console.log("uservote",data);
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (data.user.relationship==0) break;
@@ -184,6 +177,9 @@ PlugPlus = {
 			//Show settings saved
 			$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
 		}
+	},
+	debug : function(){//Comment out to disable plug debug statements.
+		console.log(arguements)
 	}
 }
 
@@ -229,7 +225,7 @@ $(function(){
 		});
 		PlugPlus.applySettings();
 		PlugPlus.settingsForm.autoSave();
-		$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();console.log("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
+		$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();PlugPlus.debug("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
 		console.log("Plug+: Setup complete.");
 	},"html");
 	

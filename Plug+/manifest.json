@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.1.1.2",
+  "version": "1.1.2.1",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
@@ -23,12 +23,27 @@
   "web_accessible_resources": [
   	"js/plugInterface.js",
 	"icon.png",
-	"append.html"
+	"append.html",
+	"css/images/ui-bg_flat_20_cccccc_40x100.png",
+	"css/images/ui-bg_flat_50_5c5c5c_40x100.png",
+	"css/images/ui-bg_glass_40_ffc73d_1x400.png",
+	"css/images/ui-bg_highlight-hard_20_0972a5_1x100.png",
+	"css/images/ui-bg_highlight-soft_33_003147_1x100.png",
+	"css/images/ui-bg_highlight-soft_35_222222_1x100.png",
+	"css/images/ui-bg_highlight-soft_44_444444_1x100.png",
+	"css/images/ui-bg_highlight-soft_80_eeeeee_1x100.png",
+	"css/images/ui-bg_loop_25_000000_21x21.png",
+	"css/images/ui-icons_4b8e0b_256x240.png",
+	"css/images/ui-icons_222222_256x240.png",
+	"css/images/ui-icons_a83300_256x240.png",
+	"css/images/ui-icons_cccccc_256x240.png",
+	"css/images/ui-icons_ffffff_256x240.png"
   ],
   "content_scripts": [
   	{
 	  "matches": ["*://plug.dj/*"],
-	  "js": ["js/jquery-1.8.3.min.js", "js/plugPlus.js"]
+	  "js": ["js/jquery-1.8.3.min.js", "js/plugPlus.js"],
+	  "css": ["css/jquery-ui-1.9.2.custom.min.css"]
 	}
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
