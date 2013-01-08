@@ -42,7 +42,7 @@
   "content_scripts": [
   	{
 	  "matches": ["*://plug.dj/*"],
-	  "js": ["js/jquery-1.8.3.min.js", "js/plugPlus.js"],
+	  "js": ["js/jquery-1.8.3.min.js", "js/plugPlus.js", "js/jquery-ui-1.9.2.custom.min.js"],
 	  "css": ["css/jquery-ui-1.9.2.custom.min.css"]
 	}
   ],

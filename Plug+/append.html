@@ -55,14 +55,15 @@
 }
 .plugPlusDropDowns{
 	background-color:transparent;
+	width:90%;
+	max-width:90%;
+	position:relative;
+	left:5%;
 }
 .plugPlusDropDown{
-	position:absolute;
 	background-color: rgba(0,0,0,.7);
 	display:none;
-	max-height:255px;
-	width:1000px;
-	margin-left:100px;
+	margin:auto;
 	border:1px white solid;
 	border-top:none;
 	border-bottom-left-radius: 8px;
@@ -72,10 +73,10 @@
 }
 .plugPlusDropDown .plugPlusContent{
 	background-color: transparent;
-	max-height:245px;
-	height:auto;
+	
 	height:100%;
 	font-size:12px;
+	overflow-x:auto;
 }
 .plugPlusDropDown .plugPlusContent *{
 	background-color: transparent;
@@ -120,6 +121,7 @@
 		<div class='plugButton' id='autojoin'>AutoJoin</div>
 		<div class='plugButton' id='pluglist'>Plug List</div>
 		<div class='plugButton' id='settings'>Settings</div>
+		<div class='plugButton' title="This allows you to move this widget and resize it." id="manmode" style="float:right">Manipulate Mode</div>
 	</div>
 	<div class='plugPlusDropDowns'>
 		<div class='plugPlusDropDown' id='plugPlusList'>

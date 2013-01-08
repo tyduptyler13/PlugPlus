@@ -13,7 +13,8 @@ PlugSettings = {
 	pluglist : false,
 	songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 	djUpdate: 1, //0 = none, 1 = only friends, 2 = all
-	notifyTimeout: 7 //Time in seconds before the notification closes automatically. 0 means never timeout.
+	notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
+	manMode : false
 }
 
 /* Functions */
@@ -66,6 +67,10 @@ PlugPlus = {
 		if (PlugSettings.pluglist){
 			$('#plugPlusSettings').slideUp();
 			$('#plugPlusList').slideToggle();
+		}
+		if (PlugSettings.manMode){
+			PlugPlus.button.manmode.attr('id','on');
+			PlugPlus.manMode.create();
 		}
 		this.settingsForm.update();
 	},
@@ -138,7 +143,7 @@ PlugPlus = {
 			default:console.warn("A setting seems to have a bad value!",PlugSettings);
 		}
 	},
-	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0},
+	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
 	getUser: function(users,name){
 		for (var x=0;x<users.length;x++){
 			if (users[x].username==name)
@@ -146,7 +151,7 @@ PlugPlus = {
 		}
 	},
 	settingsForm : {
-		autoSave : function(){$('.PPSetting').change(this.save);console.log("AutoSave",this)},
+		autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this)},
 		update : function(){
 			$('#PPNotifications').attr('checked',PlugSettings.notifications);
 			$('#PPChatLevel').attr('value',PlugSettings.chatLevel);
@@ -179,7 +184,19 @@ PlugPlus = {
 		}
 	},
 	debug : function(){//Comment out to disable plug debug statements.
-		console.log(arguements)
+		//console.log(arguements);
+	},
+	manMode : {
+		create : function(){
+			$('.plugPlus').appendTo('body').draggable({cancel:".plugPlusContent"}).css('z-index',"1000000000");//Fix more jquery bugs...
+			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:400}).resize(function(){//No vertical sizing.
+				$('.plugPlus').css('width',$('.plugPlusBar').css('width'));//Hacky width fix for some css issue.
+			});
+		},
+		destroy : function(){
+			$('.plugPlus').draggable('destroy').appendTo('#audience').css({top:'',left:''});//Fix their bugs...
+			$('.plugPlusBar').resizable('destroy').css({width:''});//And yet more jquery bugs...
+		}
 	}
 }
 
@@ -197,8 +214,10 @@ $(function(){
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
 		$('#audience').append(data);
+		$('.plugPlusDropDown').resizable({autoHide:true,handles: "s"});
 		PlugPlus.button.autojoin = $('#autojoin').attr('id','off');
 		PlugPlus.button.autowoot = $('#autowoot').attr('id','off');
+		PlugPlus.button.manmode  = $('#manmode').attr('id','off');
 		PlugPlus.button.settings = $('#settings').attr('id','');
 		PlugPlus.button.pluglist = $('#pluglist').attr('id','');
 		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings()});
@@ -223,9 +242,20 @@ $(function(){
 			}
 			PlugPlus.saveSettings();
 		});
+		PlugPlus.button.manmode.click(function(){
+			PlugSettings.manMode = !PlugSettings.manMode;
+			if (PlugSettings.manMode){
+				PlugPlus.button.manmode.attr('id','on');
+				PlugPlus.manMode.create();
+			}else{
+				PlugPlus.button.manmode.attr('id','off');
+				PlugPlus.manMode.destroy();
+			}
+			PlugPlus.saveSettings();
+		});
 		PlugPlus.applySettings();
 		PlugPlus.settingsForm.autoSave();
-		$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();PlugPlus.debug("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
+		//$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();PlugPlus.debug("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
 		console.log("Plug+: Setup complete.");
 	},"html");
 	
