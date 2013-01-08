@@ -18,9 +18,9 @@ Planned Features
 ----
 * Page controlls. (See wiki)
 * Mod Features(bots)
-  * Automated messages/functions
-  * Spam Hammer :D
-  * Song limiter
+  + Automated messages/functions
+  + Spam Hammer :D
+  + Song limiter
 * Language Support
 * Music purchase sites (spotify, etc)
 
