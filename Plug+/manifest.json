@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.1.2.1",
+  "version": "1.1.2.2",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
@@ -24,26 +24,24 @@
   	"js/plugInterface.js",
 	"icon.png",
 	"append.html",
-	"css/images/ui-bg_flat_20_cccccc_40x100.png",
-	"css/images/ui-bg_flat_50_5c5c5c_40x100.png",
-	"css/images/ui-bg_glass_40_ffc73d_1x400.png",
-	"css/images/ui-bg_highlight-hard_20_0972a5_1x100.png",
-	"css/images/ui-bg_highlight-soft_33_003147_1x100.png",
-	"css/images/ui-bg_highlight-soft_35_222222_1x100.png",
-	"css/images/ui-bg_highlight-soft_44_444444_1x100.png",
-	"css/images/ui-bg_highlight-soft_80_eeeeee_1x100.png",
-	"css/images/ui-bg_loop_25_000000_21x21.png",
-	"css/images/ui-icons_4b8e0b_256x240.png",
-	"css/images/ui-icons_222222_256x240.png",
-	"css/images/ui-icons_a83300_256x240.png",
-	"css/images/ui-icons_cccccc_256x240.png",
+	"css/images/ui-bg_flat_0_aaaaaa_40x100.png",
+	"css/images/ui-bg_flat_40_292929_40x100.png",
+	"css/images/ui-bg_gloss-wave_20_111111.png",
+	"css/images/ui-bg_diagonals-thick_15_0b3e6f_40x40.png",
+	"css/images/ui-bg_dots-medium_20_0b58a2_4x4.png",
+	"css/images/ui-bg_dots-small_20_333333_2x2.png",
+	"css/images/ui-bg_dots-small_30_a32d00_2x2.png",
+	"css/images/ui-bg_dots-small_40)00498f_2x2.png",
+	"css/images/ui-icons_00498f_256x240.png",
+	"css/images/ui-icons_9ccdfc_256x240.png",
+	"css/images/ui-icons_98d2fb_256x240.png",
 	"css/images/ui-icons_ffffff_256x240.png"
   ],
   "content_scripts": [
   	{
 	  "matches": ["*://plug.dj/*"],
-	  "js": ["js/jquery-1.8.3.min.js", "js/plugPlus.js", "js/jquery-ui-1.9.2.custom.min.js"],
-	  "css": ["css/jquery-ui-1.9.2.custom.min.css"]
+	  "js": ["js/jquery.min.js", "js/plugPlus.js", "js/jquery-ui-1.10.0.custom.min.js"],
+	  "css": ["css/jquery-ui-1.10.0.custom.min.css"]
 	}
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
