@@ -27,12 +27,19 @@ Planned Features
 
 Change Log
 ----
-* `1.1` - Huge update (All features reworked and cleaned up)
+* `1.1.2` - Manipulate mode
+* `1.1.1` - Huge update (All features reworked and cleaned up)
 * `1.0.5` - Chat Features and moved settings to chat commands
 * `1.0.4` - Clean up and added Plug List and Settings page
 * `1.0.3` - Notifications
 * `1.0.2` - Auto Features
 * `1.0.1` - Extension Dropdown
+
+Patch Notes (Only for latest minor version)
+
+* `1.1.2.3` - Fixed z-index problems.
+* `1.1.2.2` - Updated jQuery tools
+* `1.1.2.1` - Fixed a few bugs in man mode.
 
 NOTICE
 ----
