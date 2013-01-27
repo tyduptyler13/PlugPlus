@@ -188,13 +188,13 @@ PlugPlus = {
 	},
 	manMode : {
 		create : function(){
-			$('.plugPlus').appendTo("body").draggable({cancel:".plugPlusContent"}).css('z-index',"1000000000");//Fix jquery bugs...
+			$('.plugPlus').draggable({cancel:".plugPlusContent"});
 			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:400}).resize(function(){//No vertical sizing.
 				$('.plugPlus').css('width',$('.plugPlusBar').css('width'));//Hacky width fix for some css issue.
 			});
 		},
 		destroy : function(){
-			$('.plugPlus').draggable('destroy').appendTo('#audience').css({top:'',left:''});//Fix bugs...
+			$('.plugPlus').draggable('destroy').css({top:'',left:''});//Fix bugs...
 			$('.plugPlusBar').resizable('destroy').css({width:''}).trigger("resize");//And yet more jquery bugs...
 		}
 	}
@@ -213,7 +213,7 @@ $(function(){
 	
 	//Add controlls from here.
 	$.get(chrome.extension.getURL("append.html"),function(data){
-		$('#audience').append(data);
+		$('body').append(data);
 		$('.plugPlusDropDown').resizable({autoHide:true,handles: "s"});
 		PlugPlus.button.autojoin = $('#autojoin').attr('id','off');
 		PlugPlus.button.autowoot = $('#autowoot').attr('id','off');
