@@ -4,15 +4,15 @@
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
-	  "64": "icon.png",
-	  "128": "largeIcon.png"
+	"64": "icon.png",
+	"128": "largeIcon.png"
   },
   "background": {
-	  "scripts": ["js/background.js"]
+	"scripts": ["js/background.js"]
   },
   "browser_action": {
 	"default_title": "Plug+",
-    "default_icon": "icon.png",
+	"default_icon": "icon.png",
 	"default_popup": "menu.html"
   },
   "permissions": [
@@ -40,7 +40,7 @@
   "content_scripts": [
   	{
 	  "matches": ["*://plug.dj/*"],
-	  "js": ["js/jquery.min.js", "js/plugPlus.js", "js/jquery-ui-1.10.0.custom.min.js"],
+	  "js": ["js/jquery.min.js", "js/jquery-ui-1.10.0.custom.min.js", "js/plugPlus.js"],
 	  "css": ["css/jquery-ui-1.10.0.custom.min.css"]
 	}
   ],
