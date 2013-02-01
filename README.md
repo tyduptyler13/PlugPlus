@@ -37,6 +37,7 @@ Change Log
 
 Patch Notes (Only for latest minor version)
 
+* `1.1.2.4` - Fixed some loading orders in attempts to fix loading problems.
 * `1.1.2.3` - Fixed z-index problems.
 * `1.1.2.2` - Updated jQuery tools
 * `1.1.2.1` - Fixed a few bugs in man mode.
