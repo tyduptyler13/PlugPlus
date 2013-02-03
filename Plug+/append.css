@@ -96,7 +96,7 @@
 #plugPlusListArea #votedown{
 	background-color: red;
 }
-#plugPlusSettingsForm select,input:not(#PPNotifications){
+#plugPlusSettingsForm select,#plugPlusSettingsForm input:not(#PPNotifications){
 	width:100%;
 	background-color:black !important;
 	color:white;
