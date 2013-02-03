@@ -154,10 +154,10 @@ PlugPlus = {
 		autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this)},
 		update : function(){
 			$('#PPNotifications').attr('checked',PlugSettings.notifications);
-			$('#PPChatLevel').attr('value',PlugSettings.chatLevel);
-			$('#PPUserLevel').attr('value',PlugSettings.userLevel);
-			$('#PPSongUpdate').attr('value',PlugSettings.songUpdate);
-			$('#PPDJUpdate').attr('value',PlugSettings.djUpdate);
+			$('#PPChatLevel').val(PlugSettings.chatLevel);
+			$('#PPUserLevel').val(PlugSettings.userLevel);
+			$('#PPSongUpdate').val(PlugSettings.songUpdate);
+			$('#PPDJUpdate').val(PlugSettings.djUpdate);
 			$('#PPAutoWootDelay').attr('value',PlugSettings.autoWootDelay);
 			$('#PPNotifyTimeout').attr('value',PlugSettings.notifyTimeout);
 		},

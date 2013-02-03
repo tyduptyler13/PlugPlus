@@ -37,6 +37,8 @@ Change Log
 
 Patch Notes (Only for latest minor version)
 
+* `1.1.2.6` - Updated some jquery methods for the settings.
+* `1.1.2.5` - Fixed Style Issues
 * `1.1.2.4` - Fixed some loading orders in attempts to fix loading problems.
 * `1.1.2.3` - Fixed z-index problems.
 * `1.1.2.2` - Updated jQuery tools
