@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.1.2.7",
+  "version": "1.1.2.8",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
@@ -41,7 +41,8 @@
   	{
 	  "matches": ["*://plug.dj/*"],
 	  "js": ["js/jquery.js", "js/jquery-ui-1.10.0.custom.js", "js/plugPlus.js"],
-	  "css": ["css/jquery-ui-1.10.0.custom.min.css", "append.css"]
+	  "css": ["css/jquery-ui-1.10.0.custom.min.css", "append.css"],
+	  "run_at": "document_start"
 	}
   ],
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
