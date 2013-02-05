@@ -46,7 +46,7 @@ PlugPlus = {
 			$('#plugPlusListArea').append(tmp);
 		});
 	},
-	loadSettings : function(){this.updateSettings($.parseJSON(localStorage['PlugPlusSettings']))},
+	loadSettings : function(){this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']))},
 	updateSettings : function(data){//Preserve defaults if settings are incomplete or non existant.
 		for (var setting in PlugSettings){
 			try{
