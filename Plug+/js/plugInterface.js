@@ -20,7 +20,7 @@ PP.plugEvent = document.createEvent('Event');
 PP.plugEvent.initEvent('plugEvent',true,true);
 
 PP.fireEvent = function(data){
-	$('#plugEvents').html(JSON.stringify(data));
+	$('#plugEvents').text(JSON.stringify(data));
 	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
 }
 

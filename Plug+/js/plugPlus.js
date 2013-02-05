@@ -37,7 +37,7 @@ PlugPlus = {
 			tmp.id = user.vote==1?"voteup":(user.vote==-1?"votedown":"");
 			tmp.border = user.permission>0?"border: #E90E82 "+user.permission+"px solid;":"";
 			tmp.outline = user.relationship>0?"outline: #DEE97D "+user.relationship*2+"px solid;":"";
-			tmp.username = user.username;
+			tmp.username = user.username.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			list.push(tmp);
 		});
 		$('#plugPlusListArea').children().remove('div');
