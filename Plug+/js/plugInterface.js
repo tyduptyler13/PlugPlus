@@ -44,6 +44,9 @@ $(function(){
 	API.addEventListener(API.CHAT, function(e){
 		PP.fireEvent(new PlugData("CHAT", e));
 	});
+	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
+		PP.fireEvent(new PlugData("WAIT_LIST_JOIN",e));
+	});
 	setTimeout('$(\'#plugPlusEvents\')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent)',500);
 
 });

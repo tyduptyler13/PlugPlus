@@ -12,11 +12,12 @@
 }
 .plugPlusBar{
 	width: 1200px;
+	max-height:25px;
 	padding-left:0;
 	border-radius:5px;
 	border:2px white solid;
 }
-.plugPlusBar *{
+.plugPlusBar *:not(span){
 	display:inline;
 	background:#999;
 	border:1px solid #999;
@@ -55,6 +56,13 @@
 }
 .plugPlus .plugButton#off:hover{
 	background-color: #FF8080;
+}
+.plugPlus .plugInfo{
+	background-color:blue;
+}
+.plugPlus .plugInfo *{
+	background-color:transparent;
+	border:none;
 }
 .plugPlusDropDowns{
 	background-color:transparent;

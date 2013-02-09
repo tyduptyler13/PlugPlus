@@ -189,13 +189,23 @@ PlugPlus = {
 	manMode : {
 		create : function(){
 			$('.plugPlus').draggable({cancel:".plugPlusContent"});
-			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:400}).resize(function(){//No vertical sizing.
+			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:540}).resize(function(){//No vertical sizing.
 				$('.plugPlus').css('width',$('.plugPlusBar').css('width'));//Hacky width fix for some css issue.
 			});
 		},
 		destroy : function(){
 			$('.plugPlus').draggable('destroy').css({top:'',left:''});//Fix bugs...
 			$('.plugPlusBar').resizable('destroy').css({width:''}).trigger("resize");//And yet more jquery bugs...
+		}
+	},
+	updateUserCount : function(users){
+		$('#plugUsers').text(users.length);
+	},
+	updateWaitList : function(self, list){
+		if (list.indexOf(self)>=0){
+			$('#plugWaitList').text((list.indexOf(self)+1)+"/"+(list.length));
+		}else{
+			$('#plugWaitList').text(list.length);
 		}
 	}
 }
@@ -268,11 +278,12 @@ $(function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
 		if (data.users) PlugPlus.updateList(data.users);
 		switch(data.type){
+			case "WAIT_LIST_JOIN":PlugPlus.updateWaitList(data.you, data.data);break;
 			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);PlugPlus.autowoot();break;
 			case "DJ_UPDATE":PlugPlus.autojoin();PlugPlus.djUpdate(data.data);break;
 			case "VOTE_UPDATE":PlugPlus.userVote(data.data);break;
-			case "USER_JOIN":PlugPlus.userJoin(data.data);break;
-			case "USER_LEAVE":PlugPlus.userLeave(data.data);break;
+			case "USER_JOIN":PlugPlus.userJoin(data.data);PlugPlus.updateUserCount(data.users);break;
+			case "USER_LEAVE":PlugPlus.userLeave(data.data);PlugPlus.updateUserCount(data.users);break;
 			case "CHAT":PlugPlus.chat(data.data,PlugPlus.getUser(data.users,data.data.from),data.you);break;
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
