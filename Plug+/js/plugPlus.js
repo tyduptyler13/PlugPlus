@@ -202,8 +202,17 @@ PlugPlus = {
 		$('#plugUsers').text(users.length);
 	},
 	updateWaitList : function(self, list){
-		if (list.indexOf(self)>=0){
-			$('#plugWaitList').text((list.indexOf(self)+1)+"/"+(list.length));
+		var pos;
+		for (pos=0;pos<=list.length;++pos){
+			if (pos==list.length){
+				pos = -1;
+				break;
+			} else if (list[pos].id==self.id){
+				break;//Stop position counter.
+			}
+		}
+		if (pos>=0){
+			$('#plugWaitList').text((pos+1)+"/"+(list.length));
 		}else{
 			$('#plugWaitList').text(list.length);
 		}
