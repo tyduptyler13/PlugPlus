@@ -46,13 +46,21 @@ PlugPlus = {
 			$('#plugPlusListArea').append(tmp);
 		});
 	},
-	loadSettings : function(){this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']))},
+	loadSettings : function(){
+		try{
+			this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']));
+		} catch(e) {
+			console.warn("Plug+ warning:",e);
+			this.updateSettings({});//Pass empty array to reset settings;
+			this.saveSettings();
+		}
+	},
 	updateSettings : function(data){//Preserve defaults if settings are incomplete or non existant.
 		for (var setting in PlugSettings){
 			try{
 				PlugSettings[setting] = data[setting]!=undefined?data[setting]:PlugSettings[setting];
-			} catch (e){
-				console.warn("P+ setting \"",setting, "\" appears to be corrupted, incorrectly formatted, or missing. Default value was used.");
+			} catch(e) {
+				console.warn("Plug+ warning: Setting \"",setting, "\" appears to be corrupted, incorrectly formatted, or missing. Default value was used.");
 			}
 		}
 	},
