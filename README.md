@@ -37,13 +37,7 @@ Change Log
 
 Patch Notes (Only for latest minor version)
 
-* `1.1.2.7` - Replaced jQuery libraries with dev versions and replaced a line that used the jQuery parser with the standard JSON parser.
-* `1.1.2.6` - Updated some jquery methods for the settings.
-* `1.1.2.5` - Fixed Style Issues
-* `1.1.2.4` - Fixed some loading orders in attempts to fix loading problems.
-* `1.1.2.3` - Fixed z-index problems.
-* `1.1.2.2` - Updated jQuery tools
-* `1.1.2.1` - Fixed a few bugs in man mode.
+* `1.1.3.1` - Added stat counter and improved loading functions
 
 NOTICE
 ----
