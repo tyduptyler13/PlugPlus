@@ -58,5 +58,4 @@ PP.plugPlusEvent = function(){
 	switch(data.type){
 		case "JoinWaitList" : API.waitListJoin();break;
 	}
-	console.log(data);
 }
