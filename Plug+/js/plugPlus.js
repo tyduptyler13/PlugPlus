@@ -224,6 +224,29 @@ PlugPlus = {
 		}else{
 			$('#plugWaitList').text(list.length);
 		}
+	},
+	parseConfig : function(data){
+		var matched = data.match(/\[CONFIG\+=.+\]/g);
+		if (matched != null){
+			for(var x = 0; x < matched.length; ++x){
+				var config = matched[x].substring(matched[x].indexOf("=")+1,matched[x].length-1);
+				if (isURL(config)){
+					$.getJSON(config, applyConfig(returned));
+				} else {
+					try{
+						applyConfig(JSON.parse(config));
+					} catch(e){
+						console.warn("Plug+: Could not parse page config.");
+					}
+				}
+			}
+		}else{
+			console.log("Plug+: No config was defined. Using defaults.");
+		}
+	},
+	applyConfig : function(config){
+		//Still in development.
+		console.log(config);
 	}
 }
 
@@ -302,8 +325,54 @@ $(function(){
 			case "USER_JOIN":PlugPlus.userJoin(data.data);PlugPlus.updateUserCount(data.users);break;
 			case "USER_LEAVE":PlugPlus.userLeave(data.data);PlugPlus.updateUserCount(data.users);break;
 			case "CHAT":PlugPlus.chat(data.data,PlugPlus.getUser(data.users,data.data.from),data.you);break;
+			case "DESCRIPTION":PlugPlus.parseConfig(data);break;
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
 	});
 	
+	PlugPlus.fireEvent("GetDescription",true);
+	
 });
+
+function isURL(data){
+	var string = "^" +
+	// protocol identifier
+	"(?:(?:https?|ftp)://)" +
+	// user:pass authentication
+	"(?:\\S+(?::\\S*)?@)?" +
+	"(?:" +
+	  // IP address exclusion
+	  // private & local networks
+	  "(?!10(?:\\.\\d{1,3}){3})" +
+	  "(?!127(?:\\.\\d{1,3}){3})" +
+	  "(?!169\\.254(?:\\.\\d{1,3}){2})" +
+	  "(?!192\\.168(?:\\.\\d{1,3}){2})" +
+	  "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
+	  // IP address dotted notation octets
+	  // excludes loopback network 0.0.0.0
+	  // excludes reserved space >= 224.0.0.0
+	  // excludes network & broacast addresses
+	  // (first & last IP address of each class)
+	  "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
+	  "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
+	  "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
+	"|" +
+	  // host name
+	  "(?:(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)" +
+	  // domain name
+	  "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-?)*[a-z\\u00a1-\\uffff0-9]+)*" +
+	  // TLD identifier
+	  "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
+	")" +
+	// port number
+	"(?::\\d{2,5})?" +
+	// resource path
+	"(?:/[^\\s]*)?" +
+  "$";
+	var urlregex = new RegExp(string,"i");
+	if (urlregex.test(value)) {
+		return (true);
+	}
+	return (false);
+}
+

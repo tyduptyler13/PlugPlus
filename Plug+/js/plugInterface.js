@@ -57,5 +57,6 @@ PP.plugPlusEvent = function(){
 	var data = $.parseJSON($('#plugPlusEvents').text());
 	switch(data.type){
 		case "JoinWaitList" : API.waitListJoin();break;
+		case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
 	}
 }
