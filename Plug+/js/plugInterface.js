@@ -16,12 +16,14 @@ PlugData = function(type, eventData){//Standarized message container.
 
 /* Events */
 
-PP.plugEvent = document.createEvent('Event');
-PP.plugEvent.initEvent('plugEvent',true,true);
+PP.plugEvent = $.Event("plugEvent");
 
 PP.fireEvent = function(data){
 	$('#plugEvents').text(JSON.stringify(data));
-	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
+	$('#plugEvents').trigger(PP.plugEvent);
+}
+PP.setupEvents = function(){
+	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
 }
 
 /* Init */
@@ -47,7 +49,12 @@ $(function(){
 	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
 		PP.fireEvent(new PlugData("WAIT_LIST_JOIN",e));
 	});
-	setTimeout('$(\'#plugPlusEvents\')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent)',500);
+
+	if ($('#plugPlusEvents').length<1){
+		setTimeout(PP.setupEvents, 500);//Wait a half second for things to be ready.
+	}else{
+		PP.setupEvents();
+	}
 
 });
 
@@ -58,5 +65,6 @@ PP.plugPlusEvent = function(){
 	switch(data.type){
 		case "JoinWaitList" : API.waitListJoin();break;
 		case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
+		default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
 }

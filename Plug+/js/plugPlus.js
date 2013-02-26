@@ -14,7 +14,9 @@ PlugSettings = {
 	songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 	djUpdate: 1, //0 = none, 1 = only friends, 2 = all
 	notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
-	manMode : false
+	manMode : false,
+	allowBackgroundOverride : false,
+	allowAvatarOverride : false
 }
 
 /* Functions */
@@ -168,6 +170,8 @@ PlugPlus = {
 			$('#PPDJUpdate').val(PlugSettings.djUpdate);
 			$('#PPAutoWootDelay').attr('value',PlugSettings.autoWootDelay);
 			$('#PPNotifyTimeout').attr('value',PlugSettings.notifyTimeout);
+			$('#PPEBO').attr('checked',PlugSettings.allowBackgroundOverride);
+			$('#PPEAO').attr('checked',PlugSettings.allowAvatarOverride);
 		},
 		save : function(){
 			//Checks
@@ -185,6 +189,8 @@ PlugPlus = {
 			PlugSettings.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
 			PlugSettings.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
 			PlugSettings.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+			PlugSettings.allowAvatarOverride = $('#PPEAO').is(':checked');
+			PlugSettings.allowBackgroundOverride = $('#PPEBO').is(':checked');
 			//Save settings
 			PlugPlus.saveSettings();
 			//Show settings saved
@@ -226,6 +232,7 @@ PlugPlus = {
 		}
 	},
 	parseConfig : function(data){
+		debug;
 		var matched = data.match(/\[CONFIG\+=.+\]/g);
 		if (matched != null){
 			for(var x = 0; x < matched.length; ++x){
@@ -309,12 +316,22 @@ $(function(){
 		console.log("Plug+: Setup complete.");
 	},"html");
 	
+	$.getScript(chrome.extension.getURL("js/plugInterface.js"))
+	.done(function(script, status, statusid){
+		console.log("PlugInterface inject: ",status);
+		setTimeout('PlugPlus.fireEvent(new PlugData("GetDescription",true))', 1000);//Wait 1 second longer.
+	})
+	.fail(function(){
+		console.error("PlugInterface failed to inject!");
+	});
+	/* Old script injection.
 	var s = document.createElement('script');
-	s.src = chrome.extension.getURL("js/plugInterface.js");
+	s.src = ;
 	s.type = "application/javascript";
 	document.head.appendChild(s);
+	*/
 
-	$("#plugEvents")[0].addEventListener("plugEvent",function(){
+	$("#plugEvents").bind("plugEvent",function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
 		if (data.users) PlugPlus.updateList(data.users);
 		switch(data.type){
@@ -329,8 +346,6 @@ $(function(){
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
 	});
-	
-	PlugPlus.fireEvent("GetDescription",true);
 	
 });
 
