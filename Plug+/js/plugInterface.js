@@ -16,11 +16,12 @@ PlugData = function(type, eventData){//Standarized message container.
 
 /* Events */
 
-PP.plugEvent = $.Event("plugEvent");
+PP.plugEvent = document.createEvent('Event');
+PP.plugEvent.initEvent('plugEvent',true,true);
 
 PP.fireEvent = function(data){
 	$('#plugEvents').text(JSON.stringify(data));
-	$('#plugEvents').trigger(PP.plugEvent);
+	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
 }
 PP.setupEvents = function(){
 	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
