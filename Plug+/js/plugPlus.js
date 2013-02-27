@@ -203,8 +203,8 @@ PlugPlus = {
 	manMode : {
 		create : function(){
 			$('.plugPlus').draggable({cancel:".plugPlusContent"});
-			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:600}).resize(function(){//No vertical sizing.
-				$('.plugPlus').css('width',$('.plugPlusBar').css('width'));//Hacky width fix for some css issue.
+			$('.plugPlusBar').resizable({autoHide: true, handles: "e, w", minWidth:600, maxWidth:1200}).resize(function(){//No vertical sizing.
+				$('.plugPlus').css('width',$('.plugPlusBar').css('width'));//Hacky width fix for some jquery issue.
 			});
 		},
 		destroy : function(){
