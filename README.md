@@ -27,6 +27,8 @@ Planned Features
 
 Change Log
 ----
+* `1.1.4` - Avatar and background release
+* `1.1.3` - Stat counter
 * `1.1.2` - Manipulate mode
 * `1.1.1` - Huge update (All features reworked and cleaned up)
 * `1.0.5` - Chat Features and moved settings to chat commands
@@ -37,7 +39,7 @@ Change Log
 
 Patch Notes (Only for latest minor version)
 
-* `1.1.3.1` - Added stat counter and improved loading functions
+* `1.1.4.0` - Alpha and beta development of features. Changes are visible in the commits.
 
 NOTICE
 ----
