@@ -76,6 +76,7 @@
 .plugPlusDropDown{
 	background-color: rgba(0,0,0,.7);
 	display:none;
+	height:250px;
 	margin:auto;
 	border:1px white solid;
 	border-top:none;
@@ -86,7 +87,6 @@
 }
 .plugPlusDropDown .plugPlusContent{
 	background-color: transparent;
-	
 	height:100%;
 	font-size:12px;
 	overflow-x:auto;
