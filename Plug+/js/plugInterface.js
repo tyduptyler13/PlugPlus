@@ -7,11 +7,9 @@ _gaq.push(['plug._trackPageview']);
 //Plug object
 
 PP = {};
-PlugData = function(type, eventData){//Standarized message container.
+PlugData = function(type, eventData){//Standarized message container. Version 2.
 	this.type = type;
-	this.you = API.getSelf();
-	this.data = eventData;
-	this.users = API.getUsers();//Send user list any time something happens.
+	this.event = eventData;
 }
 
 /* Events */
@@ -25,39 +23,17 @@ PP.fireEvent = function(data){
 }
 PP.setupEvents = function(){
 	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
+	
 }
-
-/* Init */
-$(function(){	
-	API.addEventListener(API.DJ_ADVANCE, function(e){
-		PP.fireEvent(new PlugData("DJ_ADVANCE",e));
-	});
-	API.addEventListener(API.DJ_UPDATE, function(e){
-		PP.fireEvent(new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList())));//Custom extended list.
-	});
-	API.addEventListener(API.VOTE_UPDATE, function(e){
-		PP.fireEvent(new PlugData("VOTE_UPDATE",e));
-	});
-	API.addEventListener(API.USER_JOIN, function(e){
-		PP.fireEvent(new PlugData("USER_JOIN",e));
-	});
-	API.addEventListener(API.USER_LEAVE, function(e){
-		PP.fireEvent(new PlugData("USER_LEAVE",e));
-	});
-	API.addEventListener(API.CHAT, function(e){
-		PP.fireEvent(new PlugData("CHAT", e));
-	});
-	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
-		PP.fireEvent(new PlugData("WAIT_LIST_JOIN",e));
-	});
-
-	if ($('#plugPlusEvents').length<1){
-		setTimeout(PP.setupEvents, 500);//Wait a half second for things to be ready.
-	}else{
-		PP.setupEvents();
-	}
-
-});
+PP.initValues = function(){
+	var event = {
+		users : API.getUsers(),
+		self : API.getSelf(),
+		waitlist : API.getWaitList()
+	};
+	var data = new PlugData("INIT", event);
+	PP.fireEvent(data);
+}
 
 /* Message Handling */
 
@@ -69,3 +45,49 @@ PP.plugPlusEvent = function(){
 		default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
 }
+
+/* Init */
+$(function(){	
+	API.addEventListener(API.DJ_ADVANCE, function(e){
+		var data = new PlugData("DJ_ADVANCE",e);
+		PP.fireEvent(data);
+	});
+	API.addEventListener(API.DJ_UPDATE, function(e){
+		var data = new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList()));//Custom extended list.
+		PP.fireEvent(data);
+	});
+	API.addEventListener(API.VOTE_UPDATE, function(e){
+		var data = new PlugData("VOTE_UPDATE",e);
+		PP.fireEvent(data);
+	});
+	API.addEventListener(API.USER_JOIN, function(e){
+		var data = new PlugData("USER_JOIN",e);
+		data.userCount = API.getUsers().length;
+		PP.fireEvent(data);
+	});
+	API.addEventListener(API.USER_LEAVE, function(e){
+		var data = new PlugData("USER_LEAVE",e);
+		data.userCount = API.getUsers().length;
+		PP.fireEvent(data);
+	});
+	API.addEventListener(API.CHAT, function(e){
+		var data = new PlugData("CHAT", e);
+		data.self = API.getSelf();
+		data.from = API.getUser(e.fromID);
+		PP.fireEvent();
+	});
+	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
+		var data = new PlugData("WAIT_LIST_JOIN",e);
+		data.self = API.getSelf();
+		PP.fireEvent(data);
+	});
+
+	if ($('#plugPlusEvents').length<1){
+		setTimeout(PP.setupEvents, 500);//Wait a half second for things to be ready.
+	}else{
+		PP.setupEvents();
+	}
+	
+	setTimeout(PP.initValues, 2000);//Don't need to wait as long for this.
+
+});

@@ -27,25 +27,35 @@ PlugPlus = {
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
 	fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
 	updateList : function(users){
+		if( Object.prototype.toString.call( users ) !== '[object Array]' ){
+			users = [users];
+		}
+		if ($('#plugPlusListArea').children().length==1){
+			$('#plugPlusListArea').children().remove("div#loading");
+		}
 		var list = new Array();
 		var User = function(){
-			this.id = "";//Vote
+			this.class = "";//Vote
 			this.border = "";
 			this.outline = "";
 			this.username = "";
 		};
 		users.forEach(function(user){
 			var tmp = new User();
-			tmp.id = user.vote==1?"voteup":(user.vote==-1?"votedown":"");
+			tmp.id = user.id;
+			tmp.class = user.vote==1?"voteup":(user.vote==-1?"votedown":"");
 			tmp.border = user.permission>0?"border: #E90E82 "+user.permission+"px solid;":"";
 			tmp.outline = user.relationship>0?"outline: #DEE97D "+user.relationship*2+"px solid;":"";
 			tmp.username = user.username.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			list.push(tmp);
 		});
-		$('#plugPlusListArea').children().remove('div');
 		list.forEach(function(user){
-			var tmp = "<div id=\""+user.id+"\" style=\""+user.border+user.outline+"\">"+user.username+"</div>";
-			$('#plugPlusListArea').append(tmp);
+			if ($("#"+user.id).length==0){
+				var tmp = "<div class=\""+user.class+"\" id=\""+user.id+"\" style=\""+user.border+user.outline+"\">"+user.username+"</div>";
+				$('#plugPlusListArea').append(tmp);
+			}else{
+				$("#plugPlusListArea #"+user.id).attr('class',user.class).attr('style',user.border+user.outline);
+			}
 		});
 	},
 	loadSettings : function(){
@@ -138,6 +148,9 @@ PlugPlus = {
 		}
 	},
 	userLeave : function(user){
+		//Remove user from list.
+		$('#plugPlusListArea #'+user.id).remove();
+		//Notifications
 		switch(PlugSettings.userLevel){
 			case 0:break;
 			case 1:if (user.relationship==0) break;
@@ -154,12 +167,6 @@ PlugPlus = {
 		}
 	},
 	button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
-	getUser: function(users,name){
-		for (var x=0;x<users.length;x++){
-			if (users[x].username==name)
-				return users[x];
-		}
-	},
 	settingsForm : {
 		autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this)},
 		update : function(){
@@ -212,8 +219,8 @@ PlugPlus = {
 			$('.plugPlusBar').resizable('destroy').css({width:''}).trigger("resize");//And yet more jquery bugs...
 		}
 	},
-	updateUserCount : function(users){
-		$('#plugUsers').text(users.length);
+	updateUserCount : function(count){
+		$('#plugUsers').text(count);
 	},
 	updateWaitList : function(self, list){
 		var pos;
@@ -232,7 +239,11 @@ PlugPlus = {
 		}
 	},
 	parseConfig : function(data){
-		debug;
+		//debug;
+		console.log(data);
+		if (data == null || typeof data == "undefined"){
+			return;
+		}
 		var matched = data.match(/\[CONFIG\+=.+\]/g);
 		if (matched != null){
 			for(var x = 0; x < matched.length; ++x){
@@ -254,6 +265,9 @@ PlugPlus = {
 	applyConfig : function(config){
 		//Still in development.
 		console.log(config);
+	},
+	resetVotes : function(){
+		$('#plugPlusListArea').children().attr('class','');
 	}
 }
 
@@ -324,25 +338,45 @@ $(function(){
 	.fail(function(){
 		console.error("PlugInterface failed to inject!");
 	});
-	/* Old script injection.
-	var s = document.createElement('script');
-	s.src = ;
-	s.type = "application/javascript";
-	document.head.appendChild(s);
-	*/
 
 	$("#plugEvents").bind("plugEvent",function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
-		if (data.users) PlugPlus.updateList(data.users);
 		switch(data.type){
-			case "WAIT_LIST_JOIN":PlugPlus.updateWaitList(data.you, data.data);break;
-			case "DJ_ADVANCE":PlugPlus.songUpdate(data.data);PlugPlus.autowoot();break;
-			case "DJ_UPDATE":PlugPlus.autojoin();PlugPlus.djUpdate(data.data);break;
-			case "VOTE_UPDATE":PlugPlus.userVote(data.data);break;
-			case "USER_JOIN":PlugPlus.userJoin(data.data);PlugPlus.updateUserCount(data.users);break;
-			case "USER_LEAVE":PlugPlus.userLeave(data.data);PlugPlus.updateUserCount(data.users);break;
-			case "CHAT":PlugPlus.chat(data.data,PlugPlus.getUser(data.users,data.data.from),data.you);break;
-			case "DESCRIPTION":PlugPlus.parseConfig(data);break;
+			case "WAIT_LIST_JOIN":
+				PlugPlus.updateWaitList(data.self, data.event);
+				break;
+			case "DJ_ADVANCE":
+				PlugPlus.songUpdate(data.event);
+				PlugPlus.autowoot();
+				PlugPlus.resetVotes();
+				break;
+			case "DJ_UPDATE":
+				PlugPlus.autojoin();
+				PlugPlus.djUpdate(data.event);
+				break;
+			case "VOTE_UPDATE":
+				PlugPlus.userVote(data.event);
+				PlugPlus.updateList(data.event.user);
+				break;
+			case "USER_JOIN":
+				PlugPlus.userJoin(data.event);
+				PlugPlus.updateUserCount(data.userCount);
+				break;
+			case "USER_LEAVE":
+				PlugPlus.userLeave(data.event);
+				PlugPlus.updateUserCount(data.userCount);
+				break;
+			case "CHAT":
+				PlugPlus.chat(data.event,data.from,data.self);
+				break;
+			case "DESCRIPTION":
+				PlugPlus.parseConfig(data.event);
+				break;
+			case "INIT":
+				PlugPlus.updateList(data.event.users);
+				PlugPlus.updateWaitList(data.event.self, data.event.waitlist);
+				PlugPlus.updateUserCount(data.event.users.length);
+				break;//Setup all fields.
 			default: console.warn("P+ Notice: Possible error ",data);
 		}
 	});
