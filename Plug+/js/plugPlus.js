@@ -359,6 +359,7 @@ $(function(){
 				PlugPlus.updateList(data.event.user);
 				break;
 			case "USER_JOIN":
+				PlugPlus.updateList(data.event);
 				PlugPlus.userJoin(data.event);
 				PlugPlus.updateUserCount(data.userCount);
 				break;
