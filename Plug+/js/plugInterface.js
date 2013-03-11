@@ -82,12 +82,7 @@ $(function(){
 		PP.fireEvent(data);
 	});
 
-	if ($('#plugPlusEvents').length<1){
-		setTimeout(PP.setupEvents, 500);//Wait a half second for things to be ready.
-	}else{
-		PP.setupEvents();
-	}
-	
-	setTimeout(PP.initValues, 2000);//Don't need to wait as long for this.
+	setTimeout(PP.setupEvents, 500);
+	setTimeout(PP.initValues, 2000);
 
 });

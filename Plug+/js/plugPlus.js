@@ -333,7 +333,7 @@ $(function(){
 	$.getScript(chrome.extension.getURL("js/plugInterface.js"))
 	.done(function(script, status, statusid){
 		console.log("PlugInterface inject: ",status);
-		setTimeout('PlugPlus.fireEvent(new PlugData("GetDescription",true))', 1000);//Wait 1 second longer.
+		setTimeout('PlugPlus.fireEvent(new PlugData("GetDescription",true))', 3000);//Wait 3 seconds.
 	})
 	.fail(function(){
 		console.error("PlugInterface failed to inject!");
