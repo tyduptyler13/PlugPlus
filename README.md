@@ -13,10 +13,10 @@ Current Features
 * PlugList (Shows all users, votes, and relation to you)
 * AutoWoot Delayed Vote
 * Resize and Drag ability (Manipulate mode)
+* Page avatar and background overrides.
 
 Planned Features
 ----
-* Page controlls. (See wiki)
 * Mod Features(bots)
   + Automated messages/functions
   + Spam Hammer :D
