@@ -72,13 +72,11 @@ $(function(){
 	});
 	API.addEventListener(API.CHAT, function(e){
 		var data = new PlugData("CHAT", e);
-		data.self = API.getSelf();
 		data.from = API.getUser(e.fromID);
 		PP.fireEvent();
 	});
 	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
 		var data = new PlugData("WAIT_LIST_JOIN",e);
-		data.self = API.getSelf();
 		PP.fireEvent(data);
 	});
 

@@ -22,6 +22,7 @@ PlugSettings = {
 /* Functions */
 PlugPlus = {
 	avatarURL : "http://www.plug.dj/images/avatars/thumbs/",
+	self : null,
 	plugPlusEvent : new CustomEvent("plugPlusEvent",{bubbles:false,cancelable:true}),
 	getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
 	getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
@@ -45,7 +46,9 @@ PlugPlus = {
 			tmp.id = user.id;
 			tmp.class = user.vote==1?"voteup":(user.vote==-1?"votedown":"");
 			tmp.border = user.permission>0?"border: #E90E82 "+user.permission+"px solid;":"";
-			tmp.outline = user.relationship>0?"outline: #DEE97D "+user.relationship*2+"px solid;":"";
+			tmp.outline = (user.relationship>0)?//Either the relationship to you or an outline that shows who you are.
+				"outline: #DEE97D "+user.relationship*2+"px solid;":(user.id==PlugPlus.self.id)?
+					"outline: #0072BB solid thin":"";
 			tmp.username = user.username.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			list.push(tmp);
 		});
@@ -343,7 +346,7 @@ $(function(){
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
 		switch(data.type){
 			case "WAIT_LIST_JOIN":
-				PlugPlus.updateWaitList(data.self, data.event);
+				PlugPlus.updateWaitList(PlugPlus.self, data.event);
 				break;
 			case "DJ_ADVANCE":
 				PlugPlus.songUpdate(data.event);
@@ -368,12 +371,13 @@ $(function(){
 				PlugPlus.updateUserCount(data.userCount);
 				break;
 			case "CHAT":
-				PlugPlus.chat(data.event,data.from,data.self);
+				PlugPlus.chat(data.event,data.from,PlugPlus.self);
 				break;
 			case "DESCRIPTION":
 				PlugPlus.parseConfig(data.event);
 				break;
 			case "INIT":
+				PlugPlus.self = data.event.self;
 				PlugPlus.updateList(data.event.users);
 				PlugPlus.updateWaitList(data.event.self, data.event.waitlist);
 				PlugPlus.updateUserCount(data.event.users.length);
