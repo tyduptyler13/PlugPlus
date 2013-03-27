@@ -243,6 +243,7 @@ PlugPlus = {
 	},
 	parseConfig : function(data){
 		//debug;
+		data = data.replace(/&#34;/g,'"');
 		console.log(data);
 		if (data == null || typeof data == "undefined"){
 			return;
@@ -255,7 +256,7 @@ PlugPlus = {
 					$.getJSON(config, applyConfig(returned));
 				} else {
 					try{
-						applyConfig(JSON.parse(config));
+						this.applyConfig(JSON.parse(config));
 					} catch(e){
 						console.warn("Plug+: Could not parse page config.");
 					}
@@ -266,8 +267,13 @@ PlugPlus = {
 		}
 	},
 	applyConfig : function(config){
-		//Still in development.
-		console.log(config);
+		//Override background
+		if (PlugSettings.allowBackgroundOverride){
+			$(body).css("background-image",config.background);
+		}
+		//Disable autowoot
+		//Disable autojoin
+		//console.log(config);
 	},
 	resetVotes : function(){
 		$('#plugPlusListArea').children().attr('class','');
@@ -424,7 +430,7 @@ function isURL(data){
 	"(?:/[^\\s]*)?" +
   "$";
 	var urlregex = new RegExp(string,"i");
-	if (urlregex.test(value)) {
+	if (urlregex.test(data)) {
 		return (true);
 	}
 	return (false);
