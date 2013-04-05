@@ -47,7 +47,12 @@ PP.plugPlusEvent = function(){
 }
 
 /* Init */
-$(function(){	
+$(function(){
+
+	if (typeof API == "undefined"){
+		document.getElementByClassName("plugPlus")[0].style.display = "none";
+	}
+		
 	API.addEventListener(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE",e);
 		PP.fireEvent(data);
