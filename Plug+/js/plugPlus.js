@@ -175,7 +175,7 @@ PlugPlus = {
 		},
 		button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
 		settingsForm : {
-			autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this);},
+			autoSave : function(){$('.PPSetting').change(this.save);},
 			update : function(){
 				$('#PPNotifications').attr('checked',PlugSettings.notifications);
 				$('#PPChatLevel').val(PlugSettings.chatLevel);
