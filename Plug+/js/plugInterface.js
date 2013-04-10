@@ -23,13 +23,13 @@ PP.fireEvent = function(data){
 }
 PP.setupEvents = function(){
 	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
-	
+
 }
 PP.initValues = function(){
 	var event = {
-		users : API.getUsers(),
-		self : API.getSelf(),
-		waitlist : API.getWaitList()
+			users : API.getUsers(),
+			self : API.getSelf(),
+			waitlist : API.getWaitList()
 	};
 	var data = new PlugData("INIT", event);
 	PP.fireEvent(data);
@@ -40,9 +40,9 @@ PP.initValues = function(){
 PP.plugPlusEvent = function(){
 	var data = $.parseJSON($('#plugPlusEvents').text());
 	switch(data.type){
-		case "JoinWaitList" : API.waitListJoin();break;
-		case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
-		default: console.warn("PlugInterface: Something may have gone wrong,",data);
+	case "JoinWaitList" : API.waitListJoin();break;
+	case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
+	default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
 }
 
@@ -52,7 +52,7 @@ $(function(){
 	if (typeof API == "undefined"){
 		document.getElementByClassName("plugPlus")[0].style.display = "none";
 	}
-		
+
 	API.addEventListener(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE",e);
 		PP.fireEvent(data);
