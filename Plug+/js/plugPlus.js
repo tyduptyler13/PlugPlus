@@ -2,7 +2,8 @@
 PlugData = function(type, eventData){//Standarized message container.
 	this.type = type;
 	this.data = eventData;
-}
+};
+
 PlugSettings = {
 		notifications : true, //Global notifications flag
 		chatLevel : 1, //0 = no notification, 1 = Only mentions, 2 = mentions and friends, 3 = all
@@ -17,15 +18,18 @@ PlugSettings = {
 		manMode : false,
 		allowBackgroundOverride : false,
 		allowAvatarOverride : false
-}
+};
 
 /* Functions */
 PlugPlus = {
+		serverAW : true,
+		serverAJ : true,
+		serverDisabled : "This option has been disabled by the server.",
 		avatarURL : "http://www.plug.dj/images/avatars/thumbs/",
 		self : null,
 		plugPlusEvent : new CustomEvent("plugPlusEvent",{bubbles:false,cancelable:true}),
-		getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}))},
-		getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}))},
+		getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}));},
+		getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}));},
 		fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
 		updateList : function(users){
 			if( Object.prototype.toString.call( users ) !== '[object Array]' ){
@@ -70,7 +74,7 @@ PlugPlus = {
 				this.saveSettings();
 			}
 		},
-		updateSettings : function(data){//Preserve defaults if settings are incomplete or non existant.
+		updateSettings : function(data){//Preserve defaults if settings are incomplete or non existent.
 			for (var setting in PlugSettings){
 				try{
 					PlugSettings[setting] = data[setting]!=undefined?data[setting]:PlugSettings[setting];
@@ -97,13 +101,13 @@ PlugPlus = {
 			}
 			this.settingsForm.update();
 		},
-		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings)},
+		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);},
 		notify : function(_title, _image, _text){
 			if (PlugSettings.notifications)
 				chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
 		},
 		autowoot : function(){
-			if (PlugSettings.autoWoot){
+			if (PlugSettings.autoWoot && this.serverAW){
 				if (PlugSettings.autoWootDelay>0){
 					setTimeout("$('#button-vote-positive').click();",PlugSettings.autoWootDelay*1000);
 				}else{
@@ -112,7 +116,7 @@ PlugPlus = {
 			}
 		},
 		autojoin : function(){
-			if (PlugSettings.autoJoin)
+			if (PlugSettings.autoJoin && this.serverAJ)
 				PlugPlus.fireEvent(new PlugData("JoinWaitList",true));
 		},
 		djUpdate : function(data){
@@ -137,7 +141,7 @@ PlugPlus = {
 			if (setting == 1){
 				if (data.message.indexOf(you.username)==-1) return;
 			}else if (setting==2){
-				if (from.relationship==0&&data.message.indexOf(you.username)==-1) return;
+				if (from.relationship==0 && data.message.indexOf(you.username)==-1) return;
 			}else{
 				PlugPlus.notify("Chat",PlugPlus.avatarURL+from.avatarID+".png",from.username+": "+data.message);
 			}
@@ -171,7 +175,7 @@ PlugPlus = {
 		},
 		button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
 		settingsForm : {
-			autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this)},
+			autoSave : function(){$('.PPSetting').change(this.save);PlugPlus.debug("AutoSave",this);},
 			update : function(){
 				$('#PPNotifications').attr('checked',PlugSettings.notifications);
 				$('#PPChatLevel').val(PlugSettings.chatLevel);
@@ -206,9 +210,6 @@ PlugPlus = {
 				//Show settings saved
 				$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
 			}
-		},
-		debug : function(){//Comment out to disable plug debug statements.
-			//console.log(arguements);
 		},
 		manMode : {
 			create : function(){
@@ -253,10 +254,10 @@ PlugPlus = {
 				for(var x = 0; x < matched.length; ++x){
 					var config = matched[x].substring(matched[x].indexOf("=")+1,matched[x].length-1);
 					if (isURL(config)){
-						$.getJSON(config, applyConfig(returned));
+						$.getJSON(config, applyConfig(returned.plugplus));
 					} else {
 						try{
-							this.applyConfig(JSON.parse(config));
+							this.applyConfig(JSON.parse(config).plugplus);
 						} catch(e){
 							console.warn("Plug+: Could not parse page config.");
 						}
@@ -269,16 +270,27 @@ PlugPlus = {
 		applyConfig : function(config){
 			//Override background
 			if (PlugSettings.allowBackgroundOverride){
-				$(body).css("background-image",config.background);
+				//Prep for CSS rules.
+				config.background = "url(" + config.background + ")";
+				
+				$('body').css("background-image",config.background);
 			}
 			//Disable autowoot
+			if (!config.autoWoot){
+				this.serverAW = false;
+				this.button.autowoot.attr('id','disabled').attr('title', this.serverDisabled);
+			}
 			//Disable autojoin
-			//console.log(config);
+			if (!config.autoJoin){
+				this.serverAJ = false;
+				this.button.autojoin.attr('id','disabled').attr('title', this.serverDisabled);
+			}
+
 		},
 		resetVotes : function(){
 			$('#plugPlusListArea').children().attr('class','');
 		}
-}
+};
 
 
 
@@ -300,8 +312,8 @@ $(function(){
 		PlugPlus.button.manmode  = $('#manmode').attr('id','off');
 		PlugPlus.button.settings = $('#settings').attr('id','');
 		PlugPlus.button.pluglist = $('#pluglist').attr('id','');
-		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings()});
-		PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings()});
+		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
+		PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings();});
 		PlugPlus.button.autojoin.click(function(){
 			PlugSettings.autoJoin = !PlugSettings.autoJoin;
 			if (PlugSettings.autoJoin){
@@ -335,7 +347,6 @@ $(function(){
 		});
 		PlugPlus.applySettings();
 		PlugPlus.settingsForm.autoSave();
-		//$('.plugPlusContent').mousemove(function(e){e.stopImmediatePropagation();PlugPlus.debug("Plug+: Blocking mousemove event.")});//Fix for showing names on mouseover.
 		console.log("Plug+: Setup complete.");
 	},"html");
 

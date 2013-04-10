@@ -64,6 +64,11 @@
 .plugPlus .plugButton#off:hover{
 	background-color: #FF8080;
 }
+.plugPlus .plugButton#disabled{
+	background-color: yellow;
+	color: rgb(63,63,63);
+	text-decoration:line-through;
+}
 .plugPlus .plugInfo{
 	background-color:blue;
 }

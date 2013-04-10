@@ -27,7 +27,7 @@ Planned Features
 
 Change Log
 ----
-* `1.1.4` - Avatar and background release
+* `1.1.4` - Background release (Avatars coming in a patch)
 * `1.1.3` - Stat counter
 * `1.1.2` - Manipulate mode
 * `1.1.1` - Huge update (All features reworked and cleaned up)
@@ -40,6 +40,7 @@ Change Log
 Patch Notes (Only for latest minor version)
 
 * `1.1.4.0` - Alpha and beta development of features. Changes are visible in the commits.
+* `1.1.4.1` - Release of Backgrounds.
 
 NOTICE
 ----
