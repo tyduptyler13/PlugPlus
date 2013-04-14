@@ -42,6 +42,7 @@ Patch Notes (Only for latest minor version)
 * `1.1.4.0` - Alpha and beta development of features. Changes are visible in the commits.
 * `1.1.4.1` - Release of Backgrounds.
 * `1.1.4.2` - Fixed chat issue.
+* `1.1.4.3` - Fixed some bugs and updated sponsor.
 
 NOTICE
 ----

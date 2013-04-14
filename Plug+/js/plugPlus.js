@@ -360,6 +360,9 @@ $(function(){
 	});
 
 	$("#plugEvents").bind("plugEvent",function(){
+		if ($.isEmptyObject(PlugPlus.self)){//If "self" didn't seem to get passed during setup then redo setup.
+			PlugPlus.fireEvent(new PlugData("Init", true));
+		}
 		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
 		switch(data.type){
 		case "WAIT_LIST_JOIN":

@@ -42,6 +42,7 @@ PP.plugPlusEvent = function(){
 	switch(data.type){
 	case "JoinWaitList" : API.waitListJoin();break;
 	case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
+	case "Init" : PP.initValues();break;
 	default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
 }
@@ -78,6 +79,10 @@ $(function(){
 	API.addEventListener(API.CHAT, function(e){
 		var data = new PlugData("CHAT", e);
 		data.from = API.getUser(e.fromID);
+		if (typeof data.from == "undefined"){
+			console.warn("Plug.dj API has an error! Go nag them about it. Their API is incapable of finding user that exists:", data);
+			return;
+		}
 		PP.fireEvent(data);
 	});
 	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
