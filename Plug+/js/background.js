@@ -26,19 +26,46 @@ function notify(img, title, text, timeout){
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 	try{
-		if (!checkURL(request.img))
-			request.img = chrome.extension.getURL("icon.png");
-		if (request.timeout == undefined || isNaN(request.timeout))
-			request.timeout = 7;
-		if (request.action=="notify"){
+		switch(request.action){
+		case "notify":
+			if (!checkURL(request.img))
+				request.img = chrome.extension.getURL("icon.png");
+			if (request.timeout == undefined || isNaN(request.timeout))
+				request.timeout = 7;
 			notify(request.img,request.title,request.text,request.timeout);
-		} else {
+			break;
+		case "jsonp":
+			var origin = request.url.substr(0, request.url.lastIndexOf("/")+1)+"*";
+			chrome.permissions.request({
+				origins: [origin]
+			}, function(granted){
+				if (granted){
+					sendResponce(new RequestData(true, "Test data.", request.callback));
+				} else {
+					sendResponce(new RequestData(false, null, request.callback));
+				}
+			});
+		default:
 			console.warn("Request not defined!");
+			break;
 		}
 	}catch(err){
-		console.error("Request variable missing.");
+		console.error("An error occured in the request!", this);
 	}
 });
+
+/**
+ * Standardized request container.
+ * @param success {boolean}
+ * @param data {Object}
+ * @param callback {String}
+ * @constructor
+ */
+function RequestData(success, data, callback){
+	this.success = success;
+	this.responce = data;
+	this.callback = callback;
+}
 
 if (localStorage["lastVersion"] !== undefined) {
 	if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {

@@ -17,7 +17,8 @@ PlugSettings = {
 		notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
 		manMode : false,
 		allowBackgroundOverride : false,
-		allowAvatarOverride : false
+		allowAvatarOverride : false,
+		backgroundOverrideURL : ""
 };
 
 /* Functions */
@@ -99,12 +100,30 @@ PlugPlus = {
 				PlugPlus.button.manmode.attr('id','on');
 				PlugPlus.manMode.create();
 			}
+			if (PlugSettings.backgroundOverrideURL != ""){
+				if (isURL(PlugSettings.backgroundOverrideURL)){
+					$('body').css("background-image","URL("+PlugSettings.backgroundOverrideURL+")");
+					$('#room-wheel').hide();
+				} else {
+					$('#PPBO').val("Bad url! Try again.");
+				}
+			}
 			this.settingsForm.update();
 		},
 		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);},
 		notify : function(_title, _image, _text){
 			if (PlugSettings.notifications)
 				chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
+		},
+		request : function(url, callback){//Callback is as many args as needed.
+			chrome.extension.sendMessage({action:"jsonp", url:url, callback:callback}, this.onRequest(responce));
+		},
+		onRequest : function(responce){
+			if (responce.success){
+				this[responce.callback].call(responce.data);
+			} else {
+				console.log("An error occured for the last request!");
+			}
 		},
 		autowoot : function(){
 			if (PlugSettings.autoWoot && this.serverAW){
@@ -186,6 +205,7 @@ PlugPlus = {
 				$('#PPNotifyTimeout').attr('value',PlugSettings.notifyTimeout);
 				$('#PPEBO').attr('checked',PlugSettings.allowBackgroundOverride);
 				$('#PPEAO').attr('checked',PlugSettings.allowAvatarOverride);
+				$('#PPBO').attr('value', PlugSettings.backgroundOverrideURL);
 			},
 			save : function(){
 				//Checks
@@ -205,8 +225,21 @@ PlugPlus = {
 				PlugSettings.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
 				PlugSettings.allowAvatarOverride = $('#PPEAO').is(':checked');
 				PlugSettings.allowBackgroundOverride = $('#PPEBO').is(':checked');
+				PlugSettings.backgroundOverrideURL = $('#PPBO').val();
+
 				//Save settings
 				PlugPlus.saveSettings();
+
+				//Special Overrides
+				if (PlugSettings.backgroundOverrideURL != ""){
+					if (isURL(PlugSettings.backgroundOverrideURL)){
+						$('body').css("background-image","URL("+PlugSettings.backgroundOverrideURL+")");
+						$('#room-wheel').hide();
+					} else {
+						$('#PPBO').val("Bad url! Try again.");
+					}
+				}
+
 				//Show settings saved
 				$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
 			}
@@ -254,7 +287,7 @@ PlugPlus = {
 				for(var x = 0; x < matched.length; ++x){
 					var config = matched[x].substring(matched[x].indexOf("=")+1,matched[x].length-1);
 					if (isURL(config)){
-						$.getJSON(config, applyConfig(returned.plugplus));
+						
 					} else {
 						try{
 							this.applyConfig(JSON.parse(config).plugplus);
@@ -269,11 +302,12 @@ PlugPlus = {
 		},
 		applyConfig : function(config){
 			//Override background
-			if (PlugSettings.allowBackgroundOverride){
+			if (PlugSettings.allowBackgroundOverride && $('body').css("background-image").indexOf("http://plug.dj")!=-1){
 				//Prep for CSS rules.
 				config.background = "url(" + config.background + ")";
-				
+
 				$('body').css("background-image",config.background);
+				$('#room-wheel').hide();
 			}
 			//Disable autowoot
 			if (!config.autoWoot){
