@@ -34,17 +34,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
 				request.timeout = 7;
 			notify(request.img,request.title,request.text,request.timeout);
 			break;
-		case "jsonp":
-			var origin = request.url.substr(0, request.url.lastIndexOf("/")+1)+"*";
-			chrome.permissions.request({
-				origins: [origin]
-			}, function(granted){
-				if (granted){
-					sendResponce(new RequestData(true, "Test data.", request.callback));
-				} else {
-					sendResponce(new RequestData(false, null, request.callback));
-				}
-			});
 		default:
 			console.warn("Request not defined!");
 			break;

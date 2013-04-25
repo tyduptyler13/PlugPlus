@@ -20,6 +20,10 @@
 	"storage",
 	"notifications"
   ],
+  "optional_permissions": [
+  	"http://*/*",
+  	"https://*/*"
+  ],
   "web_accessible_resources": [
   	"js/plugInterface.js",
 	"icon.png",

@@ -115,16 +115,6 @@ PlugPlus = {
 			if (PlugSettings.notifications)
 				chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
 		},
-		request : function(url, callback){//Callback is as many args as needed.
-			chrome.extension.sendMessage({action:"jsonp", url:url, callback:callback}, this.onRequest(responce));
-		},
-		onRequest : function(responce){
-			if (responce.success){
-				this[responce.callback].call(responce.data);
-			} else {
-				console.log("An error occured for the last request!");
-			}
-		},
 		autowoot : function(){
 			if (PlugSettings.autoWoot && this.serverAW){
 				if (PlugSettings.autoWootDelay>0){
@@ -287,10 +277,18 @@ PlugPlus = {
 				for(var x = 0; x < matched.length; ++x){
 					var config = matched[x].substring(matched[x].indexOf("=")+1,matched[x].length-1);
 					if (isURL(config)){
-						
+						try{
+							$.getJSON(config, this.applyConfig);
+						} catch(e) {
+							console.warn("Plug+: Likely did not have permission to retrieve config. Requesting permissions");
+							$('.plugPlus #dialog').text("Plug+ does not have permission to access other sites! "+ 
+								"You will need to update the permissions for external page configs to work. "+
+								"You can allow access to external pages from the P+ button in the toolbar. "+
+								"The button for this is there for security reasons.").dialog({autoOpen: true, modal: true, title: "Permission Error"});
+						}
 					} else {
 						try{
-							this.applyConfig(JSON.parse(config).plugplus);
+							this.applyConfig(JSON.parse(config));
 						} catch(e){
 							console.warn("Plug+: Could not parse page config.");
 						}
@@ -301,6 +299,9 @@ PlugPlus = {
 			}
 		},
 		applyConfig : function(config){
+			if (typeof config.plugplus != "undefined"){
+				config = config.plugplus;
+			}
 			//Override background
 			if (PlugSettings.allowBackgroundOverride && $('body').css("background-image").indexOf("http://plug.dj")!=-1){
 				//Prep for CSS rules.
@@ -311,13 +312,13 @@ PlugPlus = {
 			}
 			//Disable autowoot
 			if (!config.autoWoot){
-				this.serverAW = false;
-				this.button.autowoot.attr('id','disabled').attr('title', this.serverDisabled);
+				PlugPlus.serverAW = false;
+				PlugPlus.button.autowoot.attr('id','disabled').attr('title', this.serverDisabled);
 			}
 			//Disable autojoin
 			if (!config.autoJoin){
-				this.serverAJ = false;
-				this.button.autojoin.attr('id','disabled').attr('title', this.serverDisabled);
+				PlugPlus.serverAJ = false;
+				PlugPlus.button.autojoin.attr('id','disabled').attr('title', this.serverDisabled);
 			}
 
 		},

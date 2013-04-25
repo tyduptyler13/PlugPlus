@@ -9,6 +9,7 @@
 	width: 1200px;
 	max-width: 1200px;
     text-shadow: black 1px 1px 2px;
+    display:none;
 }
 .plugPlus *{
 	background-color:black;
@@ -138,4 +139,7 @@
 	position:absolute;
 	left:50%;
 	display:none;
+}
+.plugPlus #dialog{
+	display: none;
 }

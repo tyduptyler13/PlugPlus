@@ -8,7 +8,11 @@ body {
 	overflow-x:hidden;
 	text-align:center;
 }
+form#perms{
+	background-color:grey;
+}
 </style>
+<script src="js/jquery.js"></script>
 <script src="js/menu.js"></script>
 </head>
 <body>
@@ -32,6 +36,12 @@ body {
     </li>
   </ol>
 </div>
+<hr>
+<div>Extra Permissions:</div>
+<form id="perms">
+	Allow access to external sites: <input id="enableExternals" type="checkbox" />
+</form>
+This can be changed back at any time.
 <hr>
 <div>
   <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_new">

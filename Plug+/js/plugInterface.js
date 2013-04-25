@@ -50,9 +50,7 @@ PP.plugPlusEvent = function(){
 /* Init */
 $(function(){
 
-	if (typeof API == "undefined"){
-		document.getElementByClassName("plugPlus")[0].style.display = "none";
-	}
+	$('.plugPlus').show(); //If something is wrong with plug.dj this wont run.
 
 	API.addEventListener(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE",e);
