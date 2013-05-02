@@ -1,15 +1,15 @@
-/*! jQuery UI - v1.10.1 - 2013-03-10
+/*! jQuery UI - v1.10.2 - 2013-05-01
 * http://jqueryui.com
-* Includes: jquery.ui.core.css, jquery.ui.resizable.css, jquery.ui.selectable.css, jquery.ui.accordion.css, jquery.ui.autocomplete.css, jquery.ui.button.css, jquery.ui.datepicker.css, jquery.ui.dialog.css, jquery.ui.menu.css, jquery.ui.progressbar.css, jquery.ui.slider.css, jquery.ui.spinner.css, jquery.ui.tabs.css, jquery.ui.tooltip.css
+* Includes: jquery.plugPlus .ui.core.css, jquery.plugPlus .ui.resizable.css, jquery.plugPlus .ui.selectable.css, jquery.plugPlus .ui.accordion.css, jquery.plugPlus .ui.autocomplete.css, jquery.plugPlus .ui.button.css, jquery.plugPlus .ui.datepicker.css, jquery.plugPlus .ui.dialog.css, jquery.plugPlus .ui.menu.css, jquery.plugPlus .ui.progressbar.css, jquery.plugPlus .ui.slider.css, jquery.plugPlus .ui.spinner.css, jquery.plugPlus .ui.tabs.css, jquery.plugPlus .ui.tooltip.css
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana%2CArial%2Csans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=6px&bgColorHeader=444444&bgTextureHeader=highlight_soft&bgImgOpacityHeader=44&borderColorHeader=333333&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=000000&bgTextureContent=loop&bgImgOpacityContent=25&borderColorContent=555555&fcContent=ffffff&iconColorContent=cccccc&bgColorDefault=222222&bgTextureDefault=highlight_soft&bgImgOpacityDefault=35&borderColorDefault=444444&fcDefault=eeeeee&iconColorDefault=cccccc&bgColorHover=003147&bgTextureHover=highlight_soft&bgImgOpacityHover=33&borderColorHover=0b93d5&fcHover=ffffff&iconColorHover=ffffff&bgColorActive=0972a5&bgTextureActive=highlight_hard&bgImgOpacityActive=20&borderColorActive=26b3f7&fcActive=ffffff&iconColorActive=222222&bgColorHighlight=eeeeee&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=80&borderColorHighlight=cccccc&fcHighlight=2e7db2&iconColorHighlight=4b8e0b&bgColorError=ffc73d&bgTextureError=glass&bgImgOpacityError=40&borderColorError=ffb73d&fcError=111111&iconColorError=a83300&bgColorOverlay=5c5c5c&bgTextureOverlay=flat&bgImgOpacityOverlay=50&opacityOverlay=80&bgColorShadow=cccccc&bgTextureShadow=flat&bgImgOpacityShadow=30&opacityShadow=60&thicknessShadow=7px&offsetTopShadow=-7px&offsetLeftShadow=-7px&cornerRadiusShadow=8px
-* Copyright (c) 2013 jQuery Foundation and other contributors Licensed MIT */
+* Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
 
 /* Layout helpers
 ----------------------------------*/
-.ui-helper-hidden {
+.plugPlus .ui-helper-hidden {
 	display: none;
 }
-.ui-helper-hidden-accessible {
+.plugPlus .ui-helper-hidden-accessible {
 	border: 0;
 	clip: rect(0 0 0 0);
 	height: 1px;
@@ -19,7 +19,7 @@
 	position: absolute;
 	width: 1px;
 }
-.ui-helper-reset {
+.plugPlus .ui-helper-reset {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -29,19 +29,19 @@
 	font-size: 100%;
 	list-style: none;
 }
-.ui-helper-clearfix:before,
-.ui-helper-clearfix:after {
+.plugPlus .ui-helper-clearfix:before,
+.plugPlus .ui-helper-clearfix:after {
 	content: "";
 	display: table;
 	border-collapse: collapse;
 }
-.ui-helper-clearfix:after {
+.plugPlus .ui-helper-clearfix:after {
 	clear: both;
 }
-.ui-helper-clearfix {
+.plugPlus .ui-helper-clearfix {
 	min-height: 0; /* support: IE7 */
 }
-.ui-helper-zfix {
+.plugPlus .ui-helper-zfix {
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -51,14 +51,14 @@
 	filter:Alpha(Opacity=0);
 }
 
-.ui-front {
+.plugPlus .ui-front {
 	z-index: 100;
 }
 
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-disabled {
+.plugPlus .ui-state-disabled {
 	cursor: default !important;
 }
 
@@ -67,7 +67,7 @@
 ----------------------------------*/
 
 /* states and images */
-.ui-icon {
+.plugPlus .ui-icon {
 	display: block;
 	text-indent: -99999px;
 	overflow: hidden;
@@ -79,87 +79,87 @@
 ----------------------------------*/
 
 /* Overlays */
-.ui-widget-overlay {
+.plugPlus .ui-widget-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 }
-.ui-resizable {
+.plugPlus .ui-resizable {
 	position: relative;
 }
-.ui-resizable-handle {
+.plugPlus .ui-resizable-handle {
 	position: absolute;
 	font-size: 0.1px;
 	display: block;
 }
-.ui-resizable-disabled .ui-resizable-handle,
-.ui-resizable-autohide .ui-resizable-handle {
+.plugPlus .ui-resizable-disabled .ui-resizable-handle,
+.plugPlus .ui-resizable-autohide .ui-resizable-handle {
 	display: none;
 }
-.ui-resizable-n {
+.plugPlus .ui-resizable-n {
 	cursor: n-resize;
 	height: 7px;
 	width: 100%;
 	top: -5px;
 	left: 0;
 }
-.ui-resizable-s {
+.plugPlus .ui-resizable-s {
 	cursor: s-resize;
 	height: 7px;
 	width: 100%;
 	bottom: -5px;
 	left: 0;
 }
-.ui-resizable-e {
+.plugPlus .ui-resizable-e {
 	cursor: e-resize;
 	width: 7px;
 	right: -5px;
 	top: 0;
 	height: 100%;
 }
-.ui-resizable-w {
+.plugPlus .ui-resizable-w {
 	cursor: w-resize;
 	width: 7px;
 	left: -5px;
 	top: 0;
 	height: 100%;
 }
-.ui-resizable-se {
+.plugPlus .ui-resizable-se {
 	cursor: se-resize;
 	width: 12px;
 	height: 12px;
 	right: 1px;
 	bottom: 1px;
 }
-.ui-resizable-sw {
+.plugPlus .ui-resizable-sw {
 	cursor: sw-resize;
 	width: 9px;
 	height: 9px;
 	left: -5px;
 	bottom: -5px;
 }
-.ui-resizable-nw {
+.plugPlus .ui-resizable-nw {
 	cursor: nw-resize;
 	width: 9px;
 	height: 9px;
 	left: -5px;
 	top: -5px;
 }
-.ui-resizable-ne {
+.plugPlus .ui-resizable-ne {
 	cursor: ne-resize;
 	width: 9px;
 	height: 9px;
 	right: -5px;
 	top: -5px;
 }
-.ui-selectable-helper {
+.plugPlus .ui-selectable-helper {
 	position: absolute;
 	z-index: 100;
 	border: 1px dotted black;
 }
-.ui-accordion .ui-accordion-header {
+.plugPlus .ui-accordion .ui-accordion-header {
 	display: block;
 	cursor: pointer;
 	position: relative;
@@ -167,33 +167,33 @@
 	padding: .5em .5em .5em .7em;
 	min-height: 0; /* support: IE7 */
 }
-.ui-accordion .ui-accordion-icons {
+.plugPlus .ui-accordion .ui-accordion-icons {
 	padding-left: 2.2em;
 }
-.ui-accordion .ui-accordion-noicons {
+.plugPlus .ui-accordion .ui-accordion-noicons {
 	padding-left: .7em;
 }
-.ui-accordion .ui-accordion-icons .ui-accordion-icons {
+.plugPlus .ui-accordion .ui-accordion-icons .ui-accordion-icons {
 	padding-left: 2.2em;
 }
-.ui-accordion .ui-accordion-header .ui-accordion-header-icon {
+.plugPlus .ui-accordion .ui-accordion-header .ui-accordion-header-icon {
 	position: absolute;
 	left: .5em;
 	top: 50%;
 	margin-top: -8px;
 }
-.ui-accordion .ui-accordion-content {
+.plugPlus .ui-accordion .ui-accordion-content {
 	padding: 1em 2.2em;
 	border-top: 0;
 	overflow: auto;
 }
-.ui-autocomplete {
+.plugPlus .ui-autocomplete {
 	position: absolute;
 	top: 0;
 	left: 0;
 	cursor: default;
 }
-.ui-button {
+.plugPlus .ui-button {
 	display: inline-block;
 	position: relative;
 	padding: 0;
@@ -204,133 +204,133 @@
 	text-align: center;
 	overflow: visible; /* removes extra width in IE */
 }
-.ui-button,
-.ui-button:link,
-.ui-button:visited,
-.ui-button:hover,
-.ui-button:active {
+.plugPlus .ui-button,
+.plugPlus .ui-button:link,
+.plugPlus .ui-button:visited,
+.plugPlus .ui-button:hover,
+.plugPlus .ui-button:active {
 	text-decoration: none;
 }
 /* to make room for the icon, a width needs to be set here */
-.ui-button-icon-only {
+.plugPlus .ui-button-icon-only {
 	width: 2.2em;
 }
 /* button elements seem to need a little more width */
-button.ui-button-icon-only {
+button.plugPlus .ui-button-icon-only {
 	width: 2.4em;
 }
-.ui-button-icons-only {
+.plugPlus .ui-button-icons-only {
 	width: 3.4em;
 }
-button.ui-button-icons-only {
+button.plugPlus .ui-button-icons-only {
 	width: 3.7em;
 }
 
 /* button text element */
-.ui-button .ui-button-text {
+.plugPlus .ui-button .ui-button-text {
 	display: block;
 	line-height: normal;
 }
-.ui-button-text-only .ui-button-text {
+.plugPlus .ui-button-text-only .ui-button-text {
 	padding: .4em 1em;
 }
-.ui-button-icon-only .ui-button-text,
-.ui-button-icons-only .ui-button-text {
+.plugPlus .ui-button-icon-only .ui-button-text,
+.plugPlus .ui-button-icons-only .ui-button-text {
 	padding: .4em;
 	text-indent: -9999999px;
 }
-.ui-button-text-icon-primary .ui-button-text,
-.ui-button-text-icons .ui-button-text {
+.plugPlus .ui-button-text-icon-primary .ui-button-text,
+.plugPlus .ui-button-text-icons .ui-button-text {
 	padding: .4em 1em .4em 2.1em;
 }
-.ui-button-text-icon-secondary .ui-button-text,
-.ui-button-text-icons .ui-button-text {
+.plugPlus .ui-button-text-icon-secondary .ui-button-text,
+.plugPlus .ui-button-text-icons .ui-button-text {
 	padding: .4em 2.1em .4em 1em;
 }
-.ui-button-text-icons .ui-button-text {
+.plugPlus .ui-button-text-icons .ui-button-text {
 	padding-left: 2.1em;
 	padding-right: 2.1em;
 }
 /* no icon support for input elements, provide padding by default */
-input.ui-button {
+input.plugPlus .ui-button {
 	padding: .4em 1em;
 }
 
 /* button icon element(s) */
-.ui-button-icon-only .ui-icon,
-.ui-button-text-icon-primary .ui-icon,
-.ui-button-text-icon-secondary .ui-icon,
-.ui-button-text-icons .ui-icon,
-.ui-button-icons-only .ui-icon {
+.plugPlus .ui-button-icon-only .ui-icon,
+.plugPlus .ui-button-text-icon-primary .ui-icon,
+.plugPlus .ui-button-text-icon-secondary .ui-icon,
+.plugPlus .ui-button-text-icons .ui-icon,
+.plugPlus .ui-button-icons-only .ui-icon {
 	position: absolute;
 	top: 50%;
 	margin-top: -8px;
 }
-.ui-button-icon-only .ui-icon {
+.plugPlus .ui-button-icon-only .ui-icon {
 	left: 50%;
 	margin-left: -8px;
 }
-.ui-button-text-icon-primary .ui-button-icon-primary,
-.ui-button-text-icons .ui-button-icon-primary,
-.ui-button-icons-only .ui-button-icon-primary {
+.plugPlus .ui-button-text-icon-primary .ui-button-icon-primary,
+.plugPlus .ui-button-text-icons .ui-button-icon-primary,
+.plugPlus .ui-button-icons-only .ui-button-icon-primary {
 	left: .5em;
 }
-.ui-button-text-icon-secondary .ui-button-icon-secondary,
-.ui-button-text-icons .ui-button-icon-secondary,
-.ui-button-icons-only .ui-button-icon-secondary {
+.plugPlus .ui-button-text-icon-secondary .ui-button-icon-secondary,
+.plugPlus .ui-button-text-icons .ui-button-icon-secondary,
+.plugPlus .ui-button-icons-only .ui-button-icon-secondary {
 	right: .5em;
 }
 
 /* button sets */
-.ui-buttonset {
+.plugPlus .ui-buttonset {
 	margin-right: 7px;
 }
-.ui-buttonset .ui-button {
+.plugPlus .ui-buttonset .ui-button {
 	margin-left: 0;
 	margin-right: -.3em;
 }
 
 /* workarounds */
 /* reset extra padding in Firefox, see h5bp.com/l */
-input.ui-button::-moz-focus-inner,
-button.ui-button::-moz-focus-inner {
+input.plugPlus .ui-button::-moz-focus-inner,
+button.plugPlus .ui-button::-moz-focus-inner {
 	border: 0;
 	padding: 0;
 }
-.ui-datepicker {
+.plugPlus .ui-datepicker {
 	width: 17em;
 	padding: .2em .2em 0;
 	display: none;
 }
-.ui-datepicker .ui-datepicker-header {
+.plugPlus .ui-datepicker .ui-datepicker-header {
 	position: relative;
 	padding: .2em 0;
 }
-.ui-datepicker .ui-datepicker-prev,
-.ui-datepicker .ui-datepicker-next {
+.plugPlus .ui-datepicker .ui-datepicker-prev,
+.plugPlus .ui-datepicker .ui-datepicker-next {
 	position: absolute;
 	top: 2px;
 	width: 1.8em;
 	height: 1.8em;
 }
-.ui-datepicker .ui-datepicker-prev-hover,
-.ui-datepicker .ui-datepicker-next-hover {
+.plugPlus .ui-datepicker .ui-datepicker-prev-hover,
+.plugPlus .ui-datepicker .ui-datepicker-next-hover {
 	top: 1px;
 }
-.ui-datepicker .ui-datepicker-prev {
+.plugPlus .ui-datepicker .ui-datepicker-prev {
 	left: 2px;
 }
-.ui-datepicker .ui-datepicker-next {
+.plugPlus .ui-datepicker .ui-datepicker-next {
 	right: 2px;
 }
-.ui-datepicker .ui-datepicker-prev-hover {
+.plugPlus .ui-datepicker .ui-datepicker-prev-hover {
 	left: 1px;
 }
-.ui-datepicker .ui-datepicker-next-hover {
+.plugPlus .ui-datepicker .ui-datepicker-next-hover {
 	right: 1px;
 }
-.ui-datepicker .ui-datepicker-prev span,
-.ui-datepicker .ui-datepicker-next span {
+.plugPlus .ui-datepicker .ui-datepicker-prev span,
+.plugPlus .ui-datepicker .ui-datepicker-next span {
 	display: block;
 	position: absolute;
 	left: 50%;
@@ -338,46 +338,46 @@ button.ui-button::-moz-focus-inner {
 	top: 50%;
 	margin-top: -8px;
 }
-.ui-datepicker .ui-datepicker-title {
+.plugPlus .ui-datepicker .ui-datepicker-title {
 	margin: 0 2.3em;
 	line-height: 1.8em;
 	text-align: center;
 }
-.ui-datepicker .ui-datepicker-title select {
+.plugPlus .ui-datepicker .ui-datepicker-title select {
 	font-size: 1em;
 	margin: 1px 0;
 }
-.ui-datepicker select.ui-datepicker-month-year {
+.plugPlus .ui-datepicker select.ui-datepicker-month-year {
 	width: 100%;
 }
-.ui-datepicker select.ui-datepicker-month,
-.ui-datepicker select.ui-datepicker-year {
+.plugPlus .ui-datepicker select.ui-datepicker-month,
+.plugPlus .ui-datepicker select.ui-datepicker-year {
 	width: 49%;
 }
-.ui-datepicker table {
+.plugPlus .ui-datepicker table {
 	width: 100%;
 	font-size: .9em;
 	border-collapse: collapse;
 	margin: 0 0 .4em;
 }
-.ui-datepicker th {
+.plugPlus .ui-datepicker th {
 	padding: .7em .3em;
 	text-align: center;
 	font-weight: bold;
 	border: 0;
 }
-.ui-datepicker td {
+.plugPlus .ui-datepicker td {
 	border: 0;
 	padding: 1px;
 }
-.ui-datepicker td span,
-.ui-datepicker td a {
+.plugPlus .ui-datepicker td span,
+.plugPlus .ui-datepicker td a {
 	display: block;
 	padding: .2em;
 	text-align: right;
 	text-decoration: none;
 }
-.ui-datepicker .ui-datepicker-buttonpane {
+.plugPlus .ui-datepicker .ui-datepicker-buttonpane {
 	background-image: none;
 	margin: .7em 0 0 0;
 	padding: 0 .2em;
@@ -385,7 +385,7 @@ button.ui-button::-moz-focus-inner {
 	border-right: 0;
 	border-bottom: 0;
 }
-.ui-datepicker .ui-datepicker-buttonpane button {
+.plugPlus .ui-datepicker .ui-datepicker-buttonpane button {
 	float: right;
 	margin: .5em .2em .4em;
 	cursor: pointer;
@@ -393,90 +393,90 @@ button.ui-button::-moz-focus-inner {
 	width: auto;
 	overflow: visible;
 }
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+.plugPlus .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
 	float: left;
 }
 
 /* with multiple calendars */
-.ui-datepicker.ui-datepicker-multi {
+.plugPlus .ui-datepicker.ui-datepicker-multi {
 	width: auto;
 }
-.ui-datepicker-multi .ui-datepicker-group {
+.plugPlus .ui-datepicker-multi .ui-datepicker-group {
 	float: left;
 }
-.ui-datepicker-multi .ui-datepicker-group table {
+.plugPlus .ui-datepicker-multi .ui-datepicker-group table {
 	width: 95%;
 	margin: 0 auto .4em;
 }
-.ui-datepicker-multi-2 .ui-datepicker-group {
+.plugPlus .ui-datepicker-multi-2 .ui-datepicker-group {
 	width: 50%;
 }
-.ui-datepicker-multi-3 .ui-datepicker-group {
+.plugPlus .ui-datepicker-multi-3 .ui-datepicker-group {
 	width: 33.3%;
 }
-.ui-datepicker-multi-4 .ui-datepicker-group {
+.plugPlus .ui-datepicker-multi-4 .ui-datepicker-group {
 	width: 25%;
 }
-.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header,
-.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header {
+.plugPlus .ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header,
+.plugPlus .ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header {
 	border-left-width: 0;
 }
-.ui-datepicker-multi .ui-datepicker-buttonpane {
+.plugPlus .ui-datepicker-multi .ui-datepicker-buttonpane {
 	clear: left;
 }
-.ui-datepicker-row-break {
+.plugPlus .ui-datepicker-row-break {
 	clear: both;
 	width: 100%;
 	font-size: 0;
 }
 
 /* RTL support */
-.ui-datepicker-rtl {
+.plugPlus .ui-datepicker-rtl {
 	direction: rtl;
 }
-.ui-datepicker-rtl .ui-datepicker-prev {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-prev {
 	right: 2px;
 	left: auto;
 }
-.ui-datepicker-rtl .ui-datepicker-next {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-next {
 	left: 2px;
 	right: auto;
 }
-.ui-datepicker-rtl .ui-datepicker-prev:hover {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-prev:hover {
 	right: 1px;
 	left: auto;
 }
-.ui-datepicker-rtl .ui-datepicker-next:hover {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-next:hover {
 	left: 1px;
 	right: auto;
 }
-.ui-datepicker-rtl .ui-datepicker-buttonpane {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-buttonpane {
 	clear: right;
 }
-.ui-datepicker-rtl .ui-datepicker-buttonpane button {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-buttonpane button {
 	float: left;
 }
-.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current,
-.ui-datepicker-rtl .ui-datepicker-group {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current,
+.plugPlus .ui-datepicker-rtl .ui-datepicker-group {
 	float: right;
 }
-.ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header,
-.ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header {
+.plugPlus .ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header,
+.plugPlus .ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header {
 	border-right-width: 0;
 	border-left-width: 1px;
 }
-.ui-dialog {
+.plugPlus .ui-dialog {
 	position: absolute;
 	top: 0;
 	left: 0;
 	padding: .2em;
 	outline: 0;
 }
-.ui-dialog .ui-dialog-titlebar {
+.plugPlus .ui-dialog .ui-dialog-titlebar {
 	padding: .4em 1em;
 	position: relative;
 }
-.ui-dialog .ui-dialog-title {
+.plugPlus .ui-dialog .ui-dialog-title {
 	float: left;
 	margin: .1em 0;
 	white-space: nowrap;
@@ -484,7 +484,7 @@ button.ui-button::-moz-focus-inner {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-.ui-dialog .ui-dialog-titlebar-close {
+.plugPlus .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;
 	right: .3em;
 	top: 50%;
@@ -493,61 +493,61 @@ button.ui-button::-moz-focus-inner {
 	padding: 1px;
 	height: 20px;
 }
-.ui-dialog .ui-dialog-content {
+.plugPlus .ui-dialog .ui-dialog-content {
 	position: relative;
 	border: 0;
 	padding: .5em 1em;
 	background: none;
 	overflow: auto;
 }
-.ui-dialog .ui-dialog-buttonpane {
+.plugPlus .ui-dialog .ui-dialog-buttonpane {
 	text-align: left;
 	border-width: 1px 0 0 0;
 	background-image: none;
 	margin-top: .5em;
 	padding: .3em 1em .5em .4em;
 }
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+.plugPlus .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
 	float: right;
 }
-.ui-dialog .ui-dialog-buttonpane button {
+.plugPlus .ui-dialog .ui-dialog-buttonpane button {
 	margin: .5em .4em .5em 0;
 	cursor: pointer;
 }
-.ui-dialog .ui-resizable-se {
+.plugPlus .ui-dialog .ui-resizable-se {
 	width: 12px;
 	height: 12px;
 	right: -5px;
 	bottom: -5px;
 	background-position: 16px 16px;
 }
-.ui-draggable .ui-dialog-titlebar {
+.plugPlus .ui-draggable .ui-dialog-titlebar {
 	cursor: move;
 }
-.ui-menu {
+.plugPlus .ui-menu {
 	list-style: none;
 	padding: 2px;
 	margin: 0;
 	display: block;
 	outline: none;
 }
-.ui-menu .ui-menu {
+.plugPlus .ui-menu .ui-menu {
 	margin-top: -3px;
 	position: absolute;
 }
-.ui-menu .ui-menu-item {
+.plugPlus .ui-menu .ui-menu-item {
 	margin: 0;
 	padding: 0;
 	width: 100%;
 }
-.ui-menu .ui-menu-divider {
+.plugPlus .ui-menu .ui-menu-divider {
 	margin: 5px -2px 5px -2px;
 	height: 0;
 	font-size: 0;
 	line-height: 0;
 	border-width: 1px 0 0 0;
 }
-.ui-menu .ui-menu-item a {
+.plugPlus .ui-menu .ui-menu-item a {
 	text-decoration: none;
 	display: block;
 	padding: 2px .4em;
@@ -555,72 +555,72 @@ button.ui-button::-moz-focus-inner {
 	min-height: 0; /* support: IE7 */
 	font-weight: normal;
 }
-.ui-menu .ui-menu-item a.ui-state-focus,
-.ui-menu .ui-menu-item a.ui-state-active {
+.plugPlus .ui-menu .ui-menu-item a.ui-state-focus,
+.plugPlus .ui-menu .ui-menu-item a.ui-state-active {
 	font-weight: normal;
 	margin: -1px;
 }
 
-.ui-menu .ui-state-disabled {
+.plugPlus .ui-menu .ui-state-disabled {
 	font-weight: normal;
 	margin: .4em 0 .2em;
 	line-height: 1.5;
 }
-.ui-menu .ui-state-disabled a {
+.plugPlus .ui-menu .ui-state-disabled a {
 	cursor: default;
 }
 
 /* icon support */
-.ui-menu-icons {
+.plugPlus .ui-menu-icons {
 	position: relative;
 }
-.ui-menu-icons .ui-menu-item a {
+.plugPlus .ui-menu-icons .ui-menu-item a {
 	position: relative;
 	padding-left: 2em;
 }
 
 /* left-aligned */
-.ui-menu .ui-icon {
+.plugPlus .ui-menu .ui-icon {
 	position: absolute;
 	top: .2em;
 	left: .2em;
 }
 
 /* right-aligned */
-.ui-menu .ui-menu-icon {
+.plugPlus .ui-menu .ui-menu-icon {
 	position: static;
 	float: right;
 }
-.ui-progressbar {
+.plugPlus .ui-progressbar {
 	height: 2em;
 	text-align: left;
 	overflow: hidden;
 }
-.ui-progressbar .ui-progressbar-value {
+.plugPlus .ui-progressbar .ui-progressbar-value {
 	margin: -1px;
 	height: 100%;
 }
-.ui-progressbar .ui-progressbar-overlay {
-	background: url("images/animated-overlay.gif");
+.plugPlus .ui-progressbar .ui-progressbar-overlay {
+	background: url("chrome-extension://__MSG_@@extension_id__/css/images/animated-overlay.gif");
 	height: 100%;
 	filter: alpha(opacity=25);
 	opacity: 0.25;
 }
-.ui-progressbar-indeterminate .ui-progressbar-value {
+.plugPlus .ui-progressbar-indeterminate .ui-progressbar-value {
 	background-image: none;
 }
-.ui-slider {
+.plugPlus .ui-slider {
 	position: relative;
 	text-align: left;
 }
-.ui-slider .ui-slider-handle {
+.plugPlus .ui-slider .ui-slider-handle {
 	position: absolute;
 	z-index: 2;
 	width: 1.2em;
 	height: 1.2em;
 	cursor: default;
 }
-.ui-slider .ui-slider-range {
+.plugPlus .ui-slider .ui-slider-range {
 	position: absolute;
 	z-index: 1;
 	font-size: .7em;
@@ -630,56 +630,56 @@ button.ui-button::-moz-focus-inner {
 }
 
 /* For IE8 - See #6727 */
-.ui-slider.ui-state-disabled .ui-slider-handle,
-.ui-slider.ui-state-disabled .ui-slider-range {
+.plugPlus .ui-slider.ui-state-disabled .ui-slider-handle,
+.plugPlus .ui-slider.ui-state-disabled .ui-slider-range {
 	filter: inherit;
 }
 
-.ui-slider-horizontal {
+.plugPlus .ui-slider-horizontal {
 	height: .8em;
 }
-.ui-slider-horizontal .ui-slider-handle {
+.plugPlus .ui-slider-horizontal .ui-slider-handle {
 	top: -.3em;
 	margin-left: -.6em;
 }
-.ui-slider-horizontal .ui-slider-range {
+.plugPlus .ui-slider-horizontal .ui-slider-range {
 	top: 0;
 	height: 100%;
 }
-.ui-slider-horizontal .ui-slider-range-min {
+.plugPlus .ui-slider-horizontal .ui-slider-range-min {
 	left: 0;
 }
-.ui-slider-horizontal .ui-slider-range-max {
+.plugPlus .ui-slider-horizontal .ui-slider-range-max {
 	right: 0;
 }
 
-.ui-slider-vertical {
+.plugPlus .ui-slider-vertical {
 	width: .8em;
 	height: 100px;
 }
-.ui-slider-vertical .ui-slider-handle {
+.plugPlus .ui-slider-vertical .ui-slider-handle {
 	left: -.3em;
 	margin-left: 0;
 	margin-bottom: -.6em;
 }
-.ui-slider-vertical .ui-slider-range {
+.plugPlus .ui-slider-vertical .ui-slider-range {
 	left: 0;
 	width: 100%;
 }
-.ui-slider-vertical .ui-slider-range-min {
+.plugPlus .ui-slider-vertical .ui-slider-range-min {
 	bottom: 0;
 }
-.ui-slider-vertical .ui-slider-range-max {
+.plugPlus .ui-slider-vertical .ui-slider-range-max {
 	top: 0;
 }
-.ui-spinner {
+.plugPlus .ui-spinner {
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
 	padding: 0;
 	vertical-align: middle;
 }
-.ui-spinner-input {
+.plugPlus .ui-spinner-input {
 	border: none;
 	background: none;
 	color: inherit;
@@ -689,7 +689,7 @@ button.ui-button::-moz-focus-inner {
 	margin-left: .4em;
 	margin-right: 22px;
 }
-.ui-spinner-button {
+.plugPlus .ui-spinner-button {
 	width: 16px;
 	height: 50%;
 	font-size: .5em;
@@ -703,73 +703,73 @@ button.ui-button::-moz-focus-inner {
 	right: 0;
 }
 /* more specificity required here to overide default borders */
-.ui-spinner a.ui-spinner-button {
+.plugPlus .ui-spinner a.ui-spinner-button {
 	border-top: none;
 	border-bottom: none;
 	border-right: none;
 }
 /* vertical centre icon */
-.ui-spinner .ui-icon {
+.plugPlus .ui-spinner .ui-icon {
 	position: absolute;
 	margin-top: -8px;
 	top: 50%;
 	left: 0;
 }
-.ui-spinner-up {
+.plugPlus .ui-spinner-up {
 	top: 0;
 }
-.ui-spinner-down {
+.plugPlus .ui-spinner-down {
 	bottom: 0;
 }
 
 /* TR overrides */
-.ui-spinner .ui-icon-triangle-1-s {
+.plugPlus .ui-spinner .ui-icon-triangle-1-s {
 	/* need to fix icons sprite */
 	background-position: -65px -16px;
 }
-.ui-tabs {
+.plugPlus .ui-tabs {
 	position: relative;/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
 	padding: .2em;
 }
-.ui-tabs .ui-tabs-nav {
+.plugPlus .ui-tabs .ui-tabs-nav {
 	margin: 0;
 	padding: .2em .2em 0;
 }
-.ui-tabs .ui-tabs-nav li {
+.plugPlus .ui-tabs .ui-tabs-nav li {
 	list-style: none;
 	float: left;
 	position: relative;
 	top: 0;
 	margin: 1px .2em 0 0;
-	border-bottom: 0;
+	border-bottom-width: 0;
 	padding: 0;
 	white-space: nowrap;
 }
-.ui-tabs .ui-tabs-nav li a {
+.plugPlus .ui-tabs .ui-tabs-nav li a {
 	float: left;
 	padding: .5em 1em;
 	text-decoration: none;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+.plugPlus .ui-tabs .ui-tabs-nav li.ui-tabs-active {
 	margin-bottom: -1px;
 	padding-bottom: 1px;
 }
-.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
-.ui-tabs .ui-tabs-nav li.ui-state-disabled a,
-.ui-tabs .ui-tabs-nav li.ui-tabs-loading a {
+.plugPlus .ui-tabs .ui-tabs-nav li.ui-tabs-active a,
+.plugPlus .ui-tabs .ui-tabs-nav li.ui-state-disabled a,
+.plugPlus .ui-tabs .ui-tabs-nav li.ui-tabs-loading a {
 	cursor: text;
 }
-.ui-tabs .ui-tabs-nav li a, /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
-.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
+.plugPlus .ui-tabs .ui-tabs-nav li a, /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+.plugPlus .ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
 	cursor: pointer;
 }
-.ui-tabs .ui-tabs-panel {
+.plugPlus .ui-tabs .ui-tabs-panel {
 	display: block;
 	border-width: 0;
 	padding: 1em 1.4em;
 	background: none;
 }
-.ui-tooltip {
+.plugPlus .ui-tooltip {
 	padding: 8px;
 	position: absolute;
 	z-index: 9999;
@@ -777,7 +777,7 @@ button.ui-button::-moz-focus-inner {
 	-webkit-box-shadow: 0 0 5px #aaa;
 	box-shadow: 0 0 5px #aaa;
 }
-body .ui-tooltip {
+body .plugPlus .ui-tooltip {
 	border-width: 2px;
 }
 
@@ -799,7 +799,7 @@ body .ui-tooltip {
 }
 .plugPlus .ui-widget-content {
 	border: 1px solid #555555;
-	background: #000000 url(images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
+	background: #000000 url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_loop_25_000000_21x21.png) 50% 50% repeat;
 	color: #ffffff;
 }
 .plugPlus .ui-widget-content a {
@@ -807,7 +807,7 @@ body .ui-tooltip {
 }
 .plugPlus .ui-widget-header {
 	border: 1px solid #333333;
-	background: #444444 url(images/ui-bg_highlight-soft_44_444444_1x100.png) 50% 50% repeat-x;
+	background: #444444 url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_highlight-soft_44_444444_1x100.png) 50% 50% repeat-x;
 	color: #ffffff;
 	font-weight: bold;
 }
@@ -821,7 +821,7 @@ body .ui-tooltip {
 .plugPlus .ui-widget-content .ui-state-default,
 .plugPlus .ui-widget-header .ui-state-default {
 	border: 1px solid #444444;
-	background: #222222 url(images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
+	background: #222222 url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_highlight-soft_35_222222_1x100.png) 50% 50% repeat-x;
 	font-weight: normal;
 	color: #eeeeee;
 }
@@ -838,7 +838,7 @@ body .ui-tooltip {
 .plugPlus .ui-widget-content .ui-state-focus,
 .plugPlus .ui-widget-header .ui-state-focus {
 	border: 1px solid #0b93d5;
-	background: #003147 url(images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
+	background: #003147 url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_highlight-soft_33_003147_1x100.png) 50% 50% repeat-x;
 	font-weight: normal;
 	color: #ffffff;
 }
@@ -853,7 +853,7 @@ body .ui-tooltip {
 .plugPlus .ui-widget-content .ui-state-active,
 .plugPlus .ui-widget-header .ui-state-active {
 	border: 1px solid #26b3f7;
-	background: #0972a5 url(images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
+	background: #0972a5 url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_highlight-hard_20_0972a5_1x100.png) 50% 50% repeat-x;
 	font-weight: normal;
 	color: #ffffff;
 }
@@ -870,7 +870,7 @@ body .ui-tooltip {
 .plugPlus .ui-widget-content .ui-state-highlight,
 .plugPlus .ui-widget-header .ui-state-highlight {
 	border: 1px solid #cccccc;
-	background: #eeeeee url(images/ui-bg_highlight-soft_80_eeeeee_1x100.png) 50% top repeat-x;
+	background: #eeeeee url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_highlight-soft_80_eeeeee_1x100.png) 50% top repeat-x;
 	color: #2e7db2;
 }
 .plugPlus .ui-state-highlight a,
@@ -882,7 +882,7 @@ body .ui-tooltip {
 .plugPlus .ui-widget-content .ui-state-error,
 .plugPlus .ui-widget-header .ui-state-error {
 	border: 1px solid #ffb73d;
-	background: #ffc73d url(images/ui-bg_glass_40_ffc73d_1x400.png) 50% 50% repeat-x;
+	background: #ffc73d url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_glass_40_ffc73d_1x400.png) 50% 50% repeat-x;
 	color: #111111;
 }
 .plugPlus .ui-state-error a,
@@ -925,34 +925,34 @@ body .ui-tooltip {
 .plugPlus .ui-icon {
 	width: 16px;
 	height: 16px;
-	background-position: 16px 16px;
 }
 .plugPlus .ui-icon,
 .plugPlus .ui-widget-content .ui-icon {
-	background-image: url(images/ui-icons_cccccc_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_cccccc_256x240.png);
 }
 .plugPlus .ui-widget-header .ui-icon {
-	background-image: url(images/ui-icons_ffffff_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_ffffff_256x240.png);
 }
 .plugPlus .ui-state-default .ui-icon {
-	background-image: url(images/ui-icons_cccccc_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_cccccc_256x240.png);
 }
 .plugPlus .ui-state-hover .ui-icon,
 .plugPlus .ui-state-focus .ui-icon {
-	background-image: url(images/ui-icons_ffffff_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_ffffff_256x240.png);
 }
 .plugPlus .ui-state-active .ui-icon {
-	background-image: url(images/ui-icons_222222_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_222222_256x240.png);
 }
 .plugPlus .ui-state-highlight .ui-icon {
-	background-image: url(images/ui-icons_4b8e0b_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_4b8e0b_256x240.png);
 }
 .plugPlus .ui-state-error .ui-icon,
 .plugPlus .ui-state-error-text .ui-icon {
-	background-image: url(images/ui-icons_a83300_256x240.png);
+	background-image: url(chrome-extension://__MSG_@@extension_id__/css/images/ui-icons_a83300_256x240.png);
 }
 
 /* positioning */
+.plugPlus .ui-icon-blank { background-position: 16px 16px; }
 .plugPlus .ui-icon-carat-1-n { background-position: 0 0; }
 .plugPlus .ui-icon-carat-1-ne { background-position: -16px 0; }
 .plugPlus .ui-icon-carat-1-e { background-position: -32px 0; }
@@ -1161,14 +1161,14 @@ body .ui-tooltip {
 
 /* Overlays */
 .plugPlus .ui-widget-overlay {
-	background: #5c5c5c url(images/ui-bg_flat_50_5c5c5c_40x100.png) 50% 50% repeat-x;
+	background: #5c5c5c url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_flat_50_5c5c5c_40x100.png) 50% 50% repeat-x;
 	opacity: .8;
 	filter: Alpha(Opacity=80);
 }
 .plugPlus .ui-widget-shadow {
 	margin: -7px 0 0 -7px;
 	padding: 7px;
-	background: #cccccc url(images/ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat-x;
+	background: #cccccc url(chrome-extension://__MSG_@@extension_id__/css/images/ui-bg_flat_30_cccccc_40x100.png) 50% 50% repeat-x;
 	opacity: .6;
 	filter: Alpha(Opacity=60);
 	border-radius: 8px;

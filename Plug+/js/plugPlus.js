@@ -284,7 +284,7 @@ PlugPlus = {
 							$('.plugPlus #dialog').text("Plug+ does not have permission to access other sites! "+ 
 								"You will need to update the permissions for external page configs to work. "+
 								"You can allow access to external pages from the P+ button in the toolbar. "+
-								"The button for this is there for security reasons.").dialog({autoOpen: true, modal: true, title: "Permission Error"});
+								"The button for this is there for security reasons.").dialog({autoOpen: true, modal: true, title: "Permission Error", appendTo: ".plugPlus"});
 						}
 					} else {
 						try{

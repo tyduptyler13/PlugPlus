@@ -11,9 +11,6 @@
     text-shadow: black 1px 1px 2px;
     display:none;
 }
-.plugPlus *{
-	background-color:black;
-}
 .plugPlusBar{
 	width: 1200px;
 	max-height:25px;
@@ -22,6 +19,7 @@
 	border:2px white solid;
 	overflow: hidden;
 	padding-bottom:1px;
+	background-color:black;
 }
 .plugPlusBar div,.plugPlusBar a{
 	display:inline-block;
