@@ -10,7 +10,7 @@ PP = {};
 PlugData = function(type, eventData){//Standarized message container. Version 2.
 	this.type = type;
 	this.event = eventData;
-}
+};
 
 /* Events */
 
@@ -20,11 +20,11 @@ PP.plugEvent.initEvent('plugEvent',true,true);
 PP.fireEvent = function(data){
 	$('#plugEvents').text(JSON.stringify(data));
 	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
-}
+};
 PP.setupEvents = function(){
 	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
 
-}
+};
 PP.initValues = function(){
 	var event = {
 			users : API.getUsers(),
@@ -33,7 +33,7 @@ PP.initValues = function(){
 	};
 	var data = new PlugData("INIT", event);
 	PP.fireEvent(data);
-}
+};
 
 /* Message Handling */
 
@@ -43,9 +43,10 @@ PP.plugPlusEvent = function(){
 	case "JoinWaitList" : API.waitListJoin();break;
 	case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
 	case "Init" : PP.initValues();break;
+	case "Strobe" : RoomUser.audience.strobeMode(data.data);
 	default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
-}
+};
 
 /* Init */
 $(function(){

@@ -21,7 +21,10 @@ PlugSettings = {
 		backgroundOverrideURL : ""
 };
 
-/* Functions */
+
+/*************
+ * Functions *
+ *************/
 PlugPlus = {
 		serverAW : true,
 		serverAJ : true,
@@ -329,7 +332,9 @@ PlugPlus = {
 
 
 
-/* Init */
+/********
+ * Init *
+ ********/
 $(function(){
 	if (document.location.pathname=="/" | $('.plugPlus')) return;//Only one instance of plug at a time.
 
@@ -347,6 +352,7 @@ $(function(){
 		PlugPlus.button.manmode  = $('#manmode').attr('id','off');
 		PlugPlus.button.settings = $('#settings').attr('id','');
 		PlugPlus.button.pluglist = $('#pluglist').attr('id','');
+		PlugPlus.button.strobe   = $('#plugStrobe').attr('id', 'off');
 		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
 		PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings();});
 		PlugPlus.button.autojoin.click(function(){
@@ -379,6 +385,15 @@ $(function(){
 				PlugPlus.manMode.destroy();
 			}
 			PlugPlus.saveSettings();
+		});
+		PlugPlus.button.strobe.click(function(){
+			if (PlugPlus.button.strobe.attr('id')=="on"){
+				PlugPlus.fireEvent(new PlugData("Strobe", false));
+				PlugPlus.button.strobe.attr('id','off');
+			} else {
+				PlugPlus.fireEvent(new PlugData("Strobe", true));
+				PlugPlus.button.strobe.attr('id','on');
+			}
 		});
 		PlugPlus.applySettings();
 		PlugPlus.settingsForm.autoSave();
