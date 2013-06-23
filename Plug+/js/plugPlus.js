@@ -18,7 +18,10 @@ PlugSettings = {
 		manMode : false,
 		allowBackgroundOverride : false,
 		allowAvatarOverride : false,
-		backgroundOverrideURL : ""
+		backgroundOverrideURL : "",
+		audienceOverride : "",
+		boothOverride : "",
+		djOverride : ""
 };
 
 
@@ -34,7 +37,7 @@ PlugPlus = {
 		plugPlusEvent : new CustomEvent("plugPlusEvent",{bubbles:false,cancelable:true}),
 		getAudience : function(_callback){this.fireEvent(new PlugData("getAudience",{callback:_callback}));},
 		getSelf : function(_callback){this.fireEvent(new PlugData("getSelf",{callback:_callback}));},
-		fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(this.plugPlusEvent);},
+		fireEvent : function(data){$('#plugPlusEvents').html(JSON.stringify(data));$('#plugPlusEvents')[0].dispatchEvent(PlugPlus.plugPlusEvent);},
 		updateList : function(users){
 			if( Object.prototype.toString.call( users ) !== '[object Array]' ){
 				users = [users];
@@ -103,14 +106,7 @@ PlugPlus = {
 				PlugPlus.button.manmode.attr('id','on');
 				PlugPlus.manMode.create();
 			}
-			if (PlugSettings.backgroundOverrideURL != ""){
-				if (isURL(PlugSettings.backgroundOverrideURL)){
-					$('body').css("background-image","URL("+PlugSettings.backgroundOverrideURL+")");
-					$('#room-wheel').hide();
-				} else {
-					$('#PPBO').val("Bad url! Try again.");
-				}
-			}
+			setTimeout(PlugPlus.performOverrides, 1000);
 			this.settingsForm.update();
 		},
 		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);},
@@ -199,6 +195,9 @@ PlugPlus = {
 				$('#PPEBO').attr('checked',PlugSettings.allowBackgroundOverride);
 				$('#PPEAO').attr('checked',PlugSettings.allowAvatarOverride);
 				$('#PPBO').attr('value', PlugSettings.backgroundOverrideURL);
+				$('#PPAAO').val(PlugSettings.audienceOverride);
+				$('#PPBAO').val(PlugSettings.boothOverride);
+				$('#PPDJAO').val(PlugSettings.djOverride);
 			},
 			save : function(){
 				//Checks
@@ -219,19 +218,15 @@ PlugPlus = {
 				PlugSettings.allowAvatarOverride = $('#PPEAO').is(':checked');
 				PlugSettings.allowBackgroundOverride = $('#PPEBO').is(':checked');
 				PlugSettings.backgroundOverrideURL = $('#PPBO').val();
+				PlugSettings.audienceOverride = $('#PPAAO').val();
+				PlugSettings.boothOverride = $('#PPBAO').val();
+				PlugSettings.djOverride = $('#PPDJAO').val();
 
 				//Save settings
 				PlugPlus.saveSettings();
 
 				//Special Overrides
-				if (PlugSettings.backgroundOverrideURL != ""){
-					if (isURL(PlugSettings.backgroundOverrideURL)){
-						$('body').css("background-image","URL("+PlugSettings.backgroundOverrideURL+")");
-						$('#room-wheel').hide();
-					} else {
-						$('#PPBO').val("Bad url! Try again.");
-					}
-				}
+				PlugPlus.performOverrides();
 
 				//Show settings saved
 				$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
@@ -285,9 +280,9 @@ PlugPlus = {
 						} catch(e) {
 							console.warn("Plug+: Likely did not have permission to retrieve config. Requesting permissions");
 							$('.plugPlus #dialog').text("Plug+ does not have permission to access other sites! "+ 
-								"You will need to update the permissions for external page configs to work. "+
-								"You can allow access to external pages from the P+ button in the toolbar. "+
-								"The button for this is there for security reasons.").dialog({autoOpen: true, modal: true, title: "Permission Error", appendTo: ".plugPlus"});
+									"You will need to update the permissions for external page configs to work. "+
+									"You can allow access to external pages from the P+ button in the toolbar. "+
+							"The button for this is there for security reasons.").dialog({autoOpen: true, modal: true, title: "Permission Error", appendTo: ".plugPlus"});
 						}
 					} else {
 						try{
@@ -327,6 +322,46 @@ PlugPlus = {
 		},
 		resetVotes : function(){
 			$('#plugPlusListArea').children().attr('class','');
+		}, 
+		performOverrides : function(){
+			if (PlugSettings.backgroundOverrideURL != ""){
+				if (isURL(PlugSettings.backgroundOverrideURL)){
+					$('body').css("background-image","URL("+PlugSettings.backgroundOverrideURL+")");
+					$('#room-wheel').hide();
+				} else {
+					$('#PPBO').val("Bad url! Try again.");
+				}
+			}
+
+			if (PlugSettings.audienceOverride != ""){
+				if (isURL(PlugSettings.audienceOverride)){
+					convertImage(PlugSettings.audienceOverride, function(imageData){
+						PlugPlus.fireEvent(new PlugData("audienceOverride",{target: PlugPlus.self, image:imageData}));
+					});
+				} else {
+					$('#PPAAO').val("Bad url! Try again.");
+				}
+			}
+
+			if (PlugSettings.boothOverride != ""){
+				if (isURL(PlugSettings.boothOverride)){
+					convertImage(PlugSettings.boothOverride, function(imageData){
+						PlugPlus.fireEvent(new PlugData("boothOverride",{target: PlugPlus.self, image:imageData}));
+					});
+				} else {
+					$('#PPBAO').val("Bad url! Try again.");
+				}
+			}
+
+			if (PlugSettings.djOverride != ""){
+				if (isURL(PlugSettings.djOverride)){
+					convertImage(PlugSettings.djOverride, function(imageData){
+						PlugPlus.fireEvent(new PlugData("djOverride",{target: PlugPlus.self, image:imageData}));
+					});
+				} else {
+					$('#PPDJAO').val("Bad url! Try again.");
+				}
+			}
 		}
 };
 
@@ -498,5 +533,20 @@ function isURL(data){
 		return (true);
 	}
 	return (false);
+}
+
+function convertImage(src, callback){
+	var image = document.createElement("img");
+	var canvas = document.createElement("canvas");
+	var ctx = canvas.getContext("2d");
+
+	image.crossOrigin = "Anonymous";
+	image.onload = function(){
+		canvas.width = image.width;
+		canvas.height = image.height;
+		ctx.drawImage(image, 0, 0);
+		callback(canvas.toDataURL("image/png"));
+	};
+	image.src = src;
 }
 

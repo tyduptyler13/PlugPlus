@@ -19,7 +19,7 @@ PP.plugEvent.initEvent('plugEvent',true,true);
 
 PP.fireEvent = function(data){
 	$('#plugEvents').text(JSON.stringify(data));
-	$('#plugEvents')[0].dispatchEvent(PP.plugEvent);
+	$('#plugEvents').get(0).dispatchEvent(PP.plugEvent);
 };
 PP.setupEvents = function(){
 	$('#plugPlusEvents')[0].addEventListener("plugPlusEvent",PP.plugPlusEvent);
@@ -34,6 +34,49 @@ PP.initValues = function(){
 	var data = new PlugData("INIT", event);
 	PP.fireEvent(data);
 };
+PP.overrides = {
+		audience : {},
+		booth : {},
+		dj : {}
+};
+PP.setImage = function(users, user, src){
+	for (var i=0; i<users.length; ++i){
+		if (users[i].user == null || users[i].user == undefined) continue;//Skip
+		if (users[i].user.id == user.id){
+			users[i].image.src = src;
+		}
+	}
+};
+PP.setAudienceImage = function(user, src){
+	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	this.setImage(RoomUser.audience.images, user, src);
+	this.overrides.audience[user.id] = {user:user, src:src};
+};
+PP.setBoothImage = function(user, src){
+	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	this.setImage(RoomUser.djBooth.images.slice(1), user, src);
+	this.overrides.booth[user.id] = {user:user, src:src};
+};
+PP.setDjImage = function(user, src){
+	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	this.setImage(RoomUser.audience.images.slice(0, 1), user, src);
+	this.overrides.dj[user.id] = {user:user, src:src};
+};
+PP.checkAudienceImages = function(){
+	var overrides = this.overrides.audience;
+	for(id in overrides){
+		this.setImage(RoomUser.audience.images, overrides[id].user, overrides[id].src);
+	}
+};
+PP.checkBoothImages = function(){
+	var overrides = this.overrides.booth;
+	for(id in this.overrides.booth){
+		this.setImage(RoomUser.djBooth.images.slice(1), overrides[id].user, overrides[id].src);
+	}
+	for(override in this.overrides.dj){
+		this.setImage(RoomUser.djBooth.images.slice(0,1), overrides[id].user, overrides[id].src);
+	}
+};
 
 /* Message Handling */
 
@@ -43,7 +86,10 @@ PP.plugPlusEvent = function(){
 	case "JoinWaitList" : API.waitListJoin();break;
 	case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
 	case "Init" : PP.initValues();break;
-	case "Strobe" : RoomUser.audience.strobeMode(data.data);
+	case "Strobe" : RoomUser.audience.strobeMode(data.data); break;
+	case "audienceOverride" : PP.setAudienceImage(data.data.target, data.data.image); break;
+	case "boothOverride" : PP.setBoothImage(data.data.target, data.data.image); break;
+	case "djOverride" : PP.setDjImage(data.data.target, data.data.image); break;
 	default: console.warn("PlugInterface: Something may have gone wrong,",data);
 	}
 };
@@ -56,6 +102,8 @@ $(function(){
 	API.addEventListener(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE",e);
 		PP.fireEvent(data);
+		PP.checkBoothImages();
+		PP.checkAudienceImages();
 	});
 	API.addEventListener(API.DJ_UPDATE, function(e){
 		var data = new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList()));//Custom extended list.
@@ -69,6 +117,7 @@ $(function(){
 		var data = new PlugData("USER_JOIN",e);
 		data.userCount = API.getUsers().length;
 		PP.fireEvent(data);
+		PP.checkAudienceImages();
 	});
 	API.addEventListener(API.USER_LEAVE, function(e){
 		var data = new PlugData("USER_LEAVE",e);
@@ -87,6 +136,7 @@ $(function(){
 	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
 		var data = new PlugData("WAIT_LIST_JOIN",e);
 		PP.fireEvent(data);
+		PP.checkBoothImages();
 	});
 
 	setTimeout(PP.setupEvents, 500);

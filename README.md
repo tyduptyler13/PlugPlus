@@ -43,6 +43,7 @@ Patch Notes (Only for latest minor version)
 * `1.1.4.1` - Release of Backgrounds.
 * `1.1.4.2` - Fixed chat issue.
 * `1.1.4.3` - Fixed some bugs and updated sponsor.
+* `1.1.4.8` - Avatar beta release.
 
 NOTICE
 ----
