@@ -28,7 +28,7 @@ PP.setupEvents = function(){
 PP.initValues = function(){
 	var event = {
 			users : API.getUsers(),
-			self : API.getSelf(),
+			self : API.getUser(),
 			waitlist : API.getWaitList()
 	};
 	var data = new PlugData("INIT", event);
@@ -48,17 +48,17 @@ PP.setImage = function(users, user, src){
 	}
 };
 PP.setAudienceImage = function(user, src){
-	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	if (user == null) user = API.getUser();//Assume that it wants to change your avatar.
 	this.setImage(RoomUser.audience.images, user, src);
 	this.overrides.audience[user.id] = {user:user, src:src};
 };
 PP.setBoothImage = function(user, src){
-	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	if (user == null) user = API.getUser();//Assume that it wants to change your avatar.
 	this.setImage(RoomUser.djBooth.images.slice(1), user, src);
 	this.overrides.booth[user.id] = {user:user, src:src};
 };
 PP.setDjImage = function(user, src){
-	if (user == null) user = API.getSelf();//Assume that it wants to change your avatar.
+	if (user == null) user = API.getUser();//Assume that it wants to change your avatar.
 	this.setImage(RoomUser.audience.images.slice(0, 1), user, src);
 	this.overrides.dj[user.id] = {user:user, src:src};
 };
@@ -83,7 +83,7 @@ PP.checkBoothImages = function(){
 PP.plugPlusEvent = function(){
 	var data = $.parseJSON($('#plugPlusEvents').text());
 	switch(data.type){
-	case "JoinWaitList" : API.waitListJoin();break;
+	case "JoinWaitList" : API.djJoin();break;
 	case "GetDescription" : PP.fireEvent(new PlugData("DESCRIPTION",Models.room.data.description));break;
 	case "Init" : PP.initValues();break;
 	case "Strobe" : RoomUser.audience.strobeMode(data.data); break;
@@ -94,37 +94,36 @@ PP.plugPlusEvent = function(){
 	}
 };
 
-/* Init */
-$(function(){
+PP.init = function(){
 
 	$('.plugPlus').show(); //If something is wrong with plug.dj this wont run.
 
-	API.addEventListener(API.DJ_ADVANCE, function(e){
+	API.on(API.DJ_ADVANCE, function(e){
 		var data = new PlugData("DJ_ADVANCE",e);
 		PP.fireEvent(data);
 		PP.checkBoothImages();
 		PP.checkAudienceImages();
 	});
-	API.addEventListener(API.DJ_UPDATE, function(e){
+	API.on(API.DJ_UPDATE, function(e){
 		var data = new PlugData("DJ_UPDATE",API.getDJs().concat(API.getWaitList()));//Custom extended list.
 		PP.fireEvent(data);
 	});
-	API.addEventListener(API.VOTE_UPDATE, function(e){
+	API.on(API.VOTE_UPDATE, function(e){
 		var data = new PlugData("VOTE_UPDATE",e);
 		PP.fireEvent(data);
 	});
-	API.addEventListener(API.USER_JOIN, function(e){
+	API.on(API.USER_JOIN, function(e){
 		var data = new PlugData("USER_JOIN",e);
 		data.userCount = API.getUsers().length;
 		PP.fireEvent(data);
 		PP.checkAudienceImages();
 	});
-	API.addEventListener(API.USER_LEAVE, function(e){
+	API.on(API.USER_LEAVE, function(e){
 		var data = new PlugData("USER_LEAVE",e);
 		data.userCount = API.getUsers().length;
 		PP.fireEvent(data);
 	});
-	API.addEventListener(API.CHAT, function(e){
+	API.on(API.CHAT, function(e){
 		var data = new PlugData("CHAT", e);
 		data.from = API.getUser(e.fromID);
 		if (typeof data.from == "undefined"){
@@ -133,7 +132,7 @@ $(function(){
 		}
 		PP.fireEvent(data);
 	});
-	API.addEventListener(API.WAIT_LIST_UPDATE, function(e){
+	API.on(API.WAIT_LIST_UPDATE, function(e){
 		var data = new PlugData("WAIT_LIST_JOIN",e);
 		PP.fireEvent(data);
 		PP.checkBoothImages();
@@ -142,4 +141,7 @@ $(function(){
 	setTimeout(PP.setupEvents, 500);
 	setTimeout(PP.initValues, 2000);
 
-});
+};
+
+/* Init */
+PP.init();

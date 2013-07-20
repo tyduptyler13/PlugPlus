@@ -370,128 +370,137 @@ PlugPlus = {
 /********
  * Init *
  ********/
-$(function(){
-	if (document.location.pathname=="/" | $('.plugPlus')) return;//Only one instance of plug at a time.
 
-	PlugPlus.loadSettings();
 
-	$("body").append("<div style='display:none;' id=\"plugEvents\" hidden></div>");
-	$("body").append("<div style='display:none;' id=\"plugPlusEvents\" hidden></div>");
+function init(){
+	if ($('#avatar-rollover').length>0){
+		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
 
-	//Add controlls from here.
-	$.get(chrome.extension.getURL("append.html"),function(data){
-		$('body').append(data);
-		$('.plugPlusDropDown').resizable({autoHide:true,handles: "s"});
-		PlugPlus.button.autojoin = $('#autojoin').attr('id','off');
-		PlugPlus.button.autowoot = $('#autowoot').attr('id','off');
-		PlugPlus.button.manmode  = $('#manmode').attr('id','off');
-		PlugPlus.button.settings = $('#settings').attr('id','');
-		PlugPlus.button.pluglist = $('#pluglist').attr('id','');
-		PlugPlus.button.strobe   = $('#plugStrobe').attr('id', 'off');
-		PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
-		PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings();});
-		PlugPlus.button.autojoin.click(function(){
-			PlugSettings.autoJoin = !PlugSettings.autoJoin;
-			if (PlugSettings.autoJoin){
-				PlugPlus.button.autojoin.attr('id','on');
-				PlugPlus.autojoin();
-			}else{
-				PlugPlus.button.autojoin.attr('id','off');
+		PlugPlus.loadSettings();
+
+		$("body").append("<div style='display:none;' id=\"plugEvents\" hidden></div>");
+		$("body").append("<div style='display:none;' id=\"plugPlusEvents\" hidden></div>");
+
+		//Add controlls from here.
+		$.get(chrome.extension.getURL("append.html"),function(data){
+			$('body').append(data);
+			$('.plugPlusDropDown').resizable({autoHide:true,handles: "s"});
+			PlugPlus.button.autojoin = $('#autojoin').attr('id','off');
+			PlugPlus.button.autowoot = $('#autowoot').attr('id','off');
+			PlugPlus.button.manmode  = $('#manmode').attr('id','off');
+			PlugPlus.button.settings = $('#settings').attr('id','');
+			PlugPlus.button.pluglist = $('#pluglist').attr('id','');
+			PlugPlus.button.strobe   = $('#plugStrobe').attr('id', 'off');
+			PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
+			PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings();});
+			PlugPlus.button.autojoin.click(function(){
+				PlugSettings.autoJoin = !PlugSettings.autoJoin;
+				if (PlugSettings.autoJoin){
+					PlugPlus.button.autojoin.attr('id','on');
+					PlugPlus.autojoin();
+				}else{
+					PlugPlus.button.autojoin.attr('id','off');
+				}
+				PlugPlus.saveSettings();
+			});
+			PlugPlus.button.autowoot.click(function(){
+				PlugSettings.autoWoot = !PlugSettings.autoWoot;
+				if (PlugSettings.autoWoot){
+					PlugPlus.button.autowoot.attr('id','on');
+					PlugPlus.autowoot();
+				}else{
+					PlugPlus.button.autowoot.attr('id','off');
+				}
+				PlugPlus.saveSettings();
+			});
+			PlugPlus.button.manmode.click(function(){
+				PlugSettings.manMode = !PlugSettings.manMode;
+				if (PlugSettings.manMode){
+					PlugPlus.button.manmode.attr('id','on');
+					PlugPlus.manMode.create();
+				}else{
+					PlugPlus.button.manmode.attr('id','off');
+					PlugPlus.manMode.destroy();
+				}
+				PlugPlus.saveSettings();
+			});
+//			PlugPlus.button.strobe.click(function(){
+//				if (PlugPlus.button.strobe.attr('id')=="on"){
+//					PlugPlus.fireEvent(new PlugData("Strobe", false));
+//					PlugPlus.button.strobe.attr('id','off');
+//				} else {
+//					PlugPlus.fireEvent(new PlugData("Strobe", true));
+//					PlugPlus.button.strobe.attr('id','on');
+//				}
+//			});
+			PlugPlus.applySettings();
+			PlugPlus.settingsForm.autoSave();
+
+			console.log("Plug+: Loading PlugInterface.");
+			$.getScript(chrome.extension.getURL("js/plugInterface.js"))
+			.done(function(script, status, statusid){
+				console.log("PlugInterface inject: ",status);
+				PlugPlus.fireEvent(new PlugData("GetDescription",true));
+			})
+			.fail(function(){
+				console.error("PlugInterface failed to inject!");
+			});
+
+			console.log("Plug+: Setup complete.");
+
+		},"html");
+
+		$("#plugEvents").bind("plugEvent",function(){
+			if ($.isEmptyObject(PlugPlus.self)){//If "self" didn't seem to get passed during setup then redo setup.
+				PlugPlus.fireEvent(new PlugData("Init", true));
 			}
-			PlugPlus.saveSettings();
-		});
-		PlugPlus.button.autowoot.click(function(){
-			PlugSettings.autoWoot = !PlugSettings.autoWoot;
-			if (PlugSettings.autoWoot){
-				PlugPlus.button.autowoot.attr('id','on');
+			var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
+			switch(data.type){
+			case "WAIT_LIST_JOIN":
+				PlugPlus.updateWaitList(PlugPlus.self, data.event);
+				break;
+			case "DJ_ADVANCE":
+				PlugPlus.songUpdate(data.event);
 				PlugPlus.autowoot();
-			}else{
-				PlugPlus.button.autowoot.attr('id','off');
+				PlugPlus.resetVotes();
+				break;
+			case "DJ_UPDATE":
+				PlugPlus.autojoin();
+				PlugPlus.djUpdate(data.event);
+				break;
+			case "VOTE_UPDATE":
+				PlugPlus.userVote(data.event);
+				PlugPlus.updateList(data.event.user);
+				break;
+			case "USER_JOIN":
+				PlugPlus.updateList(data.event);
+				PlugPlus.userJoin(data.event);
+				PlugPlus.updateUserCount(data.userCount);
+				break;
+			case "USER_LEAVE":
+				PlugPlus.userLeave(data.event);
+				PlugPlus.updateUserCount(data.userCount);
+				break;
+			case "CHAT":
+				PlugPlus.chat(data.event,data.from,PlugPlus.self);
+				break;
+			case "DESCRIPTION":
+				PlugPlus.parseConfig(data.event);
+				break;
+			case "INIT":
+				PlugPlus.self = data.event.self;
+				PlugPlus.updateList(data.event.users);
+				PlugPlus.updateWaitList(data.event.self, data.event.waitlist);
+				PlugPlus.updateUserCount(data.event.users.length);
+				break;//Setup all fields.
+			default: console.warn("P+ Notice: Possible error ",data);
 			}
-			PlugPlus.saveSettings();
 		});
-		PlugPlus.button.manmode.click(function(){
-			PlugSettings.manMode = !PlugSettings.manMode;
-			if (PlugSettings.manMode){
-				PlugPlus.button.manmode.attr('id','on');
-				PlugPlus.manMode.create();
-			}else{
-				PlugPlus.button.manmode.attr('id','off');
-				PlugPlus.manMode.destroy();
-			}
-			PlugPlus.saveSettings();
-		});
-		PlugPlus.button.strobe.click(function(){
-			if (PlugPlus.button.strobe.attr('id')=="on"){
-				PlugPlus.fireEvent(new PlugData("Strobe", false));
-				PlugPlus.button.strobe.attr('id','off');
-			} else {
-				PlugPlus.fireEvent(new PlugData("Strobe", true));
-				PlugPlus.button.strobe.attr('id','on');
-			}
-		});
-		PlugPlus.applySettings();
-		PlugPlus.settingsForm.autoSave();
-		console.log("Plug+: Setup complete.");
-	},"html");
-
-	$.getScript(chrome.extension.getURL("js/plugInterface.js"))
-	.done(function(script, status, statusid){
-		console.log("PlugInterface inject: ",status);
-		setTimeout('PlugPlus.fireEvent(new PlugData("GetDescription",true))', 3000);//Wait 3 seconds.
-	})
-	.fail(function(){
-		console.error("PlugInterface failed to inject!");
-	});
-
-	$("#plugEvents").bind("plugEvent",function(){
-		if ($.isEmptyObject(PlugPlus.self)){//If "self" didn't seem to get passed during setup then redo setup.
-			PlugPlus.fireEvent(new PlugData("Init", true));
-		}
-		var data = $.parseJSON($('#plugEvents').text());//Get data from hidden div.
-		switch(data.type){
-		case "WAIT_LIST_JOIN":
-			PlugPlus.updateWaitList(PlugPlus.self, data.event);
-			break;
-		case "DJ_ADVANCE":
-			PlugPlus.songUpdate(data.event);
-			PlugPlus.autowoot();
-			PlugPlus.resetVotes();
-			break;
-		case "DJ_UPDATE":
-			PlugPlus.autojoin();
-			PlugPlus.djUpdate(data.event);
-			break;
-		case "VOTE_UPDATE":
-			PlugPlus.userVote(data.event);
-			PlugPlus.updateList(data.event.user);
-			break;
-		case "USER_JOIN":
-			PlugPlus.updateList(data.event);
-			PlugPlus.userJoin(data.event);
-			PlugPlus.updateUserCount(data.userCount);
-			break;
-		case "USER_LEAVE":
-			PlugPlus.userLeave(data.event);
-			PlugPlus.updateUserCount(data.userCount);
-			break;
-		case "CHAT":
-			PlugPlus.chat(data.event,data.from,PlugPlus.self);
-			break;
-		case "DESCRIPTION":
-			PlugPlus.parseConfig(data.event);
-			break;
-		case "INIT":
-			PlugPlus.self = data.event.self;
-			PlugPlus.updateList(data.event.users);
-			PlugPlus.updateWaitList(data.event.self, data.event.waitlist);
-			PlugPlus.updateUserCount(data.event.users.length);
-			break;//Setup all fields.
-		default: console.warn("P+ Notice: Possible error ",data);
-		}
-	});
-
-});
+	} else {
+		setTimeout(init, 250);
+	}
+}
+init();
 
 function isURL(data){
 	var string = "^" +
