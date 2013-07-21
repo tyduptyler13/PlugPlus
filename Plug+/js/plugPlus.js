@@ -373,7 +373,7 @@ PlugPlus = {
 
 
 function init(){
-	if ($('#avatar-rollover').length>0){
+	if ($('#audience').length>0){
 		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
 
 		PlugPlus.loadSettings();
@@ -390,9 +390,12 @@ function init(){
 			PlugPlus.button.manmode  = $('#manmode').attr('id','off');
 			PlugPlus.button.settings = $('#settings').attr('id','');
 			PlugPlus.button.pluglist = $('#pluglist').attr('id','');
-			PlugPlus.button.strobe   = $('#plugStrobe').attr('id', 'off');
-			PlugPlus.button.pluglist.click(function(){$('#plugPlusSettings').slideUp();$('#plugPlusList').slideToggle();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
-			PlugPlus.button.settings.click(function(){$('#plugPlusList').slideUp();$('#plugPlusSettings').slideToggle();PlugPlus.saveSettings();});
+			PlugPlus.button.chat   = $('#plugchat').attr('id','');
+			PlugPlus.button.update = $('#plugupdates').attr('id','');
+			PlugPlus.button.pluglist.click(function(){$('.plugPlusDropDown:visible').slideUp();$('#plugPlusList:hidden').slideDown();PlugSettings.pluglist=!PlugSettings.pluglist;PlugPlus.saveSettings();});
+			PlugPlus.button.settings.click(function(){$('.plugPlusDropDown:visible').slideUp();$('#plugPlusSettings:hidden').slideDown();PlugPlus.saveSettings();});
+			PlugPlus.button.chat.click(function(){$('.plugPlusDropDown:visible').slideUp();$('#plugPlusChat:hidden').slideDown();});
+			PlugPlus.button.update.click(function(){$('.plugPlusDropDown:visible').slideUp();$('#plugPlusUpdates:hidden').slideDown();});
 			PlugPlus.button.autojoin.click(function(){
 				PlugSettings.autoJoin = !PlugSettings.autoJoin;
 				if (PlugSettings.autoJoin){
@@ -424,15 +427,6 @@ function init(){
 				}
 				PlugPlus.saveSettings();
 			});
-//			PlugPlus.button.strobe.click(function(){
-//				if (PlugPlus.button.strobe.attr('id')=="on"){
-//					PlugPlus.fireEvent(new PlugData("Strobe", false));
-//					PlugPlus.button.strobe.attr('id','off');
-//				} else {
-//					PlugPlus.fireEvent(new PlugData("Strobe", true));
-//					PlugPlus.button.strobe.attr('id','on');
-//				}
-//			});
 			PlugPlus.applySettings();
 			PlugPlus.settingsForm.autoSave();
 

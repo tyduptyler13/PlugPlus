@@ -140,3 +140,19 @@
 .plugPlus #dialog{
 	display: none;
 }
+#plugPlusChat{
+	text-align:center;
+}
+#plugPlusChatWindow, #plugContactForm{
+	width:99%;
+	height:99%;
+	border:0;
+	margin:auto;
+}
+#plugContactForm{
+	height:500px;
+}
+#plugPlusUpdates{
+	overflow:auto;
+}
+
