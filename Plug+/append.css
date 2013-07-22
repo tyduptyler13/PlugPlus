@@ -142,6 +142,7 @@
 }
 #plugPlusChat{
 	text-align:center;
+	height:550px;
 }
 #plugPlusChatWindow, #plugContactForm{
 	width:99%;
@@ -154,5 +155,9 @@
 }
 #plugPlusUpdates{
 	overflow:auto;
+}
+#plugPlusUpdates article{
+	margin-top: 10px;
+	border-top: solid white 1px;
 }
 
