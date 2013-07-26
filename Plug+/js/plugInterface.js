@@ -140,6 +140,8 @@ PP.init = function(){
 
 	setTimeout(PP.setupEvents, 500);
 	setTimeout(PP.initValues, 2000);
+	
+	FB.XFBML.parse();//Setup Plug Comments
 
 };
 
