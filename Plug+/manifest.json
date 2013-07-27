@@ -1,6 +1,6 @@
 {
   "name": "Plug+",
-  "version": "1.1.4.14",
+  "version": "2.0.0.0",
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
@@ -48,7 +48,7 @@
   	{
 	  "matches": ["*://plug.dj/*"],
 	  "exclude_matches": ["*://plug.dj/lobby", "*://plug.dj/lobby/"],
-	  "js": ["js/jquery.js", "js/jquery-ui-1.10.3.custom.js", "js/plugPlus.js"],
+	  "js": ["js/jquery.js", "js/jquery-ui-1.10.3.custom.js", "js/PlugPlus.js"],
 	  "css": ["css/jquery-ui-1.10.3.custom.css", "append.css"],
 	  "run_at": "document_end"
 	}

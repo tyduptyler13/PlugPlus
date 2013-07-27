@@ -1,6 +1,6 @@
-<section class='plugPlus'>
-	<div class='plugPlusBar'>
-		<div id='title'>Plug+</div>
+<section id='plugPlus'>
+	<div class='plugPlusButtons'>
+		<div class='title'>Plug+</div>
 		<div class='plugButton' id='autowoot'
 			title="Automatically woots every song.">AutoWoot</div>
 		<div class='plugButton' id='autojoin'
@@ -18,16 +18,12 @@
 			Users : <span id="plugUsers">-</span> | Waitlist : <span
 				id="plugWaitList">-/-</span>
 		</div>
-		<div class='plugButton'
-			title="This allows you to move this widget and resize it."
-			id="manmode">Manipulate Mode</div>
 	</div>
-	<div class='plugPlusDropDowns'>
-		<div class='plugPlusDropDown' id='plugPlusList'>
+	<div id='plugPlusContextContainer'>
+		<div class='plugPlusContext' id='plugPlusList'>
 			<div class='plugPlusContent'>
 				<div style="border-bottom: thin white solid; padding-bottom: 3px;">
-					PlugList (<a href="javascript:void()" onclick="PP.initValues()"
-						title="This will force load all users into the list. It does not clear the list. Use this if the list did not generate when the page loaded.">Refresh</a>)
+					PlugList
 					<div style="float: right; display: inline-block;">
 						Legend: <span style="background-color: green">Woot</span>, <span
 							style="background-color: red">Meh</span>, <span
@@ -41,8 +37,8 @@
 				</div>
 			</div>
 		</div>
-		<div class='plugPlusDropDown' id='plugPlusSettings'>
-			<div class='plugPlusContent'>
+		<div class='plugPlusContext' id='plugPlusSettings'>
+			<div>
 				<div style="border-bottom: thin white solid;">
 					Settings <span id="PPSaved">Saved</span>
 				</div>
@@ -110,93 +106,15 @@
 							<td>Length in seconds before a notification is closed
 								automatically. 0 will disable timeouts. (0-&infin;)</td>
 						</tr>
-						<tr>
-							<td>Accept background overrides</td>
-							<td><input class="PPSetting" type="checkbox" id="PPEBO"
-								style="width: auto" /></td>
-							<td>Page background will be used if checked.</td>
-						</tr>
-						<tr>
-							<td>Custom user background</td>
-							<td><input class="PPSetting" type="text" id="PPBO"
-								placeholder="URL"></td>
-							<td>This will override the setting above with this url.</td>
-						<tr>
 					</table>
-					<hr>
-					<div>The following are experimental for the time being. Do
-						not rely on these working yet.</div>
-					<table style="float: left">
-						<tr>
-							<th>Option</th>
-							<th>Setting</th>
-							<th>Description</th>
-						</tr>
-						<tr>
-							<td colspan="3" style="text-align: center">Currently only
-								personal avatar overrides are available. Additionally, DJ skin
-								overrides will require the skin to be set before you become dj.
-								They do not update actively. Please also keep in mind that the
-								updates are slow in some instances. We are still working on a
-								fix. Sometimes leaving the window and coming back will refresh
-								the avatars.</td>
-						</tr>
-						<tr>
-							<td>Audience Override</td>
-							<td><input class="PPSetting" type="text" id="PPAAO"
-								placeholder="URL"></td>
-							<td>This will override your avatar in the audience.</td>
-						</tr>
-						<tr>
-							<td>Booth Override</td>
-							<td><input class="PPSetting" type="text" id="PPBAO"
-								placeholder="URL"></td>
-							<td>This will override your avatar in the DjBooth.</td>
-						</tr>
-						<tr>
-							<td>DJ Override</td>
-							<td><input class="PPSetting" type="text" id="PPDJAO"
-								placeholder="URL"></td>
-							<td>This will override your avatar when you are in the
-								booth.</td>
-						</tr>
-					</table>
+					
 				</form>
 			</div>
 		</div>
-		<div class="plugPlusDropDown" id="plugPlusChat">
+		<div class="plugPlusContext" id="plugPlusChat">
 			<div class="fb-comments" data-href="https://www.facebook.com/PlugPlus" data-width="600" data-num-posts="10" data-colorscheme="dark"></div>
 		</div>
-		<div class="plugPlusDropDown" id="plugPlusUpdates">
-			<p>Welcome to our brand new feature! This is where I plan to keep
-				you all up to date on what is going on with Plug+ and some chages
-				that will be happening over the next few weeks.</p>
-			<article>
-				<b>Coming Soon</b> - Interface rework and backend revisit to update old code.
-			</article>
-			<article>
-				<b>Update v1.1.4.11 - *.13</b> - Patches for Plug Chat formatting and url
-				bugs.
-			</article>
-			<article>
-				<b>Update v1.1.4.11</b> - The following has been added:<br>
-				<ul>
-					<li>Plug Chat</li>
-					<li>Updates</li>
-				</ul>
-				<p>
-					<b>Details</b>: The new chat system allows for Plug+ user to chat
-					together and talk about music or whatever regardless of what room
-					you are in. This system unites all the users! A few things to keep
-					in mind when using it, the current theme restricts the size of the
-					window and it may need to be stretched out before logging in.
-					Additionally, I have not setup a twitter login key yet so twitter
-					logins won't work for the moment. This page has also been created
-					and this is for allowing users like yourself to see what is going
-					on in the Plug+ world! If you would like to contact us for any
-					reason, please use the form below.
-				</p>
-			</article>
+		<div class="plugPlusContext" id="plugPlusUpdates">
 			<div>
 				Use this form to leave comments, report errors, etc.
 				<iframe id="plugContactForm"
