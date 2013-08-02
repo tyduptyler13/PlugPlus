@@ -1,6 +1,10 @@
 <section id='plugPlus'>
-	<div class='plugPlusButtons'>
-		<div class='title'>Plug+</div>
+
+	<div id="plugPlusTitle">
+		<div class='plugTitle'>Plug+</div>
+	</div>
+
+	<div id='plugPlusButtons' class="plugPlusSection">
 		<div class='plugButton' id='autowoot'
 			title="Automatically woots every song.">AutoWoot</div>
 		<div class='plugButton' id='autojoin'
@@ -14,29 +18,33 @@
 			Chat</div>
 		<div class='plugButton' id='plugupdates'
 			title="See recent changes to Plug+ and what is going on.">Updates</div>
-		<div class='plugInfo' title="Stats about the room.">
-			Users : <span id="plugUsers">-</span> | Waitlist : <span
-				id="plugWaitList">-/-</span>
-		</div>
 	</div>
+
+	<div id="plugPlusInfo" class="plugPlusSection" title="This area displays stats about your room.">
+		<div>Users : <span id="plugUsers">-</span></div>
+		<div>Waitlist : <span id="plugWaitList">-/-</span></div>
+		<div>Song stats: <span id="plugSongStats">-</span></div>
+	</div>
+
+	<!-- Container for all popups. -->
 	<div id='plugPlusContextContainer'>
+
 		<div class='plugPlusContext' id='plugPlusList'>
-			<div class='plugPlusContent'>
-				<div style="border-bottom: thin white solid; padding-bottom: 3px;">
-					PlugList
-					<div style="float: right; display: inline-block;">
-						Legend: <span style="background-color: green">Woot</span>, <span
-							style="background-color: red">Meh</span>, <span
-							style="border: thin #e90e82 solid">Admin</span>, <span
-							style="outline: solid #dee97d thin">Friend</span>, <span
-							style="outline: solid #0072BB thin">You</span>
-					</div>
-				</div>
-				<div id='plugPlusListArea'>
-					<div id="loading">Loading...</div>
+			<div style="border-bottom: thin white solid; padding-bottom: 3px;">
+				PlugList
+				<div style="float: right; display: inline-block;">
+					Legend: <span style="background-color: green">Woot</span>, <span
+						style="background-color: red">Meh</span>, <span
+						style="border: thin #e90e82 solid">Admin</span>, <span
+						style="outline: solid #dee97d thin">Friend</span>, <span
+						style="outline: solid #0072BB thin">You</span>
 				</div>
 			</div>
+			<div id='plugPlusListArea'>
+				<div id="loading">Loading...</div>
+			</div>
 		</div>
+
 		<div class='plugPlusContext' id='plugPlusSettings'>
 			<div>
 				<div style="border-bottom: thin white solid;">
@@ -107,13 +115,17 @@
 								automatically. 0 will disable timeouts. (0-&infin;)</td>
 						</tr>
 					</table>
-					
+
 				</form>
 			</div>
 		</div>
+
 		<div class="plugPlusContext" id="plugPlusChat">
-			<div class="fb-comments" data-href="https://www.facebook.com/PlugPlus" data-width="600" data-num-posts="10" data-colorscheme="dark"></div>
+			<div class="fb-comments"
+				data-href="https://www.facebook.com/PlugPlus" data-width="600"
+				data-num-posts="10" data-colorscheme="dark"></div>
 		</div>
+
 		<div class="plugPlusContext" id="plugPlusUpdates">
 			<div>
 				Use this form to leave comments, report errors, etc.
@@ -122,4 +134,10 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="plugPipes">
+		<div id="plugIn"></div>
+		<div id="plugOut"></div>
+	</div>
+
 </section>

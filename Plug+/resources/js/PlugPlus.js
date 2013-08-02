@@ -16,10 +16,13 @@ PlugSettings = {
  * Functions *
  *************/
 PlugPlus = function(){
-
+	this.event = new Event("plugPlusEvent");
+	
 };
 PlugPlus.prototype = {
+		
 		constructor : PlugPlus,
+		
 		loadSettings : function(){
 			try{
 				this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']));
@@ -29,15 +32,17 @@ PlugPlus.prototype = {
 				this.saveSettings();
 			}
 		},
+		
 		updateSettings : function(data){//Preserve defaults if settings are incomplete or non existent.
 			for (var setting in PlugSettings){
 				try{
-					PlugSettings[setting] = data[setting]!=undefined?data[setting]:PlugSettings[setting];
+					PlugSettings[setting] = (data[setting]!=undefined) ? data[setting] : PlugSettings[setting];
 				} catch(e) {
 					console.warn("Plug+ warning: Setting \"",setting, "\" appears to be corrupted, incorrectly formatted, or missing. Default value was used.");
 				}
 			}
 		},
+		
 		applySettings : function(){//Apply settings only if they are true. Default state is false.
 			if (PlugSettings.autoJoin){
 				setTimeout("PlugPlus.button.autojoin.attr('id','on');PlugPlus.autojoin();",1000);//Wait 1 second before sending anything. The event isn't ready.
@@ -52,12 +57,15 @@ PlugPlus.prototype = {
 			}
 			this.settingsForm.update();
 		},
+		
 		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);},
 		notify : function(_title, _image, _text){
 			if (PlugSettings.notifications)
 				chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
 		},
+		
 		button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
+		
 		convertImage : function(src, callback){
 			var image = document.createElement("img");
 			var canvas = document.createElement("canvas");
@@ -71,6 +79,14 @@ PlugPlus.prototype = {
 				callback(canvas.toDataURL("image/png"));
 			};
 			image.src = src;
+		},
+		
+		sendMessageToApp : function(type, data){
+			
+		},
+		
+		onRecieveMessage : function(type, data){
+			
 		}
 };
 

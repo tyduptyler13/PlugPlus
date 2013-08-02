@@ -4,52 +4,60 @@
   "manifest_version": 2,
   "description": "A plug.dj feature set.",
   "icons": {
-	"64": "icon.png",
-	"128": "largeIcon.png"
+	"16": "resources/images/smallIcon.png",
+	"64": "resources/images/icon.png",
+	"128": "resources/images/largeIcon.png"
   },
+  
   "background": {
-	"scripts": ["js/background.js"]
+	"scripts": ["resources/js/background.js"]
   },
+  
   "browser_action": {
 	"default_title": "Plug+",
-	"default_icon": "icon.png",
-	"default_popup": "menu.html"
+	"default_icon": "resources/images/icon.png",
+	"default_popup": "resources/menu.html"
   },
+  
   "permissions": [
 	"*://*.plug.dj/*",
 	"storage",
-	"notifications"
+	"notifications",
+	"contextMenus"
   ],
+  
   "optional_permissions": [
   	"http://*/*",
   	"https://*/*"
   ],
+  
   "web_accessible_resources": [
-  	"js/plugInterface.js",
+  	"js/PlugPlusApp.js",
 	"icon.png",
 	"append.html",
-	"css/images/animated-overlay.gif",
-	"css/images/ui-bg_flat_30_cccccc_40x100.png",
-	"css/images/ui-bg_flat_50_5c5c5c_40x100.png",
-	"css/images/ui-bg_glass_40_ffc73d_1x400.png",
-	"css/images/ui-bg_highlight-hard_20_0972a5_1x100.png",
-	"css/images/ui-bg_highlight-soft_33_003147_1x100.png",
-	"css/images/ui-bg_highlight-soft_35_222222_1x100.png",
-	"css/images/ui-bg_highlight-soft_44_444444_1x100.png",
-	"css/images/ui-bg_highlight-soft_80_eeeeee_1x100.png",
-	"css/images/ui-bg_loop_25_000000_21x21.png",
-	"css/images/ui-icons_4b8e0b_256x240.png",
-	"css/images/ui-icons_222222_256x240.png",
-	"css/images/ui-icons_a83300_256x240.png",
-	"css/images/ui-icons_cccccc_256x240.png",
-	"css/images/ui-icons_ffffff_256x240.png"
+	"resources/images/animated-overlay.gif",
+	"resources/images/ui-bg_flat_30_cccccc_40x100.png",
+	"resources/images/ui-bg_flat_50_5c5c5c_40x100.png",
+	"resources/images/ui-bg_glass_40_ffc73d_1x400.png",
+	"resources/images/ui-bg_highlight-hard_20_0972a5_1x100.png",
+	"resources/images/ui-bg_highlight-soft_33_003147_1x100.png",
+	"resources/images/ui-bg_highlight-soft_35_222222_1x100.png",
+	"resources/images/ui-bg_highlight-soft_44_444444_1x100.png",
+	"resources/images/ui-bg_highlight-soft_80_eeeeee_1x100.png",
+	"resources/images/ui-bg_loop_25_000000_21x21.png",
+	"resources/images/ui-icons_4b8e0b_256x240.png",
+	"resources/images/ui-icons_222222_256x240.png",
+	"resources/images/ui-icons_a83300_256x240.png",
+	"resources/images/ui-icons_cccccc_256x240.png",
+	"resources/images/ui-icons_ffffff_256x240.png"
   ],
+  
   "content_scripts": [
   	{
 	  "matches": ["*://plug.dj/*"],
 	  "exclude_matches": ["*://plug.dj/lobby", "*://plug.dj/lobby/"],
-	  "js": ["js/jquery.js", "js/jquery-ui-1.10.3.custom.js", "js/PlugPlus.js"],
-	  "css": ["css/jquery-ui-1.10.3.custom.css", "append.css"],
+	  "js": ["resources/js/jquery.js", "resources/js/jquery-ui-1.10.3.custom.js", "resources/js/PlugPlus.js"],
+	  "css": ["resources/jquery-ui-1.10.3.custom.css", "resources/append.css"],
 	  "run_at": "document_end"
 	}
   ],

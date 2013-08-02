@@ -1,0 +1,24 @@
+#plugPlus{
+	position:absolute;
+	color: white;
+	z-index:99;/*Just below popups*/
+    text-shadow: black 1px 1px 2px;
+    top:0;
+    left:0;
+    width:200px;
+    background-color: rgba(0, 0, 0, .2);
+}
+#plugPlusTitle{
+	width:300px;
+	text-align: center;
+}
+.plugTitle{
+	font-size:large;
+}
+#plugPipes{
+	display:none;
+}
+.plugPlusContext{
+	display:none;
+}
+
