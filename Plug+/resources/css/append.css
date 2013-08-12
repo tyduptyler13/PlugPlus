@@ -49,6 +49,7 @@
 	-webkit-transition: all .25s;
 	background-color: #B2B2B2;
 	text-align: center;
+	cursor: pointer;
 }
 
 #plugPlusButtons .plugButton:hover {
@@ -56,12 +57,12 @@
 }
 
 #plugPlusButtons .plugButton.active {
-	background-color: #A3FF85;
+	background-color: #66FF33;
 	color: black;
 }
 
 #plugPlusButtons .plugButton.active:hover {
-	background-color: #52CC29;
+	background-color: #A3FF85;
 }
 
 #plugPlusButtons .plugButton.inactive {
@@ -84,4 +85,11 @@
 
 .plugPlusContext {
 	display: none;
+}
+
+#plugPlusVersion{
+	opacity: .3;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }

@@ -17,7 +17,7 @@ PlugPlusApp = function(){
 	this.event = new Event('plugAppEvent');
 	this.setupEvents();
 
-	this.settings = JSON.parse(localStorage['plugPlusSettings']);
+	this.settings = JSON.parse(localStorage['PlugPlusSettings']);
 
 	/* Init */
 	FB.XFBML.parse();//Setup Plug Comments
@@ -46,7 +46,7 @@ PlugPlusApp.prototype = {
 		handlePlugPlusEvent : function(){
 			var data = $.parseJSON($('#plugOut').text());
 			switch(data.type){
-
+			case "settingsChange": this.settings = JSON.parse(localStorage['PlugPlusSettings']); break;
 			default: console.warn("PlugPlusApp: Something may have gone wrong,",data);
 			}
 		},
@@ -56,19 +56,20 @@ PlugPlusApp.prototype = {
 
 
 			//Plug.dj listeners
-
+			API.on(API.DJ_ADVANCE, this.autoWoot);
 
 		},
 
 		autoWoot : function(){
 			if (this.settings.autoWoot){
-
+				
 			}
 		},
 
 		autoJoin : function(){
 			if (this.settings.autoJoin){
-
+				if (API.getBoothPosition() == -1 && API.getWaitListPosition() == -1)
+					API.djJoin();
 			}
 		},
 

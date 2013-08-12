@@ -16,29 +16,65 @@ PlugSettings = {
  * Functions *
  *************/
 PlugPlus = function(){
-	this.event = new Event("plugPlusEvent");
-	
+	this.event = new Event('plugPlusEvent');
+	this.injectApp(function(plug){
+		//Anything that requires the interface to be complete goes here.
+
+		plug.button = {
+				autowoot : $("#autowoot"),
+				autojoin : $("#autojoin"),
+				pluglist : $("#pluglist"),
+				settings : $(".plugbutton#settings"),
+				plugchat : $("#plugchat"),
+				plugUpdates : $("#plugupdates")
+		};
+
+		$('.plugButton:not(.disabled)').click(function(){
+			try{
+				var id = $(this).attr('id');
+				plug.toggle[id](plug);
+			}catch(e){
+				console.warn("Plug+: A button has been pressed that does not have a toggle defined!");
+			}
+		});
+
+		plug.applySettings();
+
+		console.log("Plug+: Setup complete.");
+	});
+	//Anything that doesn't need to wait should go here for speed.
+	this.loadSettings();
+
+	//$('.PPSetting').change(this.getSettings);
+
+
+
 };
 PlugPlus.prototype = {
-		
+
 		constructor : PlugPlus,
-		
-		injectApp : function(){
+
+		injectApp : function(callback){
 			console.log("Plug+: Injecting PlugPlusApp.");
+
+			var plug = this;//Keep plug object in scope while using jquery callbacks.
+
 			$.get(chrome.extension.getURL("resources/append.html"), function(data){
 				$('body').append(data);
-				
+
 				$.getScript(chrome.extension.getURL("resources/js/PlugPlusApp.js"))
-					.done(function(script, status, statusid){
-						console.log("Plug+: PlugPlusApp loaded!");
-					})
-					.fail(function(){
-						console.warn("Plug+: PlugPlusApp failed to load!");
-					});
-				
+				.done(function(script, status, statusid){
+					console.log("Plug+: PlugPlusApp loaded!");
+				})
+				.fail(function(){
+					console.warn("Plug+: PlugPlusApp failed to load!");
+				});
+
+				callback(plug);//If this fails then crash. Nothing would work anyways.
+
 			});
 		},
-		
+
 		loadSettings : function(){
 			try{
 				this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']));
@@ -48,7 +84,7 @@ PlugPlus.prototype = {
 				this.saveSettings();
 			}
 		},
-		
+
 		updateSettings : function(data){//Preserve defaults if settings are incomplete or non existent.
 			for (var setting in PlugSettings){
 				try{
@@ -58,107 +94,128 @@ PlugPlus.prototype = {
 				}
 			}
 		},
-		
+
 		applySettings : function(){//Apply settings only if they are true. Default state is false.
 			if (PlugSettings.autoJoin){
-				setTimeout("PlugPlus.button.autojoin.attr('id','on');PlugPlus.autojoin();",1000);//Wait 1 second before sending anything. The event isn't ready.
+				this.button.autojoin.switchClass("inactive", "active");
 			}
 			if (PlugSettings.autoWoot){
-				PlugPlus.button.autowoot.attr('id','on');
-				PlugPlus.autowoot();
+				this.button.autowoot.switchClass("inactive", "active");
 			}
 			if (PlugSettings.pluglist){
-				$('#plugPlusSettings').slideUp();
-				$('#plugPlusList').slideToggle();
+				//Not available yet.
 			}
-			this.settingsForm.update();
+			//TODO Reflect changes in settings popup.
 		},
-		
-		saveSettings : function(){localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);},
-		notify : function(_title, _image, _text){
-			if (PlugSettings.notifications)
-				chrome.extension.sendRequest({action:"notify",img:_image, title:_title, text:_text, timeout:PlugSettings.notifyTimeout});
-		},
-		
-		button : {autowoot : 0,autojoin : 0, pluglist : 0, settings : 0, manmode : 0},
-		
-		convertImage : function(src, callback){
-			var image = document.createElement("img");
-			var canvas = document.createElement("canvas");
-			var ctx = canvas.getContext("2d");
 
-			image.crossOrigin = "Anonymous";
-			image.onload = function(){
-				canvas.width = image.width;
-				canvas.height = image.height;
-				ctx.drawImage(image, 0, 0);
-				callback(canvas.toDataURL("image/png"));
-			};
-			image.src = src;
+		saveSettings : function(){
+
+			localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);
+
+			$("#PlugOut").text(JSON.stringify({type:"settingsChange"})).trigger(this.event);
+
 		},
-		
+
+		/*
+		 * Disabled for now. No use including it.
+		 * 
+		 * getSettings : function(){
+
+			var s = PlugSettings;
+
+			//Checks
+			if ($('#PPAutoWootDelay')[0].valueAsNumber>90)
+				$('#PPAutoWootDelay').attr('value',90);
+			if ($('#PPAutoWootDelay')[0].valueAsNumber<0)
+				$('#PPAutoWootDelay').attr('value',0);
+			if ($('#PPNotifyTimeout')[0].valueAsNumber<0)
+				$('#PPNotifyTimeout').attr('value',0);
+			//Save
+			s.notifications = $('#PPNotifications').is(':checked');
+			s.chatLevel = $('#PPChatLevel')[0].selectedIndex;
+			s.userLevel = $('#PPUserLevel')[0].selectedIndex;
+			s.songUpdate = $('#PPSongUpdate')[0].selectedIndex;
+			s.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
+			s.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
+			s.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+
+			//Save settings
+			this.saveSettings();
+
+			//Show settings saved
+			$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
+		},
+
+		setSettings : function(){
+
+			var s = PlugSettings;
+
+			$('#PPNotifications').attr('checked',s.notifications);
+			$('#PPChatLevel').val(s.chatLevel);
+			$('#PPUserLevel').val(s.userLevel);
+			$('#PPSongUpdate').val(s.songUpdate);
+			$('#PPDJUpdate').val(s.djUpdate);
+			$('#PPAutoWootDelay').attr('value',s.autoWootDelay);
+			$('#PPNotifyTimeout').attr('value',s.notifyTimeout);
+
+		},*/
+
+		notify : function(_title, _image, _text){
+			if (PlugSettings.notifications){
+				//TODO
+			}
+		},
+
+		button : {
+			autowoot : null,
+			autojoin : null,
+			pluglist : null,
+			settings : null,
+			plugchat : null,
+			plugUpdates : null
+		},
+
 		sendMessageToApp : function(type, data){
-			
+			//TODO
 		},
-		
+
 		onRecieveMessage : function(type, data){
-			
+			//TODO
+		},
+
+		sendBackgroundMessage : function(type, data){
+			//TODO
+		},
+
+		recieveBackgroundMessage : function(data){
+			//TODO
+		},
+
+		toggle : {
+			autowoot : function(plug){
+				if(PlugSettings.autoWoot){
+					PlugSettings.autoWoot = false;
+					plug.button.autowoot.switchClass("active", "inactive");
+				} else {
+					PlugSettings.autoWoot = true;
+					plug.button.autowoot.switchClass("inactive", "active");
+				}
+
+				plug.saveSettings();
+			},
+			autojoin : function(plug){
+				if(PlugSettings.autoJoin){
+					PlugSettings.autoJoin = false;
+					plug.button.autojoin.switchClass("active", "inactive");
+				} else {
+					PlugSettings.autoJoin = true;
+					plug.button.autojoin.switchClass("inactive", "active");
+				}
+
+				plug.saveSettings();
+			}
 		}
 };
-
-/* TODO Rewrite this.
- * settingsForm : {
-			autoSave : function(){$('.PPSetting').change(this.save);},
-			update : function(){
-				$('#PPNotifications').attr('checked',PlugSettings.notifications);
-				$('#PPChatLevel').val(PlugSettings.chatLevel);
-				$('#PPUserLevel').val(PlugSettings.userLevel);
-				$('#PPSongUpdate').val(PlugSettings.songUpdate);
-				$('#PPDJUpdate').val(PlugSettings.djUpdate);
-				$('#PPAutoWootDelay').attr('value',PlugSettings.autoWootDelay);
-				$('#PPNotifyTimeout').attr('value',PlugSettings.notifyTimeout);
-				$('#PPEBO').attr('checked',PlugSettings.allowBackgroundOverride);
-				$('#PPEAO').attr('checked',PlugSettings.allowAvatarOverride);
-				$('#PPBO').attr('value', PlugSettings.backgroundOverrideURL);
-				$('#PPAAO').val(PlugSettings.audienceOverride);
-				$('#PPBAO').val(PlugSettings.boothOverride);
-				$('#PPDJAO').val(PlugSettings.djOverride);
-			},
-			save : function(){
-				//Checks
-				if ($('#PPAutoWootDelay')[0].valueAsNumber>90)
-					$('#PPAutoWootDelay').attr('value',90);
-				if ($('#PPAutoWootDelay')[0].valueAsNumber<0)
-					$('#PPAutoWootDelay').attr('value',0);
-				if ($('#PPNotifyTimeout')[0].valueAsNumber<0)
-					$('#PPNotifyTimeout').attr('value',0);
-				//Save
-				PlugSettings.notifications = $('#PPNotifications').is(':checked');
-				PlugSettings.chatLevel = $('#PPChatLevel')[0].selectedIndex;
-				PlugSettings.userLevel = $('#PPUserLevel')[0].selectedIndex;
-				PlugSettings.songUpdate = $('#PPSongUpdate')[0].selectedIndex;
-				PlugSettings.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
-				PlugSettings.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
-				PlugSettings.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
-				PlugSettings.allowAvatarOverride = $('#PPEAO').is(':checked');
-				PlugSettings.allowBackgroundOverride = $('#PPEBO').is(':checked');
-				PlugSettings.backgroundOverrideURL = $('#PPBO').val();
-				PlugSettings.audienceOverride = $('#PPAAO').val();
-				PlugSettings.boothOverride = $('#PPBAO').val();
-				PlugSettings.djOverride = $('#PPDJAO').val();
-
-				//Save settings
-				PlugPlus.saveSettings();
-
-				//Special Overrides
-				PlugPlus.performOverrides();
-
-				//Show settings saved
-				$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
-			}
-		},
- */
-
 
 
 /********
@@ -168,10 +225,10 @@ PlugPlus.prototype = {
 function init(){
 	if ($('#audience').length>0){
 		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
-		
-		var plug = new PlugPlus();
-		plug.injectApp();
-		
+
+		//TODO add var when final.
+		plug = new PlugPlus();
+
 	} else {
 		setTimeout(init, 250);
 	}
@@ -220,5 +277,18 @@ function isURL(data){
 	return (false);
 }
 
+function convertImage(src, callback){
+	var image = document.createElement("img");
+	var canvas = document.createElement("canvas");
+	var ctx = canvas.getContext("2d");
 
+	image.crossOrigin = "Anonymous";
+	image.onload = function(){
+		canvas.width = image.width;
+		canvas.height = image.height;
+		ctx.drawImage(image, 0, 0);
+		callback(canvas.toDataURL("image/png"));
+	};
+	image.src = src;
+}
 

@@ -6,28 +6,28 @@
 
 	<div id='plugPlusButtons' class="plugPlusSection">
 
-		<div class='plugButton' id='autowoot'
+		<div class='plugButton inactive' id='autowoot'
 			title="Automatically woots every song.">AutoWoot</div>
 
-		<div class='plugButton' id='autojoin'
+		<div class='plugButton inactive' id='autojoin'
 			title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
 
-		<div class='plugButton' id='pluglist'
-			title="Show a list of users and some stats about each user.">PlugList</div>
+		<div class='plugButton disabled' id='pluglist'
+			title="This is disabled for the time being.">PlugList</div>
 
-		<div class='plugButton' id='settings'>Settings</div>
+		<div class='plugButton disabled' id='settings'
+			title="This is disabled for the time being.">Settings</div>
 
-		<div class='plugButton' id='plugchat'
-			title="Open the chat window to chat with other Plug+ users.">Plug
-			Chat</div>
+		<div class='plugButton disabled' id='plugchat'
+			title="This is disabled for the time being.">PlugChat</div>
 
-		<div class='plugButton' id='plugupdates'
-			title="See recent changes to Plug+ and what is going on.">Updates</div>
+		<div class='plugButton disabled' id='plugupdates'
+			title="This is disabled for the time being.">Updates</div>
 
 	</div>
 
 	<div id="plugPlusInfo" class="plugPlusSection"
-		title="This area displays stats about your room.">
+		title="This area displays stats about your room. Currently disabled.">
 		<div>
 			Users : <span id="plugUsers">-</span>
 		</div>
@@ -44,16 +44,15 @@
 		<!-- Theme controller. Changes to the css will be managed with js. -->
 
 		<div class="plugExpand">
-			<div>Theme Controls</div>
+			<div title="Coming soon.">Theme Controls</div>
 			<div class="plugExpandable"></div>
 		</div>
 
 	</div>
 
+	<!-- None of this content is available yet. Sorry.
 
 	<div id='plugPlusContextContainer'>
-
-		<!-- Container for all popups. -->
 
 		<div class='plugPlusContext' id='plugPlusList'>
 			<div style="border-bottom: thin white solid; padding-bottom: 3px;">
@@ -162,10 +161,14 @@
 			</div>
 		</div>
 	</div>
+	
+	-->
 
 	<div id="plugPipes">
 		<div id="plugIn"></div>
 		<div id="plugOut"></div>
 	</div>
+
+	<div id="plugPlusVersion"></div>
 
 </section>
