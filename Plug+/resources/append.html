@@ -5,29 +5,55 @@
 	</div>
 
 	<div id='plugPlusButtons' class="plugPlusSection">
+
 		<div class='plugButton' id='autowoot'
 			title="Automatically woots every song.">AutoWoot</div>
+
 		<div class='plugButton' id='autojoin'
 			title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
+
 		<div class='plugButton' id='pluglist'
-			title="Show a list of users and some stats about each user.">Plug
-			List</div>
+			title="Show a list of users and some stats about each user.">PlugList</div>
+
 		<div class='plugButton' id='settings'>Settings</div>
+
 		<div class='plugButton' id='plugchat'
 			title="Open the chat window to chat with other Plug+ users.">Plug
 			Chat</div>
+
 		<div class='plugButton' id='plugupdates'
 			title="See recent changes to Plug+ and what is going on.">Updates</div>
+
 	</div>
 
-	<div id="plugPlusInfo" class="plugPlusSection" title="This area displays stats about your room.">
-		<div>Users : <span id="plugUsers">-</span></div>
-		<div>Waitlist : <span id="plugWaitList">-/-</span></div>
-		<div>Song stats: <span id="plugSongStats">-</span></div>
+	<div id="plugPlusInfo" class="plugPlusSection"
+		title="This area displays stats about your room.">
+		<div>
+			Users : <span id="plugUsers">-</span>
+		</div>
+		<div>
+			Waitlist : <span id="plugWaitList">-/-</span>
+		</div>
+		<div>
+			Song stats: <span id="plugSongStats">-</span>
+		</div>
 	</div>
 
-	<!-- Container for all popups. -->
+	<div id="plugThemeControls" class="plugPlusSection">
+
+		<!-- Theme controller. Changes to the css will be managed with js. -->
+
+		<div class="plugExpand">
+			<div>Theme Controls</div>
+			<div class="plugExpandable"></div>
+		</div>
+
+	</div>
+
+
 	<div id='plugPlusContextContainer'>
+
+		<!-- Container for all popups. -->
 
 		<div class='plugPlusContext' id='plugPlusList'>
 			<div style="border-bottom: thin white solid; padding-bottom: 3px;">
@@ -121,6 +147,8 @@
 		</div>
 
 		<div class="plugPlusContext" id="plugPlusChat">
+			<div>The final version of this chat is still in development. In
+				the mean time, we will be using a facebook comments stack.</div>
 			<div class="fb-comments"
 				data-href="https://www.facebook.com/PlugPlus" data-width="600"
 				data-num-posts="10" data-colorscheme="dark"></div>

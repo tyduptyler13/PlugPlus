@@ -21,6 +21,7 @@
   
   "permissions": [
 	"*://*.plug.dj/*",
+	"http://plug.myuplay.com/*",
 	"storage",
 	"notifications",
 	"contextMenus"
@@ -32,9 +33,9 @@
   ],
   
   "web_accessible_resources": [
-  	"js/PlugPlusApp.js",
-	"icon.png",
-	"append.html",
+  	"resources/js/PlugPlusApp.js",
+	"resources/images/icon.png",
+	"resources/append.html",
 	"resources/images/animated-overlay.gif",
 	"resources/images/ui-bg_flat_30_cccccc_40x100.png",
 	"resources/images/ui-bg_flat_50_5c5c5c_40x100.png",
@@ -57,7 +58,7 @@
 	  "matches": ["*://plug.dj/*"],
 	  "exclude_matches": ["*://plug.dj/lobby", "*://plug.dj/lobby/"],
 	  "js": ["resources/js/jquery.js", "resources/js/jquery-ui-1.10.3.custom.js", "resources/js/PlugPlus.js"],
-	  "css": ["resources/jquery-ui-1.10.3.custom.css", "resources/append.css"],
+	  "css": ["resources/css/jquery-ui-1.10.3.custom.css", "resources/css/append.css"],
 	  "run_at": "document_end"
 	}
   ],

@@ -23,6 +23,22 @@ PlugPlus.prototype = {
 		
 		constructor : PlugPlus,
 		
+		injectApp : function(){
+			console.log("Plug+: Injecting PlugPlusApp.");
+			$.get(chrome.extension.getURL("resources/append.html"), function(data){
+				$('body').append(data);
+				
+				$.getScript(chrome.extension.getURL("resources/js/PlugPlusApp.js"))
+					.done(function(script, status, statusid){
+						console.log("Plug+: PlugPlusApp loaded!");
+					})
+					.fail(function(){
+						console.warn("Plug+: PlugPlusApp failed to load!");
+					});
+				
+			});
+		},
+		
 		loadSettings : function(){
 			try{
 				this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']));
@@ -154,6 +170,7 @@ function init(){
 		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
 		
 		var plug = new PlugPlus();
+		plug.injectApp();
 		
 	} else {
 		setTimeout(init, 250);

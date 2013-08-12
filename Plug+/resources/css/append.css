@@ -1,24 +1,87 @@
-#plugPlus{
-	position:absolute;
+#plugPlus {
+	position: absolute;
 	color: white;
-	z-index:99;/*Just below popups*/
-    text-shadow: black 1px 1px 2px;
-    top:0;
-    left:0;
-    width:200px;
-    background-color: rgba(0, 0, 0, .2);
-}
-#plugPlusTitle{
-	width:300px;
-	text-align: center;
-}
-.plugTitle{
-	font-size:large;
-}
-#plugPipes{
-	display:none;
-}
-.plugPlusContext{
-	display:none;
+	z-index: 99; /*Just below popups*/
+	text-shadow: black 1px 1px 2px;
+	top: 0;
+	left: 0;
+	width: 125px;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .2);
 }
 
+#plugPlus div{
+	/* Disable text selection */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#plugPlusTitle {
+	width: 100%;
+	text-align: center;
+}
+
+.plugTitle {
+	font-size: large;
+}
+
+.plugPlusSection {
+	border-top: thin white solid;
+	margin-top: 5px;
+	padding: 3%;
+}
+
+#plugPlusButtons .plugButton {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	width: 95%;
+	max-width: 120px;
+	background-color: #B2B2B2;
+	border-radius: 5px;
+	margin: auto;
+	margin-top: 3px;
+	transition: all .25s;
+	-webkit-transition: all .25s;
+	background-color: #B2B2B2;
+	text-align: center;
+}
+
+#plugPlusButtons .plugButton:hover {
+	background-color: #C1C1C1;
+}
+
+#plugPlusButtons .plugButton.active {
+	background-color: #A3FF85;
+	color: black;
+}
+
+#plugPlusButtons .plugButton.active:hover {
+	background-color: #52CC29;
+}
+
+#plugPlusButtons .plugButton.inactive {
+	background-color: #C00;
+	color: black;
+}
+
+#plugPlusButtons .plugButton.inactive:hover {
+	background-color: #DB4D4D;
+}
+
+#plugPlusButtons .plugButton.disabled {
+	background-color: #666;
+	color: #A3A3A3;
+}
+
+#plugPipes {
+	display: none;
+}
+
+.plugPlusContext {
+	display: none;
+}

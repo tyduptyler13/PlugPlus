@@ -53,39 +53,39 @@ PlugPlusApp.prototype = {
 
 		setupPlugListeners : function(){
 			//Plug Plus listeners
-			
+
 
 			//Plug.dj listeners
-			
+
 
 		},
 
 		autoWoot : function(){
 			if (this.settings.autoWoot){
-				
+
 			}
 		},
-		
+
 		autoJoin : function(){
 			if (this.settings.autoJoin){
-				
+
 			}
 		},
-		
+
 		songUpdate : function(obj){
-			
+
 		},
-		
+
 		djUpdate : function(obj){
-			
+
 		},
-		
+
 		userJoin : function(obj){
-			
+
 		},
-		
+
 		userLeave : function(obj){
-			
+
 		}
 
 };
