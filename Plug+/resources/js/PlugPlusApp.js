@@ -13,14 +13,18 @@
  * the settings from PlugPlus once.
  */
 PlugPlusApp = function(){
-	/* Events */
-	this.event = new Event('plugAppEvent');
-	this.setupEvents();
-
 	this.settings = JSON.parse(localStorage['PlugPlusSettings']);
+	
+	/* Events */
+	this.setupEvents();
+	
+	//Trip auto functions on startup.
+	this.autoWoot();
+	this.autoJoin();
 
 	/* Init */
-	FB.XFBML.parse();//Setup Plug Comments
+	if (FB)//If FB is not ready, it will take care of this anyways.
+		FB.XFBML.parse();//Setup Plug Comments
 };
 PlugPlusApp.prototype = {
 
@@ -29,40 +33,43 @@ PlugPlusApp.prototype = {
 		fireEvent : function(data){
 			$('#plugIn').text(JSON.stringify(data));
 			try{
-				$('#plugIn').get(0).dispatchEvent(this.event);
+				$('#plugIn').trigger(this.event);
 			}catch(e){
 				console.warn("PlugPlusAPP: The system could not fire the event! Some features may not work.", e);
 			}
 		},
 
-		setupEvents : function(){
-			try{
-				$('#plugOut').get(0).addEventListener("plugPlusEvent", this.handlePlugPlusEvent);
-			}catch(e){
-				console.warn("PlugPlusApp: An error occured setting up the event listener. Some features may not work!", e);
-			}
-		},
-
-		handlePlugPlusEvent : function(){
-			var data = $.parseJSON($('#plugOut').text());
+		handlePlugPlusEvent : function(data){
+			var data = data.data;
+			if (data.from != "plugPlus") return;
 			switch(data.type){
-			case "settingsChange": this.settings = JSON.parse(localStorage['PlugPlusSettings']); break;
+			case "settingsChange":
+				this.settings = JSON.parse(localStorage['PlugPlusSettings']);
+				this.autoWoot();
+				this.autoJoin();
+				break;
 			default: console.warn("PlugPlusApp: Something may have gone wrong,",data);
 			}
 		},
 
-		setupPlugListeners : function(){
+		setupEvents : function(){
+			var self = this;
 			//Plug Plus listeners
-
+			try{
+				window.addEventListener("message", function(data){self.handlePlugPlusEvent(data)});
+			}catch(e){
+				console.warn("PlugPlusApp: An error occured setting up the event listener. Some features may not work!", e);
+			}
 
 			//Plug.dj listeners
 			API.on(API.DJ_ADVANCE, this.autoWoot);
+			API.on(API.DJ_UPDATE, this.autoJoin);
 
 		},
 
 		autoWoot : function(){
 			if (this.settings.autoWoot){
-				
+				$('#button-vote-positive').click();
 			}
 		},
 
@@ -90,12 +97,6 @@ PlugPlusApp.prototype = {
 		}
 
 };
-
-PlugData = function(type, eventData){//Standarized message container. Version 2.
-	this.type = type;
-	this.event = eventData;
-};
-PlugData.prototype.constructor = PlugData;
 
 //TODO Make anonymous.
 var plugplus = new PlugPlusApp();

@@ -16,7 +16,7 @@ PlugSettings = {
  * Functions *
  *************/
 PlugPlus = function(){
-	this.event = new Event('plugPlusEvent');
+
 	this.injectApp(function(plug){
 		//Anything that requires the interface to be complete goes here.
 
@@ -39,6 +39,8 @@ PlugPlus = function(){
 		});
 
 		plug.applySettings();
+		
+		window.addEventListener("message", this.onReceiveMessage);
 
 		console.log("Plug+: Setup complete.");
 	});
@@ -112,7 +114,7 @@ PlugPlus.prototype = {
 
 			localStorage['PlugPlusSettings'] = JSON.stringify(PlugSettings);
 
-			$("#PlugOut").text(JSON.stringify({type:"settingsChange"})).trigger(this.event);
+			this.sendMessageToApp("settingsChange", null);
 
 		},
 
@@ -176,18 +178,23 @@ PlugPlus.prototype = {
 		},
 
 		sendMessageToApp : function(type, data){
-			//TODO
+			try{
+				var eventData = {from: "plugPlus", type:type, data:data};
+				window.postMessage(eventData, "http://plug.dj/*");
+			}catch(e){
+				console.error("Plug+: An error has occured!", e);
+			}
 		},
 
-		onRecieveMessage : function(type, data){
-			//TODO
+		onReceiveMessage : function(data){
+			console.debug(data);//TODO Don't use this yet.
 		},
 
 		sendBackgroundMessage : function(type, data){
 			//TODO
 		},
 
-		recieveBackgroundMessage : function(data){
+		receiveBackgroundMessage : function(data){
 			//TODO
 		},
 
