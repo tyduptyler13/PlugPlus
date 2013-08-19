@@ -62,8 +62,13 @@ PlugPlusApp.prototype = {
 			}
 
 			//Plug.dj listeners
-			API.on(API.DJ_ADVANCE, this.autoWoot);
-			API.on(API.DJ_UPDATE, this.autoJoin);
+			var scope = this;
+			API.on(API.DJ_ADVANCE, function(){
+				scope.autoWoot;
+			});
+			API.on(API.DJ_UPDATE, function(){
+				scope.autoJoin;
+			});
 
 		},
 

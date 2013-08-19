@@ -1,7 +1,8 @@
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-32685589-1']);
-_gaq.push(['_trackPageview']);
-_gaq.push(['_setCustomVar',2,'Version',chrome.app.getDetails().version.toString(),2]);
+_gaq.push(['_setAccount', 'UA-32685589-1'],
+		['_trackPageview'],
+		['_setCustomVar', 2, 'Version', chrome.app.getDetails().version, 1]
+);
 
 (function() {
 	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -9,7 +10,7 @@ _gaq.push(['_setCustomVar',2,'Version',chrome.app.getDetails().version.toString(
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
-var icon = chrome.extension.getURL("icon.png");
+var icon = chrome.extension.getURL("resources/images/icon.png");
 
 function notify(img, title, text, timeout){
 	var notification = webkitNotifications.createNotification(img,title,text);
