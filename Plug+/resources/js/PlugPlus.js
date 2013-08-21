@@ -24,9 +24,9 @@ PlugPlus = function(){
 				autowoot : $("#autowoot"),
 				autojoin : $("#autojoin"),
 				pluglist : $("#pluglist"),
-				settings : $(".plugbutton#settings"),
+				settings : $("#settings"),
 				plugchat : $("#plugchat"),
-				plugUpdates : $("#plugupdates")
+				plugupdates : $("#plugupdates")
 		};
 
 		$('.plugButton:not(.disabled)').click(function(){
@@ -39,7 +39,7 @@ PlugPlus = function(){
 		});
 
 		plug.applySettings();
-		
+
 		window.addEventListener("message", this.onReceiveMessage);
 
 		console.log("Plug+: Setup complete.");
@@ -118,10 +118,7 @@ PlugPlus.prototype = {
 
 		},
 
-		/*
-		 * Disabled for now. No use including it.
-		 * 
-		 * getSettings : function(){
+		getSettings : function(){
 
 			var s = PlugSettings;
 
@@ -160,7 +157,7 @@ PlugPlus.prototype = {
 			$('#PPAutoWootDelay').attr('value',s.autoWootDelay);
 			$('#PPNotifyTimeout').attr('value',s.notifyTimeout);
 
-		},*/
+		},
 
 		notify : function(_title, _image, _text){
 			if (PlugSettings.notifications){
@@ -198,9 +195,27 @@ PlugPlus.prototype = {
 			//TODO
 		},
 
+		openPopup : function(id, extraParams){
+			var params = {
+					appendTo : "#plugPlusContextContainer",
+					minWidth : 400,
+					minHeight : 200
+			};
+			
+			for(param in extraParams){
+				params[param]=extraParams[param];
+			}
+			
+			$(id).dialog(params);
+		},
+
+		closePopup : function(id){
+			$(id).dialog("destroy");
+		},
+
 		toggle : {
 			autowoot : function(plug){
-				if(PlugSettings.autoWoot){
+				if (PlugSettings.autoWoot){
 					PlugSettings.autoWoot = false;
 					plug.button.autowoot.switchClass("active", "inactive");
 				} else {
@@ -211,7 +226,7 @@ PlugPlus.prototype = {
 				plug.saveSettings();
 			},
 			autojoin : function(plug){
-				if(PlugSettings.autoJoin){
+				if (PlugSettings.autoJoin){
 					PlugSettings.autoJoin = false;
 					plug.button.autojoin.switchClass("active", "inactive");
 				} else {
@@ -220,6 +235,64 @@ PlugPlus.prototype = {
 				}
 
 				plug.saveSettings();
+			},
+			pluglist : function(plug){
+				if (plug.button.pluglist.hasClass('active')){
+					plug.button.pluglist.removeClass('active');
+					plug.closePopup('#plugPlusList');
+				} else {
+					plug.button.pluglist.addClass('active');
+					plug.openPopup('#plugPlusList', {
+						close : function(){
+							plug.button.pluglist.removeClass('active');
+						}
+					});
+				}
+			},
+			settings : function(plug){
+				if (plug.button.settings.hasClass('active')){
+					plug.button.settings.removeClass('active');
+					plug.closePopup('#plugPlusSettings');
+				} else {
+					plug.button.settings.addClass('active');
+					plug.openPopup('#plugPlusSettings', {
+						close : function(){
+							plug.button.settings.removeClass('active');
+						},
+						width: 800,
+						height: 330
+					});
+				}
+			},
+			plugchat : function(plug){
+				if (plug.button.plugchat.hasClass('active')){
+					plug.button.plugchat.removeClass('active');
+					plug.closePopup('#plugPlusChat');
+				} else {
+					plug.button.plugchat.addClass('active');
+					plug.openPopup('#plugPlusChat', {
+						close : function(){
+							plug.button.plugchat.removeClass('active');
+						},
+						width: 550,
+						height: 420
+					});
+				}
+			},
+			plugupdates: function(plug){
+				if (plug.button.plugupdates.hasClass('active')){
+					plug.button.plugupdates.removeClass('active');
+					plug.closePopup('#plugPlusUpdates');
+				} else {
+					plug.button.plugupdates.addClass('active');
+					plug.openPopup('#plugPlusUpdates', {
+						close : function(){
+							plug.button.plugupdates.removeClass('active');
+						},
+						width: 850,
+						height: 600
+					});
+				}
 			}
 		}
 };

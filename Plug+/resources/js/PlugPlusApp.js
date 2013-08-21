@@ -53,28 +53,42 @@ PlugPlusApp.prototype = {
 		},
 
 		setupEvents : function(){
-			var self = this;
+			var scope = this;
 			//Plug Plus listeners
 			try{
-				window.addEventListener("message", function(data){self.handlePlugPlusEvent(data)});
+				window.addEventListener("message", function(data){scope.handlePlugPlusEvent(data)});
 			}catch(e){
 				console.warn("PlugPlusApp: An error occured setting up the event listener. Some features may not work!", e);
 			}
 
 			//Plug.dj listeners
-			var scope = this;
 			API.on(API.DJ_ADVANCE, function(){
-				scope.autoWoot;
+				scope.autoWoot();
+				scope.updateRoomStats();
 			});
 			API.on(API.DJ_UPDATE, function(){
-				scope.autoJoin;
+				scope.autoJoin();
+			});
+			API.on(API.VOTE_UPDATE, function(){
+				scope.updateRoomStats();
+			});
+			API.on(API.WAIT_LIST_UPDATE, function(){
+				scope.updateRoomStats();
+			});
+			API.on(API.USER_JOIN, function(){
+				scope.updateRoomStats();
+			});
+			API.on(API.USER_LEAVE, function(){
+				scope.updateRoomStats();
 			});
 
 		},
 
 		autoWoot : function(){
 			if (this.settings.autoWoot){
-				$('#button-vote-positive').click();
+				setTimeout(function(){
+						$('#button-vote-positive').click();
+				}, this.settings.autoWootDelay * 1000);
 			}
 		},
 
@@ -86,19 +100,42 @@ PlugPlusApp.prototype = {
 		},
 
 		songUpdate : function(obj){
-
+			
 		},
 
 		djUpdate : function(obj){
-
+			
 		},
 
 		userJoin : function(obj){
-
+			
 		},
 
 		userLeave : function(obj){
-
+			
+		},
+		
+		userVote : function(obj){
+			
+		},
+		
+		updateRoomStats : function(){
+			var userCount = API.getUsers().length;
+			var waitListLength = API.getWaitList().length;
+			var waitListPosition = API.getWaitListPosition();
+			var roomVotes = API.getRoomScore();
+			var percent = (.5 + ((roomVotes.positive/userCount) - (roomVotes.negative/userCount))*.5) * 100;
+			
+			$('#plugUsers').text(userCount);
+			
+			if (waitListPosition != -1){
+				$('#plugWaitList').text(waitListPosition + "/" + waitListlength);
+			} else {
+				$('#plugWaitList').text(waitListLength);
+			}
+			
+			$('#plugSongStats').text(percent.toPrecision(5) + "%");
+			
 		}
 
 };

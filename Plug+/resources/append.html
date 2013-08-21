@@ -13,29 +13,30 @@
 			title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
 
 		<div class='plugButton disabled' id='pluglist'
-			title="This is disabled for the time being.">PlugList</div>
+			title="Opens the PlugList Window. (Coming soon)">PlugList</div>
 
 		<div class='plugButton disabled' id='settings'
-			title="This is disabled for the time being.">Settings</div>
+			title="Opens settings window. (Coming soon)">Settings</div>
 
-		<div class='plugButton disabled' id='plugchat'
-			title="This is disabled for the time being.">PlugChat</div>
+		<div class='plugButton' id='plugchat'
+			title="Opens the Plug+ chat window.">PlugChat</div>
 
-		<div class='plugButton disabled' id='plugupdates'
-			title="This is disabled for the time being.">Updates</div>
+		<div class='plugButton' id='plugupdates'
+			title="Opens the updates window.">Updates</div>
 
 	</div>
 
-	<div id="plugPlusInfo" class="plugPlusSection"
-		title="This area displays stats about your room. Currently disabled.">
+	<div id="plugPlusInfo" class="plugPlusSection">
 		<div>
-			Users : <span id="plugUsers">-</span>
+			Users : <span id="plugUsers" title="Total users in the room.">-</span>
 		</div>
 		<div>
-			Waitlist : <span id="plugWaitList">-/-</span>
+			Waitlist : <span id="plugWaitList"
+				title="Number of people in the waitlist with your position on top (If you are in the list.)">-/-</span>
 		</div>
 		<div>
-			Song stats: <span id="plugSongStats">-</span>
+			Song stats: <span id="plugSongStats"
+				title="A percent based on total woots, mehs, and people in the room.">-</span>
 		</div>
 	</div>
 
@@ -50,11 +51,9 @@
 
 	</div>
 
-	<!-- None of this content is available yet. Sorry.
-
 	<div id='plugPlusContextContainer'>
 
-		<div class='plugPlusContext' id='plugPlusList'>
+		<div class='plugPlusContext' id='plugPlusList' title="Plug+ List">
 			<div style="border-bottom: thin white solid; padding-bottom: 3px;">
 				PlugList
 				<div style="float: right; display: inline-block;">
@@ -70,7 +69,8 @@
 			</div>
 		</div>
 
-		<div class='plugPlusContext' id='plugPlusSettings'>
+		<div class='plugPlusContext' id='plugPlusSettings'
+			title="Plug+ Settings">
 			<div>
 				<div style="border-bottom: thin white solid;">
 					Settings <span id="PPSaved">Saved</span>
@@ -145,24 +145,39 @@
 			</div>
 		</div>
 
-		<div class="plugPlusContext" id="plugPlusChat">
+		<div class="plugPlusContext" id="plugPlusChat" title="Plug+ Chat">
 			<div>The final version of this chat is still in development. In
 				the mean time, we will be using a facebook comments stack.</div>
-			<div class="fb-comments"
-				data-href="https://www.facebook.com/PlugPlus" data-width="600"
-				data-num-posts="10" data-colorscheme="dark"></div>
+			<hr>
+			<fb:comments href="https://www.facebook.com/PlugPlus"
+				colorscheme="dark" width="500" order_by="reverse_time"></fb:comments>
 		</div>
 
-		<div class="plugPlusContext" id="plugPlusUpdates">
+		<div class="plugPlusContext" id="plugPlusUpdates"
+			title="Plug+ Updates">
 			<div>
-				Use this form to leave comments, report errors, etc.
-				<iframe id="plugContactForm"
+				<article>
+					Alpha 2:
+					<hr>
+					Setup popup windows. PlugList and PlugSettings are still inactive
+					in this version.
+				</article>
+				<article>
+					Alpha 1:
+					<hr>
+					Setup autowoot and autojoin for new interface.
+				</article>
+			</div>
+			<div>
+				Use this form to leave comments, report errors, etc.<br>
+				<iframe
+					style="margin: auto; min-width: 500px; width: 100%; height: 500px"
+					id="plugContactForm"
 					src="https://docs.google.com/forms/d/1wD7ZjsrFKk2DgJRifjWX7JsDz4TdN5FwvJoS0t9Pmro/viewform?embedded=true">Loading...</iframe>
 			</div>
 		</div>
 	</div>
-	
-	-->
+
 	<div id="plugPlusVersion"></div>
 
 </section>

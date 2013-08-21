@@ -85,6 +85,17 @@
 
 .plugPlusContext {
 	display: none;
+	position: absolute;
+}
+
+#plugPlusUpdates article{
+	border: 1px white solid;
+	margin-top: 10px;
+	width: 100%;
+}
+
+#plugPlusUpdates div{
+	margin:10px;
 }
 
 #plugPlusVersion{
@@ -93,3 +104,4 @@
 	bottom: 0;
 	right: 0;
 }
+

@@ -56,6 +56,7 @@ function RequestData(success, data, callback){
 	this.responce = data;
 	this.callback = callback;
 }
+RequestData.prototype.constructor = RequestData;
 
 if (localStorage["lastVersion"] !== undefined) {
 	if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
