@@ -129,7 +129,7 @@ PlugPlusApp.prototype = {
 			$('#plugUsers').text(userCount);
 			
 			if (waitListPosition != -1){
-				$('#plugWaitList').text(waitListPosition + "/" + waitListlength);
+				$('#plugWaitList').text(waitListPosition + "/" + waitListLength);
 			} else {
 				$('#plugWaitList').text(waitListLength);
 			}
