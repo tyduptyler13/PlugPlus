@@ -12,10 +12,10 @@
 		<div class='plugButton inactive' id='autojoin'
 			title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
 
-		<div class='plugButton disabled' id='pluglist'
+		<div class='plugButton' id='pluglist'
 			title="Opens the PlugList Window. (Coming soon)">PlugList</div>
 
-		<div class='plugButton disabled' id='settings'
+		<div class='plugButton' id='settings'
 			title="Opens settings window. (Coming soon)">Settings</div>
 
 		<div class='plugButton' id='plugchat'
@@ -55,8 +55,8 @@
 
 		<div class='plugPlusContext' id='plugPlusList' title="Plug+ List">
 			<div style="border-bottom: thin white solid; padding-bottom: 3px;">
-				PlugList
-				<div style="float: right; display: inline-block;">
+				PlugList <div id="refresh" class="ui-state-default ui-corner-all" title="Refresh"><span class="ui-icon ui-icon-arrowrefresh-1-e">Refresh</span></div>
+				<div style="position:absolute; right:2%; display: inline-block;">
 					Legend: <span style="background-color: green">Woot</span>, <span
 						style="background-color: red">Meh</span>, <span
 						style="border: thin #e90e82 solid">Admin</span>, <span

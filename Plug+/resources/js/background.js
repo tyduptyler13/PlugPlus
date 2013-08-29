@@ -10,7 +10,7 @@ _gaq.push(['_setAccount', 'UA-32685589-1'],
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
-var icon = chrome.extension.getURL("resources/images/icon.png");
+var icon = chrome.extension.getURL("resources/images/largeIcon.png");
 
 function notify(img, title, text, timeout){
 	var notification = webkitNotifications.createNotification(img,title,text);

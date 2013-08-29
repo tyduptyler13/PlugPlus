@@ -105,3 +105,43 @@
 	right: 0;
 }
 
+#plugPlusList #refresh{
+	width:16px;
+	height:16px;
+	display:inline-block;
+}
+
+#plugPlusListArea{
+	text-align: center;
+}
+
+#plugPlusListArea div{
+	background-color: black;
+	display: inline-block;
+	margin: 3px;
+}
+
+#plugPlusListArea .you{
+	border: solid #0072BB thin;
+}
+
+#plugPlusListArea .woot{
+	background-color: green;
+}
+
+#plugPlusListArea .meh{
+	background-color: red;
+}
+
+#plugPlusListArea .fan, #plugPlusListArea .friend{
+	border: dashed yellow thin;
+}
+
+#plugPlusListArea .friend{
+	border-style: solid;
+}
+
+#plugPlusListArea .mod{
+	outline: solid #E90E82 thin; 
+}
+

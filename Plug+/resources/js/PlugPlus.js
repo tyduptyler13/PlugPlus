@@ -245,7 +245,9 @@ PlugPlus.prototype = {
 					plug.openPopup('#plugPlusList', {
 						close : function(){
 							plug.button.pluglist.removeClass('active');
-						}
+						},
+						width: 800,
+						height: 250
 					});
 				}
 			},
