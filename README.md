@@ -12,8 +12,6 @@ Current Features
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
 * AutoWoot Delayed Vote
-* Resize and Drag ability (Manipulate mode)
-* Page avatar and background overrides.
 
 Planned Features
 ----
@@ -23,10 +21,12 @@ Planned Features
   + Song limiter
 * Language Support
 * Music purchase sites (spotify, etc)
+* Reverse Youtube
 
 
 Change Log
 ----
+* `2.0`   - Total rework for improvements in interface and code.
 * `1.1.4` - Background release (Avatars coming in a patch)
 * `1.1.3` - Stat counter
 * `1.1.2` - Manipulate mode
@@ -37,15 +37,9 @@ Change Log
 * `1.0.2` - Auto Features
 * `1.0.1` - Extension Dropdown
 
-Patch Notes (Only for latest minor version)
-
-* `1.1.4.0` - Alpha and beta development of features. Changes are visible in the commits.
-* `1.1.4.1` - Release of Backgrounds.
-* `1.1.4.2` - Fixed chat issue.
-* `1.1.4.3` - Fixed some bugs and updated sponsor.
-* `1.1.4.8` - Avatar beta release.
-
-NOTICE
+Notes
 ----
-+ Dev version has been removed. To use a dev version just clone this repository to a location on your computer. Tutorial will be in the wiki.
-+ I have changed to a creative commons license. Basicly anyone can use my code under the condition they leave proper credit to the original work.
++ Patch notes are no longer updated. To see what has changed, look at the commit history.
++ Starting in version 2, the 4th version part is now a build or change counter. It will always increase with
+every change and will no longer reset with higher version part changes. 
+

@@ -73,7 +73,7 @@
 			title="Plug+ Settings">
 			<div>
 				<div style="border-bottom: thin white solid;">
-					Settings <span id="PPSaved">Saved</span>
+					Settings
 				</div>
 				<form id="plugPlusSettingsForm">
 					<table>
@@ -89,7 +89,7 @@
 						</tr>
 						<tr>
 							<td>Chat Level</td>
-							<td><select class="PPSetting" id="PPChatLevel">
+							<td><select class="PPSetting ui-corner-all ui-widget-content" id="PPChatLevel">
 									<option value="0">None</option>
 									<option value="1">Only Mentions</option>
 									<option value="2">Mentions and friends</option>
@@ -99,7 +99,7 @@
 						</tr>
 						<tr>
 							<td>User Level</td>
-							<td><select class="PPSetting" id="PPUserLevel">
+							<td><select class="PPSetting ui-corner-all ui-widget-content" id="PPUserLevel">
 									<option value="0">None</option>
 									<option value="1">Friends</option>
 									<option value="2">All</option>
@@ -109,7 +109,7 @@
 						</tr>
 						<tr>
 							<td>Song Update</td>
-							<td><select class="PPSetting" id="PPSongUpdate">
+							<td><select class="PPSetting ui-corner-all ui-widget-content" id="PPSongUpdate">
 									<option value="0">None</option>
 									<option value="1">Friends</option>
 									<option value="2">All</option>
@@ -118,7 +118,7 @@
 						</tr>
 						<tr>
 							<td>DJ Update</td>
-							<td><select class="PPSetting" id="PPDJUpdate">
+							<td><select class="PPSetting ui-corner-all ui-widget-content" id="PPDJUpdate">
 									<option value="0">None</option>
 									<option value="1">Friends</option>
 									<option value="2">All</option>
@@ -127,19 +127,20 @@
 						</tr>
 						<tr>
 							<td>AutoWoot Delay</td>
-							<td><input class="PPSetting" id="PPAutoWootDelay"
-								type="number" min="0" max="90" /></td>
+							<td><input class="PPSetting ui-corner-all spinner" id="PPAutoWootDelay"
+								min="0" max="90" /></td>
 							<td>Choose a number in seconds to wait before wooting.
 								(0-90)</td>
 						</tr>
 						<tr>
 							<td>Notification Timeout</td>
-							<td><input class="PPSetting" id="PPNotifyTimeout"
-								type="number" min="0" /></td>
+							<td><input class="PPSetting ui-corner-all spinner" id="PPNotifyTimeout" min="0" /></td>
 							<td>Length in seconds before a notification is closed
 								automatically. 0 will disable timeouts. (0-&infin;)</td>
 						</tr>
 					</table>
+					
+					<button class="PPSave">Save</button>
 
 				</form>
 			</div>

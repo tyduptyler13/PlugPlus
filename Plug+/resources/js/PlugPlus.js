@@ -37,6 +37,8 @@ PlugPlus = function(){
 				console.warn("Plug+: A button has been pressed that does not have a toggle defined!");
 			}
 		});
+		
+		$('.PPSetting.spinner').spinner();
 
 		plug.applySettings();
 
