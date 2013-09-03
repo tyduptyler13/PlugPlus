@@ -1,14 +1,26 @@
-PlugSettings = {
+var PlugSettings = {
 		notifications : true, //Global notifications flag
-		chatLevel : 1, //0 = no notification, 1 = Only mentions, 2 = mentions and friends, 3 = all
-		userLevel : 0, //0 = no notification, 1 = friends, 2 = all
-		autoWootDelay : 0, //Seconds to delay woot
+		chatLevel : {
+			mention : true,
+			friend : true,
+			mod : true,
+			all : false
+		},
+		userLevel : 1, //0 = no notification, 1 = friends, 2 = all
+		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
 		autoJoin : false,
 		pluglist : false,
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
 		notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
+		configVersion : 2
+};
+
+var PlugSetting = {
+		"none" : 0,
+		"friends" : 1,
+		"all" : 2
 };
 
 
@@ -37,8 +49,14 @@ PlugPlus = function(){
 				console.warn("Plug+: A button has been pressed that does not have a toggle defined!");
 			}
 		});
-		
+
+
+
 		$('.PPSetting.spinner').spinner();
+		$('.PPSetting.check').buttonset();
+		$('.PPSetting.radio').buttonset();
+		$('#PPNotifications').button();
+		$('#PPSave').button();
 
 		plug.applySettings();
 
@@ -81,9 +99,20 @@ PlugPlus.prototype = {
 
 		loadSettings : function(){
 			try{
-				this.updateSettings(JSON.parse(localStorage['PlugPlusSettings']));
+				var settings = JSON.parse(localStorage['PlugPlusSettings']);
+				if (settings.configVersion == undefined || settings.configVersion < PlugSettings.configVersion){
+					this.updateSettings({});
+					this.createDialog("Your settings were using an old format. Please update the settings.", {
+						dialogClass : "alert",
+						title: "Notice"});
+				} else {
+					this.updateSettings(settings);
+				}
 			} catch(e) {
-				console.warn("Plug+ warning:",e);
+				console.warn("Plug+ warning: ",e);
+				this.createDialog("An error occured loading your settings and the default settings were loaded instead.", {
+					dialogClass : "alert ui-state-error",
+					title: "Notice"});
 				this.updateSettings({});//Pass empty array to reset settings;
 				this.saveSettings();
 			}
@@ -105,9 +134,6 @@ PlugPlus.prototype = {
 			}
 			if (PlugSettings.autoWoot){
 				this.button.autowoot.switchClass("inactive", "active");
-			}
-			if (PlugSettings.pluglist){
-				//Not available yet.
 			}
 			//TODO Reflect changes in settings popup.
 		},
@@ -203,16 +229,30 @@ PlugPlus.prototype = {
 					minWidth : 400,
 					minHeight : 200
 			};
-			
+
 			for(param in extraParams){
 				params[param]=extraParams[param];
 			}
-			
+
 			$(id).dialog(params);
 		},
 
 		closePopup : function(id){
 			$(id).dialog("destroy");
+		},
+
+		createDialog : function(message, params){
+			var element = $(document.createElement('div'));
+			element.append(message);
+			element.addClass("plugPlusContext");
+
+			$('#plugPlusContextContainer').append(element);
+
+			params.close = (params.close != undefined) ? params.close : function(){
+				element.remove();
+			};
+
+			this.openPopup(element, params);
 		},
 
 		toggle : {

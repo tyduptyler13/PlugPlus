@@ -105,6 +105,18 @@
 	right: 0;
 }
 
+#plugPlusSettingsForm{
+	border-collapse: collapse;
+}
+
+#plugPlusSettingsForm{
+	
+}
+
+#plugPlusSettingsForm tr td:nth-child(2){
+	width:300px;
+}
+
 .PPSetting:not([type=checkbox]){
 	width:100%;
 }
