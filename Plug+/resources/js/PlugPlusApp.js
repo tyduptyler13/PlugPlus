@@ -14,20 +14,20 @@
  */
 PlugPlusApp = function(){
 	this.settings = JSON.parse(localStorage['PlugPlusSettings']);
-	
+
 	/* Events */
 	this.setupEvents();
-	
+
 	//Trip auto functions on startup.
 	this.autoWoot();
 	this.autoJoin();
-	
+
 	var scope = this;
-	
+
 	setTimeout(function(){
 		scope.setupPlugList();
 	}, 10000);
-	
+
 	$('#plugPlusList #refresh').click(function(){
 		scope.setupPlugList();
 	});
@@ -99,7 +99,7 @@ PlugPlusApp.prototype = {
 		autoWoot : function(){
 			if (this.settings.autoWoot){
 				setTimeout(function(){
-						$('#button-vote-positive').click();
+					$('#button-vote-positive').click();
 				}, this.settings.autoWootDelay * 1000);
 			}
 		},
@@ -112,81 +112,82 @@ PlugPlusApp.prototype = {
 		},
 
 		songUpdate : function(obj){
-			
+
 			$('#plugPlusListArea div').removeClass('woot meh');
-			
+
 		},
 
 		djUpdate : function(obj){
-			
+
 		},
 
 		userJoin : function(obj){
-			
+
 			var u = obj.user;
 			var user = new ListUser(u.id, u.username, u.permission, you, u.relationship, u.vote);
 			$('#plugPlusListArea').append(user.getDOM());
-			
+
 		},
 
 		userLeave : function(obj){
-			
+
 			this.getUser(obj.user.id).remove();
-			
+
 		},
-		
+
 		userVote : function(obj){
-			
+
 			var vote = (obj.vote == 1) ? "woot" : "meh";
-			
+
 			$("#" + obj.user.id).removeClass('woot meh').addClass(vote);
-			
+
 		},
-		
+
 		updateRoomStats : function(){
 			var userCount = API.getUsers().length;
 			var waitListLength = API.getWaitList().length;
 			var waitListPosition = API.getWaitListPosition();
 			var roomVotes = API.getRoomScore();
-			var percent = (.5 + ((roomVotes.positive/userCount) - (roomVotes.negative/userCount))*.5) * 100;
-			
+			var percent = (.5 + ((roomVotes.positive/(userCount-1)) - (roomVotes.negative/(userCount-1))) *.5 ) * 100;
+			//50% + (Positive Votes Percent - Negative Votes Percent)*50% with the dj taken out of the total since he cant vote. 
+
 			$('#plugUsers').text(userCount);
-			
+
 			if (waitListPosition != -1){
 				$('#plugWaitList').text(waitListPosition + "/" + waitListLength);
 			} else {
 				$('#plugWaitList').text(waitListLength);
 			}
-			
+
 			$('#plugSongStats').text(percent.toPrecision(5) + "%");
-			
-			
+
+
 		},
-		
+
 		setupPlugList : function(){
-			
+
 			var you = API.getUser().id;
-			
+
 			var listArea = $('#plugPlusListArea');
 			var users = API.getUsers();
-			
+
 			listArea.text("");//Clear
-			
+
 			for (var i = 0; i<users.length; ++i){
-				
+
 				var u = users[i];
 				var user = new ListUser(u.id, u.username, u.permission, you, u.relationship, u.vote);
-				
+
 				listArea.append(user.getDOM());
-				
+
 			}
-			
+
 		},
-		
+
 		getUser : function(id){
-			
+
 			return $('#' + id);
-			
+
 		}
 };
 
@@ -200,35 +201,35 @@ ListUser = function(id, name, permission, you, relation, vote){
 };
 ListUser.prototype.constructor = ListUser;
 ListUser.prototype.getDOM = function(){
-	
+
 	var element = document.createElement('div');
 	var je = $(element);
-	
+
 	je.attr('id', this.id);
 	je.text(this.name);
-	
+
 	if (this.relation > 2){
 		je.addClass('friend');
 	} else if (this.relation > 0){
 		je.addClass('fan');
 	}
-	
+
 	if (this.isMod){
 		je.addClass('mod');
 	}
-	
+
 	if (this.isYou){
 		je.addClass('you');
 	}
-	
+
 	if (this.vote == 1){
 		je.addClass('woot');
 	} else if (this.vote == -1){
 		je.addClass('meh');
 	}
-	
+
 	return element;
-	
+
 };
 
 
