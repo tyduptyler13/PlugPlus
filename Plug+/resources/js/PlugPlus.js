@@ -187,12 +187,6 @@ PlugPlus.prototype = {
 
 		},
 
-		notify : function(_title, _image, _text){
-			if (PlugSettings.notifications){
-				//TODO
-			}
-		},
-
 		button : {
 			autowoot : null,
 			autojoin : null,
