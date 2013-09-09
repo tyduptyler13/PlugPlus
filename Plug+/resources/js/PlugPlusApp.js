@@ -76,6 +76,7 @@ PlugPlusApp.prototype = {
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
+				scope.notify("Song Update!", "http://www.lensert.com/qv.png", "Author: " + API.getMedia().author + "\nSong: " + API.getMedia().title);
 			});
 			API.on(API.DJ_UPDATE, function(){
 				scope.autoJoin();
@@ -188,6 +189,25 @@ PlugPlusApp.prototype = {
 
 			return $('#' + id);
 
+		},
+		
+		notify : function(_title, _image, _text){
+			if (this.settings.notifications){
+				var havePermission = window.webkitNotifications.checkPermission();
+				if (havePermission == 0) {
+					var notification = window.webkitNotifications.createNotification(
+								  _image,
+							      _title,
+							      _text
+						);
+					notification.show();
+					setTimeout(function(){ 
+						notification.close();
+				}, (this.settings.notifyTimeout*1000));
+			} else {
+				window.webkitNotifications.requestPermission();
+			}
+		}
 		}
 };
 
