@@ -56,7 +56,6 @@ PlugPlus = function(){
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
 		$('#PPNotifications').button();
-		$('#PPSave').button();
 
 		plug.applySettings();
 
@@ -135,7 +134,74 @@ PlugPlus.prototype = {
 			if (PlugSettings.autoWoot){
 				this.button.autowoot.switchClass("inactive", "active");
 			}
-			//TODO Reflect changes in settings popup.
+			//Settings form
+			if (PlugSettings.notifications){
+				$('#PPNotifications').prop('checked', true);
+			}
+
+			if (PlugSettings.chatLevel.all){
+				$('.PPChat').prop('checked', true);
+			} else {//The following is already checked if the last statement was true.
+				if (PlugSettings.chatLevel.friend){
+					$('#PPChatFriends').prop('checked', true);
+				}
+				if (PlugSettings.chatLevel.mod){
+					$('#PPChatMod').prop('checked', true);
+				}
+				if (PlugSettings.chatLevel.mention){
+					$('#PPChatMentions').prop('checked', true);
+				}
+			}
+
+			switch(PlugSettings.userLevel){
+			case 0:
+				$('#PPUserLevelNone').prop('checked', true);
+				break;
+			case 1:
+				$('#PPUserLevelFriends').prop('checked', true);
+				break;
+			case 2:
+				$('#PPUserLevelAll').prop('checked', true);
+			default: console.warn("Plug+ : UserLevel is incorrectly set. Recommend resetting it.");
+			}
+
+			switch(PlugSettings.songUpdate){
+			case 0:
+				$('#PPSongUpdateNone').prop('checked', true);
+				break;
+			case 1:
+				$('#PPSongUpdateFriends').prop('checked', true);
+				break;
+			case 2:
+				$('#PPSongUpdateAll').prop('checked', true);
+				break;
+			default: console.warn("Plug+ : SongUpdate is incorrectly set. Recommend resetting it.");
+			}
+
+			switch(PlugSettings.djUpdate){
+			case 0:
+				$('#PPDJUpdateNone').prop('checked', true);
+				break;
+			case 1:
+				$('#PPDJUpdateFriends').prop('checked', true);
+				break;
+			case 2:
+				$('#PPDJUpdateAll').prop('checked', true);
+				break;
+			default: console.warn("Plug+: DJUpdate is incorrectly set. Recommend resetting it.");
+			}
+
+			$('#PPAutoWootDelay').val(PlugSettings.autoWootDelay);
+			$('#PPNotifyTimeout').val(PlugSettings.notifyTimeout);
+			
+			/**
+			 * Once again, finding broken methods in jqueryui and decided to make my own.
+			 * Basicly this will find the button elements, select the labels that represent them
+			 * and switch their classes to show that they are selected. Normally this is done
+			 * with $.button('refresh') but it wouldn't work on buttonsets.
+			 */
+			$('input:checked').next().switchClass('.ui-state-default', 'ui-state-active');
+
 		},
 
 		saveSettings : function(){

@@ -15,8 +15,8 @@
 		<div class='plugButton' id='pluglist'
 			title="Opens the PlugList Window.">PlugList</div>
 
-		<div class='plugButton' id='settings'
-			title="Opens settings window.">Settings</div>
+		<div class='plugButton disabled' id='settings'
+			title="Opens settings window. This functionality is not available yet.">Settings</div>
 
 		<div class='plugButton' id='plugchat'
 			title="Opens the Plug+ chat window.">PlugChat</div>
@@ -85,20 +85,21 @@
 						</tr>
 						<tr>
 							<td>Global Notifications</td>
-							<td><input type="checkbox" id="PPNotifications" /><label
-								for="PPNotifications">Enabled</label></td>
+							<td><input type="checkbox" class="PPSetting"
+								id="PPNotifications" /><label for="PPNotifications">Enabled</label></td>
 							<td>Uncheck this to disable all notifications completely.
 								(Currently only works on Windows, Mac, and ChromeOS)</td>
 						</tr>
 						<tr>
 							<td>Chat Level</td>
 							<td><div class="check PPSetting" id="PPChatLevel">
-									<input type="checkbox" id="PPChatMentions"><label
+									<input type="checkbox" class="PPChat" id="PPChatMentions"><label
 										for="PPChatMentions">Mentions</label> <input type="checkbox"
-										id="PPChatFriends"><label for="PPChatFriends">Friends</label>
-									<input type="checkbox" id="PPChatMod"><label
-										for="PPChatMod">Mods</label> <input type="checkbox"
-										id="PPChatAll"><label for="PPChatAll">All</label>
+										class="PPChat" id="PPChatFriends"><label
+										for="PPChatFriends">Friends</label> <input type="checkbox"
+										class="PPChat" id="PPChatMod"><label for="PPChatMod">Mods</label>
+									<input type="checkbox" class="PPChat" id="PPChatAll"><label
+										for="PPChatAll">All</label>
 								</div></td>
 							<td>Choose what chats you would like to be notified of.
 								Disable all options to disable. Using the all option will
@@ -154,8 +155,6 @@
 						</tr>
 					</table>
 
-					<button id="PPSave">Save</button>
-
 				</form>
 			</div>
 		</div>
@@ -174,8 +173,12 @@
 				<article>
 					Beta 1:
 					<hr>
-					Finished the basic functionality of the new interfaces and fixed *most* of the bugs.
-					This does not mean that bugs don't still exist.
+					Released without notification capabilities for whole public.
+				</article>
+				<article>
+					Alpha 3:
+					<hr>
+					Released a completed UI. Settings and notifications still missing.
 				</article>
 				<article>
 					Alpha 2:
@@ -190,15 +193,18 @@
 				</article>
 			</div>
 			<div>
-				Use this form to leave comments, report errors, etc.<br>
-				<iframe
-					style="margin: auto; min-width: 500px; width: 100%; height: 500px"
-					id="plugContactForm"
-					src="https://docs.google.com/forms/d/1wD7ZjsrFKk2DgJRifjWX7JsDz4TdN5FwvJoS0t9Pmro/viewform?embedded=true">Loading...</iframe>
+				The error reporting form has been removed. Please leave all comments
+				<a href="">here</a>. Please don't leave any comments referring to
+				the lack of notifications and the settings form.
+
 			</div>
 		</div>
 	</div>
 
-	<div id="plugPlusVersion"></div>
+	<footer>
+		<fb:like href="https://www.facebook.com/PlugPlus" width="125"
+			colorscheme="dark" layout="button_count" show_faces="true"
+			send="false"></fb:like>
+	</footer>
 
 </section>
