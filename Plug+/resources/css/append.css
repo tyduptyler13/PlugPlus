@@ -10,6 +10,35 @@
 	background-color: rgba(0, 0, 0, .2);
 }
 
+#plugPlus.right{
+	left: auto;
+	right: 0;
+}
+
+#plugPlus.autoHide{
+	height: 25px;
+	transition: height .5s;
+	overflow: hidden;
+	-webkit-transition: height .5s;
+}
+
+#plugPlus footer{
+	transition: opacity .25s;
+	-webkit-transition: opacity .25s;
+}
+
+#plugPlus.autoHide footer{
+	opacity: 0;
+}
+
+#plugPlus.autoHide:hover{
+	height: 100%;
+}
+
+#plugPlus.autoHide:hover footer{
+	opacity: 1;
+}
+
 #plugPlus div{
 	/* Disable text selection */
 	-webkit-touch-callout: none;

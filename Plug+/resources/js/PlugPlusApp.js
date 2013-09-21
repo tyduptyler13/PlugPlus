@@ -41,11 +41,11 @@ PlugPlusApp.prototype = {
 		constructor : PlugPlusApp,
 
 		fireEvent : function(data){
-			$('#plugIn').text(JSON.stringify(data));
 			try{
-				$('#plugIn').trigger(this.event);
+				var eventData = {from: "plugPlusApp", type:type, data:data};
+				window.postMessage(eventData, "http://plug.dj/*");
 			}catch(e){
-				console.warn("PlugPlusAPP: The system could not fire the event! Some features may not work.", e);
+				console.error("PlugPlusApp: An error has occured!", e);
 			}
 		},
 
@@ -190,24 +190,24 @@ PlugPlusApp.prototype = {
 			return $('#' + id);
 
 		},
-		
+
 		notify : function(_title, _image, _text){
 			if (this.settings.notifications){
 				var havePermission = window.webkitNotifications.checkPermission();
 				if (havePermission == 0) {
 					var notification = window.webkitNotifications.createNotification(
-								  _image,
-							      _title,
-							      _text
-						);
+							_image,
+							_title,
+							_text
+					);
 					notification.show();
 					setTimeout(function(){ 
 						notification.close();
-				}, (this.settings.notifyTimeout*1000));
-			} else {
-				window.webkitNotifications.requestPermission();
+					}, (this.settings.notifyTimeout*1000));
+				} else {
+					window.webkitNotifications.requestPermission();
+				}
 			}
-		}
 		}
 };
 

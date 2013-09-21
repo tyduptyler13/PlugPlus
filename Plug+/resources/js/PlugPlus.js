@@ -50,12 +50,42 @@ PlugPlus = function(){
 			}
 		});
 
-
+		//Settings stuff
 
 		$('.PPSetting.spinner').spinner();
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
 		$('#PPNotifications').button();
+		
+		//Theme stuff
+		$('#themeControls button').button().click(function(){
+			var button = $(this);
+			if (button.attr('id') == "themeLeft"){
+				$('#plugPlus').removeClass("right");
+			} else if (button.attr('id') == "themeRight"){
+				$('#plugPlus').addClass('right');
+			}
+		});
+		$('#themeControls #hideToggle').button();
+		$('#hideToggle').next().click(function(){
+			if (!$(this).hasClass("ui-state-active")){
+				$('#plugPlus').addClass('autoHide');
+			} else {
+				$('#plugPlus').removeClass('autoHide');
+			}
+		});
+		$('#themeLeft').button("option", {
+			icons: {
+				primary : "ui-icon-arrowthickstop-1-w"
+			},
+			text : false
+		});
+		$("#themeRight").button("option", {
+			icons: {
+				primary : "ui-icon-arrowthickstop-1-e"
+			},
+			text : false
+		});
 
 		plug.applySettings();
 
