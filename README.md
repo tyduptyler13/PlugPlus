@@ -12,6 +12,7 @@ Current Features
 * Settings (Disable unwanted features and notification timeouts)
 * PlugList (Shows all users, votes, and relation to you)
 * AutoWoot Delayed Vote
+* Theme Controller
 
 Planned Features
 ----
