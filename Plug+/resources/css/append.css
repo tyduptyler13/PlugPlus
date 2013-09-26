@@ -1,4 +1,4 @@
-#plugPlus {
+#plugPlusContent{
 	position: absolute;
 	color: white;
 	z-index: 99; /*Just below popups*/
@@ -10,12 +10,12 @@
 	background-color: rgba(0, 0, 0, .2);
 }
 
-#plugPlus.right{
+#plugPlusContent.right{
 	left: auto;
 	right: 0;
 }
 
-#plugPlus.autoHide{
+#plugPlusContent.autoHide{
 	height: 25px;
 	transition: height .5s;
 	overflow: hidden;
@@ -27,15 +27,15 @@
 	-webkit-transition: opacity .25s;
 }
 
-#plugPlus.autoHide footer{
+#plugPlusContent.autoHide footer{
 	opacity: 0;
 }
 
-#plugPlus.autoHide:hover{
+#plugPlusContent.autoHide:hover{
 	height: 100%;
 }
 
-#plugPlus.autoHide:hover footer{
+#plugPlusContent.autoHide:hover footer{
 	opacity: 1;
 }
 
@@ -158,7 +158,7 @@ footer{
 }
 
 #plugPlusListArea div{
-	background-color: black;
+	background-color: #191975;
 	display: inline-block;
 	margin: 3px;
 }

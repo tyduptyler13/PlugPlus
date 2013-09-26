@@ -61,17 +61,17 @@ PlugPlus = function(){
 		$('#themeControls button').button().click(function(){
 			var button = $(this);
 			if (button.attr('id') == "themeLeft"){
-				$('#plugPlus').removeClass("right");
+				$('#plugPlusContent').removeClass("right");
 			} else if (button.attr('id') == "themeRight"){
-				$('#plugPlus').addClass('right');
+				$('#plugPlusContent').addClass('right');
 			}
 		});
 		$('#themeControls #hideToggle').button();
 		$('#hideToggle').next().click(function(){
 			if (!$(this).hasClass("ui-state-active")){
-				$('#plugPlus').addClass('autoHide');
+				$('#plugPlusContent').addClass('autoHide');
 			} else {
-				$('#plugPlus').removeClass('autoHide');
+				$('#plugPlusContent').removeClass('autoHide');
 			}
 		});
 		$('#themeLeft').button("option", {

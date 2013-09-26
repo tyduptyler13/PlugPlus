@@ -1,58 +1,68 @@
 <section id='plugPlus'>
 
-	<div id="plugPlusTitle">
-		<div class='plugTitle'>Plug+</div>
-	</div>
+	<div id="plugPlusContent">
 
-	<div id='plugPlusButtons' class="plugPlusSection">
-
-		<div class='plugButton inactive' id='autowoot'
-			title="Automatically woots every song.">AutoWoot</div>
-
-		<div class='plugButton inactive' id='autojoin'
-			title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
-
-		<div class='plugButton' id='pluglist'
-			title="Opens the PlugList Window.">PlugList</div>
-
-		<div class='plugButton disabled' id='settings'
-			title="Opens settings window. This functionality is not available yet.">Settings</div>
-
-		<div class='plugButton' id='plugchat'
-			title="Opens the Plug+ chat window.">PlugChat</div>
-
-		<div class='plugButton' id='plugupdates'
-			title="Opens the updates window.">Updates</div>
-
-	</div>
-
-	<div id="plugPlusInfo" class="plugPlusSection">
-		<div>
-			Users : <span id="plugUsers" title="Total users in the room.">-</span>
+		<div id="plugPlusTitle">
+			<div class='plugTitle'>Plug+</div>
 		</div>
-		<div>
-			Waitlist : <span id="plugWaitList"
-				title="Number of people in the waitlist with your position on top (If you are in the list.)">-/-</span>
+
+		<div id='plugPlusButtons' class="plugPlusSection">
+
+			<div class='plugButton inactive' id='autowoot'
+				title="Automatically woots every song.">AutoWoot</div>
+
+			<div class='plugButton inactive' id='autojoin'
+				title="Automatically join when you exit the booth. Requires that there is a waitlist!">AutoJoin</div>
+
+			<div class='plugButton' id='pluglist'
+				title="Opens the PlugList Window.">PlugList</div>
+
+			<div class='plugButton disabled' id='settings'
+				title="Opens settings window. This functionality is not available yet.">Settings</div>
+
+			<div class='plugButton' id='plugchat'
+				title="Opens the Plug+ chat window.">PlugChat</div>
+
+			<div class='plugButton' id='plugupdates'
+				title="Opens the updates window.">Updates</div>
+
 		</div>
-		<div>
-			Song stats: <span id="plugSongStats"
-				title="A percent based on total woots, mehs, and people in the room.">-</span>
-		</div>
-	</div>
 
-	<div id="plugThemeControls" class="plugPlusSection">
-
-		<!-- Theme controller. Changes to the css will be managed with js. -->
-
-		<div>
-			<div class="themeTitle">Theme Controls</div>
-			<div id="themeControls">
-				<button id="themeLeft">Left</button>
-				<button id="themeRight">Right</button>
-				<input type="checkbox" id="hideToggle"><label
-					for="hideToggle">Hide</label>
+		<div id="plugPlusInfo" class="plugPlusSection">
+			<div>
+				Users : <span id="plugUsers" title="Total users in the room.">-</span>
+			</div>
+			<div>
+				Waitlist : <span id="plugWaitList"
+					title="Number of people in the waitlist with your position on top (If you are in the list.)">-/-</span>
+			</div>
+			<div>
+				Song stats: <span id="plugSongStats"
+					title="A percent based on total woots, mehs, and people in the room.">-</span>
 			</div>
 		</div>
+
+		<div id="plugThemeControls" class="plugPlusSection">
+
+			<!-- Theme controller. Changes to the css will be managed with js. -->
+
+			<div>
+				<div class="themeTitle">Theme Controls</div>
+				<div id="themeControls">
+					<button id="themeLeft">Left</button>
+					<button id="themeRight">Right</button>
+					<input type="checkbox" id="hideToggle"><label
+						for="hideToggle">Hide</label>
+				</div>
+			</div>
+
+		</div>
+
+		<footer>
+			<fb:like href="https://www.facebook.com/PlugPlus" width="125"
+				colorscheme="dark" layout="button_count" show_faces="true"
+				send="false"></fb:like>
+		</footer>
 
 	</div>
 
@@ -211,11 +221,5 @@
 			</div>
 		</div>
 	</div>
-
-	<footer>
-		<fb:like href="https://www.facebook.com/PlugPlus" width="125"
-			colorscheme="dark" layout="button_count" show_faces="true"
-			send="false"></fb:like>
-	</footer>
 
 </section>
