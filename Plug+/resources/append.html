@@ -17,7 +17,7 @@
 			<div class='plugButton' id='pluglist'
 				title="Opens the PlugList Window.">PlugList</div>
 
-			<div class='plugButton disabled' id='settings'
+			<div class='plugButton' id='settings'
 				title="Opens settings window. This functionality is not available yet.">Settings</div>
 
 			<div class='plugButton' id='plugchat'
@@ -25,6 +25,9 @@
 
 			<div class='plugButton' id='plugupdates'
 				title="Opens the updates window.">Updates</div>
+
+			<div class='plugButton' id='hidevideo' title="Coming soon!">Hide
+				Video</div>
 
 		</div>
 
@@ -100,7 +103,7 @@
 						</tr>
 						<tr>
 							<td>Global Notifications</td>
-							<td><input type="checkbox" class="PPSetting"
+							<td><input type="checkbox" class="PPSetting" name="PPNotifications"
 								id="PPNotifications" /><label for="PPNotifications">Enabled</label></td>
 							<td>Uncheck this to disable all notifications completely.
 								(Currently only works on Windows, Mac, and ChromeOS)</td>
@@ -108,13 +111,14 @@
 						<tr>
 							<td>Chat Level</td>
 							<td><div class="check PPSetting" id="PPChatLevel">
-									<input type="checkbox" class="PPChat" id="PPChatMentions"><label
-										for="PPChatMentions">Mentions</label> <input type="checkbox"
-										class="PPChat" id="PPChatFriends"><label
-										for="PPChatFriends">Friends</label> <input type="checkbox"
-										class="PPChat" id="PPChatMod"><label for="PPChatMod">Mods</label>
-									<input type="checkbox" class="PPChat" id="PPChatAll"><label
-										for="PPChatAll">All</label>
+									<input type="checkbox" name="PPChatLevel" class="PPChat" id="PPChatMentions">
+									<label for="PPChatMentions">Mentions</label>
+									<input type="checkbox" name="PPChatLevel" class="PPChat" id="PPChatFriends">
+									<label for="PPChatFriends">Friends</label>
+									<input type="checkbox" name="PPChatLevel" class="PPChat" id="PPChatMod">
+									<label for="PPChatMod">Mods</label>
+									<input type="checkbox" name="PPChatLevel" class="PPChat" id="PPChatAll">
+									<label for="PPChatAll">All</label>
 								</div></td>
 							<td>Choose what chats you would like to be notified of.
 								Disable all options to disable. Using the all option will
@@ -123,11 +127,12 @@
 						<tr>
 							<td>User Level</td>
 							<td><div class="radio PPSetting" id="PPUserLevel">
-									<input type="radio" id="PPUserLevelNone"> <label
-										for="PPUserLevelNone">None</label> <input type="radio"
-										id="PPUserLevelFriends"> <label
-										for="PPUserLevelFriends">Friends</label> <input type="radio"
-										id="PPUserLevelAll"> <label for="PPUserLevelAll">All</label>
+									<input type="radio" name="PPUserLevel" id="PPUserLevelNone">
+									<label for="PPUserLevelNone">None</label>
+									<input type="radio" name="PPUserLevel" id="PPUserLevelFriends">
+									<label for="PPUserLevelFriends">Friends</label>
+									<input type="radio" name="PPUserLevel" id="PPUserLevelAll">
+									<label for="PPUserLevelAll">All</label>
 								</div></td>
 							<td>Choose what degree of notification you would like for
 								users leaving, joining, and voting.</td>
@@ -135,22 +140,24 @@
 						<tr>
 							<td>Song Update</td>
 							<td><div class="radio PPSetting" id="PPSongUpdate">
-									<input type="radio" id="PPSongUpdateNone"> <label
-										for="PPSongUpdateNone">None</label> <input type="radio"
-										id="PPSongUpdateFriends"> <label
-										for="PPSongUpdateFriends">Friends</label> <input type="radio"
-										id="PPSongUpdateAll"> <label for="PPSongUpdateAll">All</label>
+									<input type="radio" name="PPSongUpdate" id="PPSongUpdateNone">
+									<label for="PPSongUpdateNone">None</label>
+									<input type="radio" name="PPSongUpdate" id="PPSongUpdateFriends">
+									<label for="PPSongUpdateFriends">Friends</label>
+									<input type="radio" name="PPSongUpdate" id="PPSongUpdateAll">
+									<label for="PPSongUpdateAll">All</label>
 								</div></td>
 							<td>Choose what songs you would like to be notified of.</td>
 						</tr>
 						<tr>
 							<td>DJ Update</td>
 							<td><div class="radio PPSetting" id="PPDJUpdate">
-									<input type="radio" id="PPDJUpdateNone"> <label
-										for="PPDJUpdateNone">None</label> <input type="radio"
-										id="PPDJUpdateFriends"> <label for="PPDJUpdateFriends">Friends</label>
-									<input type="radio" id="PPDJUpdateAll"> <label
-										for="PPDJUpdateAll">All</label>
+									<input type="radio" name="PPDJUpdate" id="PPDJUpdateNone">
+									<label for="PPDJUpdateNone">None</label>
+									<input type="radio" name="PPDJUpdate" id="PPDJUpdateFriends">
+									<label for="PPDJUpdateFriends">Friends</label>
+									<input type="radio" name="PPDJUpdate" id="PPDJUpdateAll">
+									<label for="PPDJUpdateAll">All</label>
 								</div></td>
 							<td>Select what DJs you would like to be notified of.</td>
 						</tr>
@@ -185,6 +192,19 @@
 		<div class="plugPlusContext" id="plugPlusUpdates"
 			title="Plug+ Updates">
 			<div>
+				<article>
+					Beta 3: (Unreleased)
+					<hr>
+					Finished Notifications.
+				</article>
+				<article>
+					Beta 2.1:
+					<hr>
+					Includes fixes for a few css problems that occured when theme
+					controls were introduced.
+					Finished settings.
+					Added Hide Video.
+				</article>
 				<article>
 					Beta 2.0:
 					<hr>

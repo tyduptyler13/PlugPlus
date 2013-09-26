@@ -38,7 +38,8 @@ PlugPlus = function(){
 				pluglist : $("#pluglist"),
 				settings : $("#settings"),
 				plugchat : $("#plugchat"),
-				plugupdates : $("#plugupdates")
+				plugupdates : $("#plugupdates"),
+				hidevideo : $('#hidevideo')
 		};
 
 		$('.plugButton:not(.disabled)').click(function(){
@@ -53,10 +54,13 @@ PlugPlus = function(){
 		//Settings stuff
 
 		$('.PPSetting.spinner').spinner();
+		$('#PPNotifyTimeout').spinner('disable');
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
-		$('#PPNotifications').button();
+		$('#PPNotifications').button({disabled: true});
 		
+		$('.PPSetting.check > input, .PPSetting.radio > input').button('disable');
+
 		//Theme stuff
 		$('#themeControls button').button().click(function(){
 			var button = $(this);
@@ -223,7 +227,7 @@ PlugPlus.prototype = {
 
 			$('#PPAutoWootDelay').val(PlugSettings.autoWootDelay);
 			$('#PPNotifyTimeout').val(PlugSettings.notifyTimeout);
-			
+
 			/**
 			 * Once again, finding broken methods in jqueryui and decided to make my own.
 			 * Basicly this will find the button elements, select the labels that represent them
@@ -231,6 +235,11 @@ PlugPlus.prototype = {
 			 * with $.button('refresh') but it wouldn't work on buttonsets.
 			 */
 			$('input:checked').next().switchClass('.ui-state-default', 'ui-state-active');
+			
+			var scope = this;
+			$('#plugPlusSettingsForm').click(function(){
+				scope.getSettings();
+			});
 
 		},
 
@@ -247,40 +256,23 @@ PlugPlus.prototype = {
 			var s = PlugSettings;
 
 			//Checks
-			if ($('#PPAutoWootDelay')[0].valueAsNumber>90)
-				$('#PPAutoWootDelay').attr('value',90);
-			if ($('#PPAutoWootDelay')[0].valueAsNumber<0)
-				$('#PPAutoWootDelay').attr('value',0);
-			if ($('#PPNotifyTimeout')[0].valueAsNumber<0)
-				$('#PPNotifyTimeout').attr('value',0);
+			if ($('#PPAutoWootDelay').val()>90)
+				$('#PPAutoWootDelay').val(90);
+			if ($('#PPAutoWootDelay').val()<0)
+				$('#PPAutoWootDelay').val(0);
+			if ($('#PPNotifyTimeout').val()<0)
+				$('#PPNotifyTimeout').val(0);
 			//Save
-			s.notifications = $('#PPNotifications').is(':checked');
-			s.chatLevel = $('#PPChatLevel')[0].selectedIndex;
-			s.userLevel = $('#PPUserLevel')[0].selectedIndex;
-			s.songUpdate = $('#PPSongUpdate')[0].selectedIndex;
-			s.djUpdate = $('#PPDJUpdate')[0].selectedIndex;
-			s.autoWootDelay = $('#PPAutoWootDelay')[0].valueAsNumber;
-			s.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+			//s.notifications = $('#PPNotifications').is(':checked');
+			//s.chatLevel = $('#PPChatLevel');
+			//s.userLevel = $('#PPUserLevel');
+			//s.songUpdate = $('#PPSongUpdate');
+			//s.djUpdate = $('#PPDJUpdate');
+			s.autoWootDelay = $('#PPAutoWootDelay').val();
+			//s.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
 
 			//Save settings
 			this.saveSettings();
-
-			//Show settings saved
-			$('#PPSaved').stop(true,false).show(0).fadeOut(2000);
-		},
-
-		setSettings : function(){
-
-			var s = PlugSettings;
-
-			$('#PPNotifications').attr('checked',s.notifications);
-			$('#PPChatLevel').val(s.chatLevel);
-			$('#PPUserLevel').val(s.userLevel);
-			$('#PPSongUpdate').val(s.songUpdate);
-			$('#PPDJUpdate').val(s.djUpdate);
-			$('#PPAutoWootDelay').attr('value',s.autoWootDelay);
-			$('#PPNotifyTimeout').attr('value',s.notifyTimeout);
-
 		},
 
 		button : {
@@ -426,6 +418,15 @@ PlugPlus.prototype = {
 						width: 850,
 						height: 600
 					});
+				}
+			},
+			hidevideo: function(plug){
+				if (plug.button.hidevideo.hasClass('active')){
+					plug.button.hidevideo.removeClass('active');
+					$('#playback').slideDown();
+				} else {
+					plug.button.hidevideo.addClass('active');
+					$('#playback').slideUp();
 				}
 			}
 		}
