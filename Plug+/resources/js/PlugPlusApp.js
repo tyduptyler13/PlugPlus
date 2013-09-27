@@ -18,15 +18,17 @@ PlugPlusApp = function(){
 	/* Events */
 	this.setupEvents();
 
-	//Trip auto functions on startup.
-	this.autoWoot();
-	this.autoJoin();
-
 	var scope = this;
 
 	setTimeout(function(){
 		scope.setupPlugList();
 	}, 10000);
+	
+	setTimeout(function(){
+		//Trip auto functions a little after startup.
+		this.autoWoot();
+		this.autoJoin();
+	}, 5000);
 
 	$('#plugPlusList #refresh').click(function(){
 		scope.setupPlugList();
@@ -80,6 +82,11 @@ PlugPlusApp.prototype = {
 			});
 			API.on(API.DJ_UPDATE, function(){
 				scope.autoJoin();
+				
+				setTimeout(function(){
+					scope.autoJoin();
+				}, 2000);//Possible fix for autojoin not working.
+				
 			});
 			API.on(API.VOTE_UPDATE, function(obj){
 				scope.userVote(obj);
