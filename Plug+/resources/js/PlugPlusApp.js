@@ -26,8 +26,8 @@ PlugPlusApp = function(){
 	
 	setTimeout(function(){
 		//Trip auto functions a little after startup.
-		this.autoWoot();
-		this.autoJoin();
+		scope.autoWoot();
+		scope.autoJoin();
 	}, 5000);
 
 	$('#plugPlusList #refresh').click(function(){
@@ -114,8 +114,14 @@ PlugPlusApp.prototype = {
 
 		autoJoin : function(){
 			if (this.settings.autoJoin){
-				if (API.getBoothPosition() == -1 && API.getWaitListPosition() == -1)
+				var b = $('#button-dj-play:visible');
+				if (b.size() != 0){
+					b.click();
+				} else if (API.getWaitList().length < 50){
 					API.djJoin();
+				} else {
+					API.chatLog("Plug+: Waitlist is unavailable/full. Autojoin will not work.");
+				}
 			}
 		},
 
