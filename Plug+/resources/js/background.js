@@ -13,19 +13,24 @@ _gaq.push(['_setAccount', 'UA-32685589-1'],
 var icon = chrome.extension.getURL("resources/images/largeIcon.png");
 
 function notify(img, title, text, timeout){
-	var notification = webkitNotifications.createNotification(img,title,text);
-	notification.show();
-	if (timeout != 0){
-		setTimeout(function() {notification.cancel();}, 1000 * timeout);
-		var _onunload = window.onunload;
-		window.onunload = function() {
-			notification.cancel();
-			_onunload();
+	var opts = {
+			type: "basic",
+			title: title,
+			iconUrl: img,
+			message: text
+	};
+
+	chrome.notifications.create(text, opts, function(notification){
+		if (timeout != 0){
+			setTimeout(function() {
+				chrome.notifications.clear(notification, function(){});
+			}, timeout * 1000);
 		}
-	}
+	});
+	
 }
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponce) {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 	try{
 		switch(request.action){
 		case "notify":

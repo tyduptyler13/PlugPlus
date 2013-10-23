@@ -28,10 +28,12 @@ var PlugSetting = {
  * Functions *
  *************/
 PlugPlus = function(){
+	
+	this.channel = null;
 
 	this.injectApp(function(plug){
 		//Anything that requires the interface to be complete goes here.
-
+		
 		plug.button = {
 				autowoot : $("#autowoot"),
 				autojoin : $("#autojoin"),
@@ -58,7 +60,7 @@ PlugPlus = function(){
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
 		$('#PPNotifications').button({disabled: true});
-		
+
 		$('.PPSetting.check > input, .PPSetting.radio > input').button('disable');
 
 		//Theme stuff
@@ -93,14 +95,12 @@ PlugPlus = function(){
 
 		plug.applySettings();
 
-		window.addEventListener("message", this.onReceiveMessage);
-
 		console.log("Plug+: Setup complete.");
 	});
 	//Anything that doesn't need to wait should go here for speed.
 	this.loadSettings();
-
-	//$('.PPSetting').change(this.getSettings);
+	
+	window.addEventListener("message", this.onReceiveMessage);
 
 
 
@@ -235,7 +235,7 @@ PlugPlus.prototype = {
 			 * with $.button('refresh') but it wouldn't work on buttonsets.
 			 */
 			$('input:checked').next().switchClass('.ui-state-default', 'ui-state-active');
-			
+
 			var scope = this;
 			$('#plugPlusSettingsForm').click(function(){
 				scope.getSettings();
@@ -293,16 +293,27 @@ PlugPlus.prototype = {
 			}
 		},
 
-		onReceiveMessage : function(data){
-			console.debug(data);//TODO Don't use this yet.
+		onReceiveMessage : function(message){
+			if (message.data == "PlugPlusAppReady"){
+				message.ports[0].onmessage = this.onMessageFromApp;
+			} //Ignore everything else.
+		},
+		
+		onMessageFromApp : function(message){
+			console.log("Recieved message from App", message);
+			//TODO Finish channels
 		},
 
-		sendBackgroundMessage : function(type, data){
-			//TODO
-		},
+		notify : function(title, image, text){
 
-		receiveBackgroundMessage : function(data){
-			//TODO
+			chrome.runtime.sendMessage({
+				action: "notify",
+				img: image,
+				text: text,
+				title: title,
+				timeout: PlugSettings.notifyTimeout
+			}, function(response){});
+
 		},
 
 		openPopup : function(id, extraParams){
