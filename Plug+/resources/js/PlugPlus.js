@@ -115,7 +115,7 @@ PlugPlus.prototype = {
 			var plug = this;//Keep plug object in scope while using jquery callbacks.
 
 			$.get(chrome.extension.getURL("resources/append.html"), function(data){
-				$('body').append(data);
+				$('#room').append(data);
 
 				$.getScript(chrome.extension.getURL("resources/js/PlugPlusApp.js"))
 				.done(function(script, status, statusid){
@@ -295,7 +295,8 @@ PlugPlus.prototype = {
 
 		onReceiveMessage : function(message){
 			if (message.data == "PlugPlusAppReady"){
-				message.ports[0].onmessage = this.onMessageFromApp;
+				this.channel = message.ports[0];
+				this.channel.onmessage = this.onMessageFromApp;
 			} //Ignore everything else.
 		},
 		

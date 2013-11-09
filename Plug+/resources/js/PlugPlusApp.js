@@ -43,9 +43,7 @@ PlugPlusApp = function(){
 	this.port = channel.port1;//TODO Finish channels
 
 	/* Init */
-	if (FB != "undefined")//If FB is not ready, it will take care of this anyways.
-		FB.XFBML.parse();//Setup Plug Comments
-	//TODO Remove this when we change chat to the new version.
+	//Facebook chat disabled.
 };
 PlugPlusApp.prototype = {
 
@@ -91,7 +89,7 @@ PlugPlusApp.prototype = {
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
-				scope.fireEvent(type, data)
+				scope.fireEvent(type, data);
 			});
 			API.on(API.DJ_UPDATE, function(){
 				scope.autoJoin();
@@ -120,17 +118,14 @@ PlugPlusApp.prototype = {
 		autoWoot : function(){
 			if (this.settings.autoWoot){
 				setTimeout(function(){
-					$('#button-vote-positive').click();
+					$('#vote #woot').click();
 				}, this.settings.autoWootDelay * 1000);
 			}
 		},
 
 		autoJoin : function(){
 			if (this.settings.autoJoin){
-				var b = $('#button-dj-play:visible');
-				if (b.size() != 0){
-					b.click();
-				} else if (API.getWaitList().length < 50){
+				if (API.getWaitList().length < 50){
 					API.djJoin();
 				} else {
 					API.chatLog("Plug+: Waitlist is unavailable/full. Autojoin will not work.");
@@ -145,7 +140,7 @@ PlugPlusApp.prototype = {
 			switch(this.settings.songUpdate){
 			case 0: break;//Skip
 			case 1: if (obj.dj.relationship <= 2) break;
-			case 2: this.notify("Song Update", PlugPlusApp.urls.youtube(obj.media.cid), text);
+			case 2: this.notify("Song Update", PlugPlusApp.urls.youtube(obj.media.cid), obj.dj.username + " is now playing " + obj.media.title);
 				break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
@@ -194,7 +189,7 @@ PlugPlusApp.prototype = {
 				$('#plugWaitList').text(waitListLength);
 			}
 
-			$('#plugSongStats').text(percent.toPrecision(5) + "%");
+			$('#plugSongStats').text(percent.toPrecision(4) + "%");
 
 
 		},
