@@ -38,7 +38,7 @@ PlugPlus = function(){
 				autowoot : $("#autowoot"),
 				autojoin : $("#autojoin"),
 				pluglist : $("#pluglist"),
-				settings : $("#settings"),
+				settings : $("#psettings"),
 				plugchat : $("#plugchat"),
 				plugupdates : $("#plugupdates"),
 				hidevideo : $('#hidevideo')
@@ -387,7 +387,7 @@ PlugPlus.prototype = {
 					});
 				}
 			},
-			settings : function(plug){
+			psettings : function(plug){
 				if (plug.button.settings.hasClass('active')){
 					plug.button.settings.removeClass('active');
 					plug.closePopup('#plugPlusSettings');

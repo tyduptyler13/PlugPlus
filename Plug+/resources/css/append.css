@@ -144,6 +144,10 @@ footer{
 	width:300px;
 }
 
+#plugPlusSettingsForm .spinner{
+	position: static;
+}
+
 .PPSetting:not([type=checkbox]){
 	width:100%;
 }
