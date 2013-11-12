@@ -9,7 +9,6 @@ var PlugSettings = {
 		userLevel : 1, //0 = no notification, 1 = friends, 2 = all
 		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
-		autoJoin : false,
 		pluglist : false,
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
@@ -36,7 +35,6 @@ PlugPlus = function(){
 		
 		plug.button = {
 				autowoot : $("#autowoot"),
-				autojoin : $("#autojoin"),
 				pluglist : $("#pluglist"),
 				settings : $("#psettings"),
 				plugchat : $("#plugchat"),
@@ -162,9 +160,6 @@ PlugPlus.prototype = {
 		},
 
 		applySettings : function(){//Apply settings only if they are true. Default state is false.
-			if (PlugSettings.autoJoin){
-				this.button.autojoin.switchClass("inactive", "active");
-			}
 			if (PlugSettings.autoWoot){
 				this.button.autowoot.switchClass("inactive", "active");
 			}
@@ -277,7 +272,6 @@ PlugPlus.prototype = {
 
 		button : {
 			autowoot : null,
-			autojoin : null,
 			pluglist : null,
 			settings : null,
 			plugchat : null,
@@ -361,17 +355,6 @@ PlugPlus.prototype = {
 
 				plug.saveSettings();
 			},
-			autojoin : function(plug){
-				if (PlugSettings.autoJoin){
-					PlugSettings.autoJoin = false;
-					plug.button.autojoin.switchClass("active", "inactive");
-				} else {
-					PlugSettings.autoJoin = true;
-					plug.button.autojoin.switchClass("inactive", "active");
-				}
-
-				plug.saveSettings();
-			},
 			pluglist : function(plug){
 				if (plug.button.pluglist.hasClass('active')){
 					plug.button.pluglist.removeClass('active');
@@ -397,8 +380,8 @@ PlugPlus.prototype = {
 						close : function(){
 							plug.button.settings.removeClass('active');
 						},
-						width: 800,
-						height: 330
+						width: 933,
+						height: 360
 					});
 				}
 			},

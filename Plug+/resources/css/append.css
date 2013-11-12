@@ -141,7 +141,7 @@ footer{
 }
 
 #plugPlusSettingsForm tr td:nth-child(2){
-	width:300px;
+	width:325px;
 }
 
 #plugPlusSettingsForm .spinner{
@@ -191,4 +191,17 @@ footer{
 #plugPlusListArea .mod{
 	outline: solid #E90E82 thin; 
 }
+
+#plugPlusContent:not(.right) #themeLeft{
+	display: none !important;
+}
+
+#plugPlusContent.right #themeLeft{
+	display: inline-block;
+}
+
+#plugPlusContent.right #themeRight{
+	display: none;
+}
+
 

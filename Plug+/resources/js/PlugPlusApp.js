@@ -27,7 +27,6 @@ PlugPlusApp = function(){
 	setTimeout(function(){
 		//Trip auto functions a little after startup.
 		scope.autoWoot();
-		scope.autoJoin();
 	}, 5000);
 
 	$('#plugPlusList #refresh').click(function(){
@@ -69,7 +68,6 @@ PlugPlusApp.prototype = {
 			case "settingsChange":
 				this.settings = JSON.parse(localStorage['PlugPlusSettings']);
 				this.autoWoot();
-				this.autoJoin();
 				break;
 			default: console.warn("PlugPlusApp: Something may have gone wrong,",data);
 			}
@@ -91,14 +89,10 @@ PlugPlusApp.prototype = {
 				scope.updateRoomStats();
 				scope.fireEvent(type, data);
 			});
-			API.on(API.DJ_UPDATE, function(){
-				scope.autoJoin();
+			/*API.on(API.DJ_UPDATE, function(){
+				//TODO
 				
-				setTimeout(function(){
-					scope.autoJoin();
-				}, 2000);//Possible fix for autojoin not working.
-				
-			});
+			});*/
 			API.on(API.VOTE_UPDATE, function(obj){
 				scope.userVote(obj);
 				scope.updateRoomStats();
@@ -120,16 +114,6 @@ PlugPlusApp.prototype = {
 				setTimeout(function(){
 					$('#vote #woot').click();
 				}, this.settings.autoWootDelay * 1000);
-			}
-		},
-
-		autoJoin : function(){
-			if (this.settings.autoJoin){
-				if (API.getWaitList().length < 50){
-					API.djJoin();
-				} else {
-					API.chatLog("Plug+: Waitlist is unavailable/full. Autojoin will not work.");
-				}
 			}
 		},
 
