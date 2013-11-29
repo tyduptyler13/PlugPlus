@@ -43,6 +43,9 @@ PlugPlusApp = function(){
 
 	/* Init */
 	//Facebook chat disabled.
+
+	// Setup other general functionality.
+	scope.setupMute();
 };
 PlugPlusApp.prototype = {
 
@@ -202,6 +205,35 @@ PlugPlusApp.prototype = {
 
 			return $('#' + id);
 
+		},
+
+		setupMute : function() {
+			// Allow muting/unmuting via pressing of space bar.
+			$("body").keyup(function(event) {
+				// Only trigger when space pressed and target is the body.
+				if (event.keyCode != 32) return true;
+				if ($(event.target).prop("tagName") != "BODY") return true;
+
+				// Get current and previous volume information.
+				var curVolume = API.getVolume();
+				var lastVolume = 100;
+				if ($(this).data("lastVolume")) lastVolume = $(this).data("lastVolume");
+
+				// Update volume.
+				if (curVolume == 0) {
+					// Unmute.
+					API.setVolume(lastVolume);
+
+				} else {
+					// Mute.
+					API.setVolume(0);
+
+					// Retain current volume setting first before muting completely.
+					$(this).data("lastVolume", curVolume);
+				}
+
+				return true;
+			});
 		}
 };
 PlugPlusApp.urls = {
