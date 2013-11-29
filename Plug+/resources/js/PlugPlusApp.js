@@ -90,7 +90,7 @@ PlugPlusApp.prototype = {
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
-				scope.fireEvent(type, data);
+				scope.fireEvent("djadvance", data);
 			});
 			/*API.on(API.DJ_UPDATE, function(){
 				//TODO
