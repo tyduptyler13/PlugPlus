@@ -4,10 +4,13 @@ Thumbs.db
 # Folder config file
 Desktop.ini
 
+# Ignore dot files/folders except those relating to git.
+.*
+!.git*
+
 
 #####
 *.pem
 *.crx
 *.zip
 *~
-.*
