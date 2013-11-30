@@ -1,11 +1,3 @@
-//Tracking
-(function(){
-	var _gaq = _gaq || [];
-	_gaq.push(['plugplus._setAccount', 'UA-32685589-1']);
-	_gaq.push(['plugplus._trackPageview']);
-})();//Hidden anonymous calls.
-
-
 /**
  * This is the interface that is injected by PlugPlus to
  * run on the page. It has access to plug.dj javascript
@@ -87,12 +79,10 @@ PlugPlusApp.prototype = {
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
-				scope.fireEvent(type, data);
 			});
-			/*API.on(API.DJ_UPDATE, function(){
-				//TODO
-				
-			});*/
+			API.on(API.DJ_UPDATE, function(obj){
+				scope.djUpdate(obj);
+			});
 			API.on(API.VOTE_UPDATE, function(obj){
 				scope.userVote(obj);
 				scope.updateRoomStats();
