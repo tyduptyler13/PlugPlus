@@ -1,14 +1,9 @@
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-32685589-1'],
-		['_trackPageview'],
-		['_setCustomVar', 2, 'Version', chrome.app.getDetails().version, 1]
-);
-
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = 'https://ssl.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+//Custom Tracking
+(function(){
+	ga('create', 'UA-32685589-1');
+	ga('send', 'pageview');
 })();
+
 
 var icon = chrome.extension.getURL("resources/images/largeIcon.png");
 

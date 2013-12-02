@@ -1,11 +1,3 @@
-//Tracking
-(function(){
-	var _gaq = _gaq || [];
-	_gaq.push(['plugplus._setAccount', 'UA-32685589-1']);
-	_gaq.push(['plugplus._trackPageview']);
-})();//Hidden anonymous calls.
-
-
 /**
  * This is the interface that is injected by PlugPlus to
  * run on the page. It has access to plug.dj javascript
@@ -90,12 +82,10 @@ PlugPlusApp.prototype = {
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
-				scope.fireEvent("djadvance", data);
 			});
-			/*API.on(API.DJ_UPDATE, function(){
-				//TODO
-				
-			});*/
+			API.on(API.DJ_UPDATE, function(obj){
+				scope.djUpdate(obj);
+			});
 			API.on(API.VOTE_UPDATE, function(obj){
 				scope.userVote(obj);
 				scope.updateRoomStats();
@@ -163,7 +153,7 @@ PlugPlusApp.prototype = {
 		updateRoomStats : function(){
 			var userCount = API.getUsers().length;
 			var waitListLength = API.getWaitList().length;
-			var waitListPosition = API.getWaitListPosition();
+			var waitListPosition = API.getWaitListPosition() + 1;//Don't use zero base for users. -_-
 			var roomVotes = API.getRoomScore();
 			var percent = (.5 + ((roomVotes.positive/(userCount-1)) - (roomVotes.negative/(userCount-1))) *.5 ) * 100;
 			//50% + (Positive Votes Percent - Negative Votes Percent)*50% with the dj taken out of the total since he cant vote. 
