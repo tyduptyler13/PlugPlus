@@ -1,3 +1,6 @@
+/************
+ * Settings *
+ ************/
 var PlugSettings = {
 		notifications : true, //Global notifications flag
 		chatLevel : {
@@ -442,6 +445,10 @@ function init(){
 	} else {
 		setTimeout(init, 250);
 	}
+
+	ga('create', 'UA-32685589-1');
+	ga('send', 'pageview');
+
 }
 init();
 
