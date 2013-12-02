@@ -150,7 +150,7 @@ PlugPlusApp.prototype = {
 		updateRoomStats : function(){
 			var userCount = API.getUsers().length;
 			var waitListLength = API.getWaitList().length;
-			var waitListPosition = API.getWaitListPosition();
+			var waitListPosition = API.getWaitListPosition() + 1;//Don't use zero base for users. -_-
 			var roomVotes = API.getRoomScore();
 			var percent = (.5 + ((roomVotes.positive/(userCount-1)) - (roomVotes.negative/(userCount-1))) *.5 ) * 100;
 			//50% + (Positive Votes Percent - Negative Votes Percent)*50% with the dj taken out of the total since he cant vote. 
