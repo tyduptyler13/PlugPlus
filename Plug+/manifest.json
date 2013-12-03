@@ -1,6 +1,6 @@
 {
 	"name": "Plug+",
-	"version": "2.0.0.12",
+	"version": "2.0.0.13",
 	"manifest_version": 2,
 	"description": "A plug.dj feature set.",
 	"icons": {
@@ -10,7 +10,6 @@
 	},
 	"background": {
 		"scripts": [
-			"resources/js/analytics.js",
 			"resources/js/background.js"
 		]
 	},
@@ -56,8 +55,10 @@
 				"*://plug.dj/*"
 			],
 			"exclude_matches": [
-				"*://plug.dj/lobby",
-				"*://plug.dj/lobby/"
+				"*://plug.dj/communities/",
+				"*://plug.dj/about",
+				"*://plug.dj/terms",
+				"*://plug.dj/privacy"
 			],
 			"js": [
 				"resources/js/analytics.js",
@@ -72,5 +73,5 @@
 			"run_at": "document_end"
 		}
 	],
-	"content_security_policy": "script-src 'self'; object-src 'self'; default-src 'self';"
+	"content_security_policy": "script-src 'self' https://www.google-analytics.com https://www.google.com https://stats.g.doubleclick.net; object-src 'self'; default-src 'self';"
 }

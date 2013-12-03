@@ -12,6 +12,7 @@ var PlugSettings = {
 		userLevel : 1, //0 = no notification, 1 = friends, 2 = all
 		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
+		autoJoin : false,
 		pluglist : false,
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
@@ -30,14 +31,15 @@ var PlugSetting = {
  * Functions *
  *************/
 PlugPlus = function(){
-	
+
 	this.channel = null;
 
 	this.injectApp(function(plug){
 		//Anything that requires the interface to be complete goes here.
-		
+
 		plug.button = {
 				autowoot : $("#autowoot"),
+				autojoin : $("#autojoin"),
 				pluglist : $("#pluglist"),
 				settings : $("#psettings"),
 				plugchat : $("#plugchat"),
@@ -49,6 +51,7 @@ PlugPlus = function(){
 			try{
 				var id = $(this).attr('id');
 				plug.toggle[id](plug);
+				ga('send', 'event', 'button', 'clicked', id);
 			}catch(e){
 				console.warn("Plug+: A button has been pressed that does not have a toggle defined!");
 			}
@@ -100,7 +103,7 @@ PlugPlus = function(){
 	});
 	//Anything that doesn't need to wait should go here for speed.
 	this.loadSettings();
-	
+
 	window.addEventListener("message", this.onReceiveMessage);
 
 
@@ -163,6 +166,9 @@ PlugPlus.prototype = {
 		},
 
 		applySettings : function(){//Apply settings only if they are true. Default state is false.
+			if (PlugSettings.autoJoin){
+				this.button.autojoin.switchClass("inactive", "active");
+			}
 			if (PlugSettings.autoWoot){
 				this.button.autowoot.switchClass("inactive", "active");
 			}
@@ -275,12 +281,13 @@ PlugPlus.prototype = {
 
 		button : {
 			autowoot : null,
+			autojoin : null,
 			pluglist : null,
 			settings : null,
 			plugchat : null,
 			plugUpdates : null
 		},
-
+		
 		sendMessageToApp : function(type, data){
 			try{
 				var eventData = {from: "plugPlus", type:type, data:data};
@@ -296,7 +303,7 @@ PlugPlus.prototype = {
 				this.channel.onmessage = this.onMessageFromApp;
 			} //Ignore everything else.
 		},
-		
+
 		onMessageFromApp : function(message){
 			console.log("Recieved message from App", message);
 			//TODO Finish channels
@@ -354,6 +361,17 @@ PlugPlus.prototype = {
 				} else {
 					PlugSettings.autoWoot = true;
 					plug.button.autowoot.switchClass("inactive", "active");
+				}
+
+				plug.saveSettings();
+			},
+			autojoin : function(plug){
+				if (PlugSettings.autoJoin){
+					PlugSettings.autoJoin = false;
+					plug.button.autojoin.switchClass("active", "inactive");
+				} else {
+					PlugSettings.autoJoin = true;
+					plug.button.autojoin.switchClass("inactive", "active");
 				}
 
 				plug.saveSettings();
@@ -434,22 +452,25 @@ PlugPlus.prototype = {
 /********
  * Init *
  ********/
-
 function init(){
 	if ($('#audience').length>0){
 		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
 
-		//TODO add var when final.
-		plug = new PlugPlus();
+		var plug = new PlugPlus();
 
 	} else {
 		setTimeout(init, 250);
 	}
 
-	ga('create', 'UA-32685589-1');
+	ga(function(){
+		console.log("Plug+: ga loaded.");
+	});
+	ga('create', 'UA-32685589-1', 'auto');
 	ga('send', 'pageview');
+	ga('require', 'linkid', 'linkid.js');
 
 }
+
 init();
 
 function isURL(data){
