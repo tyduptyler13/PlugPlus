@@ -13,6 +13,7 @@ Current Features
 * PlugList (Shows all users, votes, and relation to you)
 * AutoWoot Delayed Vote
 * Theme Controller
+* Turntable.FM Style Mute (via space bar)
 
 Planned Features
 ----
