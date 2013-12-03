@@ -19,6 +19,7 @@ PlugPlusApp = function(){
 	setTimeout(function(){
 		//Trip auto functions a little after startup.
 		scope.autoWoot();
+		scope.autoJoin();
 	}, 5000);
 
 	$('#plugPlusList #refresh').click(function(){
@@ -63,6 +64,7 @@ PlugPlusApp.prototype = {
 			case "settingsChange":
 				this.settings = JSON.parse(localStorage['PlugPlusSettings']);
 				this.autoWoot();
+				this.autoJoin();
 				break;
 			default: console.warn("PlugPlusApp: Something may have gone wrong,",data);
 			}
@@ -84,6 +86,10 @@ PlugPlusApp.prototype = {
 				scope.updateRoomStats();
 			});
 			API.on(API.DJ_UPDATE, function(obj){
+				scope.autoJoin();
+				setTimeout(function(){
+					scope.autoJoin();
+				}, 2000);
 				scope.djUpdate(obj);
 			});
 			API.on(API.VOTE_UPDATE, function(obj){
@@ -107,6 +113,16 @@ PlugPlusApp.prototype = {
 				setTimeout(function(){
 					$('#vote #woot').click();
 				}, this.settings.autoWootDelay * 1000);
+			}
+		},
+		
+		autoJoin : function(){
+			if (this.settings.autoJoin){
+				if (API.getWaitList().length < 50){
+					API.djJoin();
+				} else {
+					API.chatLog("Plug+: Waitlist is unavailable/full. Autojoin will not work.");
+				}
 			}
 		},
 
@@ -160,7 +176,7 @@ PlugPlusApp.prototype = {
 
 			$('#plugUsers').text(userCount);
 
-			if (waitListPosition != -1){
+			if (waitListPosition != 0){
 				$('#plugWaitList').text(waitListPosition + "/" + waitListLength);
 			} else {
 				$('#plugWaitList').text(waitListLength);
