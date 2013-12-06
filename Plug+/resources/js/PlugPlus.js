@@ -13,19 +13,12 @@ var PlugSettings = {
 		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
 		autoJoin : false,
-		pluglist : false,
+		theme : [],//Future setting. (Theme tracking)
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
-		notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
-		configVersion : 2
+		notifyTimeout: 0, //Time in seconds before the notification closes automatically. 0 means never timeout.
+		configVersion : 3 //This gets incremented when a setting is removed or the default values change.
 };
-
-var PlugSetting = {
-		"none" : 0,
-		"friends" : 1,
-		"all" : 2
-};
-
 
 /*************
  * Functions *
