@@ -6,7 +6,7 @@
  */
 PlugPlusApp = function(){
 	this.settings = JSON.parse(localStorage['PlugPlusSettings']);
-	
+
 	/* Events */
 	this.setupEvents();
 
@@ -15,7 +15,7 @@ PlugPlusApp = function(){
 	setTimeout(function(){
 		scope.setupPlugList();
 	}, 10000);
-	
+
 	setTimeout(function(){
 		//Trip auto functions a little after startup.
 		scope.autoWoot();
@@ -25,17 +25,22 @@ PlugPlusApp = function(){
 	$('#plugPlusList #refresh').click(function(){
 		scope.setupPlugList();
 	});
-	
-	//Setup channel
-	
-	var channel = new MessageChannel();
-	
-	window.postMessage("PlugPlusAppReady", "http://plug.dj",[channel.port2]);
-	
-	this.port = channel.port1;//TODO Finish channels
 
-	/* Init */
-	//Facebook chat disabled.
+	//Setup channel
+
+	var channel = new MessageChannel();
+
+	window.postMessage("PlugPlusAppReady", "http://plug.dj", [channel.port2]);
+
+	this.port = channel.port1;
+
+	var scope = this;
+
+	this.port.onmessage = function(e){
+		scope.handlePlugPlusEvent(e.data);
+	};
+
+	this.port.start();
 
 	// Setup other general functionality.
 	scope.setupMute();
@@ -45,39 +50,27 @@ PlugPlusApp.prototype = {
 		constructor : PlugPlusApp,
 
 		fireEvent : function(type, data){
-			try{
-				var eventData = {from: "plugPlusApp", type:type, data:data};
-				window.postMessage(eventData, "http://plug.dj/*");
-			}catch(e){
-				console.error("PlugPlusApp: An error has occured!", e);
-			}
+			var eventData = {type:type, data:data};
+			this.port.postMessage(eventData);
 		},
-		
+
 		notify : function(title, image, text){
 			this.fireEvent("notify", {title: title, image: image, text: text});
 		},
 
 		handlePlugPlusEvent : function(data){
-			var data = data.data;
-			if (data.from != "plugPlus") return;
 			switch(data.type){
 			case "settingsChange":
 				this.settings = JSON.parse(localStorage['PlugPlusSettings']);
 				this.autoWoot();
 				this.autoJoin();
 				break;
-			default: console.warn("PlugPlusApp: Something may have gone wrong,",data);
+			default: console.warn("PlugPlusApp: Something may have gone wrong,", data);
 			}
 		},
 
 		setupEvents : function(){
 			var scope = this;
-			//Plug Plus listeners
-			try{
-				window.addEventListener("message", function(data){scope.handlePlugPlusEvent(data)});
-			}catch(e){
-				console.warn("PlugPlusApp: An error occured setting up the event listener. Some features may not work!", e);
-			}
 
 			//Plug.dj listeners
 			API.on(API.DJ_ADVANCE, function(obj){
@@ -101,11 +94,53 @@ PlugPlusApp.prototype = {
 			});
 			API.on(API.USER_JOIN, function(obj){
 				scope.updateRoomStats();
+				scope.userJoin(obj);
 			});
 			API.on(API.USER_LEAVE, function(obj){
 				scope.updateRoomStats();
+				scope.userLeave(obj);
+			});
+			API.on(API.CHAT, function(obj){
+				scope.chat(obj);
 			});
 
+		},
+
+		chat : function(obj){
+
+			var from = API.getUser(obj.fromID);
+
+			if (this.settings.chatLevel.all){
+				this.nchat(obj);
+			} else {
+
+				if (this.settings.chatLevel.mention){
+					if (obj.message.indexOf("@" + API.getUser().username) !== -1){
+						this.nchat(obj);
+						return;
+					}
+				}
+
+				if (this.settings.chatLevel.friend){
+					if (from.relationship >= 2  && exists(from.relationship)){
+						this.nchat(obj);
+						return;
+					}
+				}
+
+				if (this.settings.chatLevel.mod){
+					if (from.permission >= 3 && exists(from.permission)){
+						this.nchat(obj);
+						return;
+					}
+				}
+
+			}
+
+		},
+
+		nchat : function(obj){
+			this.notify("Chat", "", obj.from + " said \"" + obj.message + "\"");
 		},
 
 		autoWoot : function(){
@@ -115,7 +150,7 @@ PlugPlusApp.prototype = {
 				}, this.settings.autoWootDelay * 1000);
 			}
 		},
-		
+
 		autoJoin : function(){
 			if (this.settings.autoJoin){
 				if (API.getWaitList().length < 50){
@@ -129,32 +164,50 @@ PlugPlusApp.prototype = {
 		songUpdate : function(obj){
 
 			$('#plugPlusListArea div').removeClass('woot meh');
-			
+
 			switch(this.settings.songUpdate){
 			case 0: break;//Skip
-			case 1: if (obj.dj.relationship <= 2) break;
+			case 1: if (obj.dj.relationship <= 2 || !exists(obj.dj.relationship)) break;
 			case 2: this.notify("Song Update", PlugPlusApp.urls.youtube(obj.media.cid), obj.dj.username + " is now playing " + obj.media.title);
-				break;
+			break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
 
 		},
 
-		djUpdate : function(obj){
+		djUpdate : function(dj){
+
+			switch(this.settings.djUpdate){
+			case 0: break;
+			case 1: if (dj.relationship <= 2 || !exists(dj.relationship)) break;
+			case 2: this.notify("DJ Update", "", dj.username + " is now playing.");//Don't have an image yet.
+			break;
+			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
+			}
 
 		},
 
 		userJoin : function(obj){
 
-			var u = obj.user;
-			var user = new ListUser(u.id, u.username, u.permission, you, u.relationship, u.vote);
-			$('#plugPlusListArea').append(user.getDOM());
+			switch(this.settings.userLevel){
+			case 0: break;
+			case 1: if (obj.relationship <= 2 || !exists(obj.relationship)) break;
+			case 2: this.notify("User Join", "", obj.username + " has joined the room.");//Don't have an image yet.
+			break;
+			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
+			}
 
 		},
 
 		userLeave : function(obj){
 
-			this.getUser(obj.user.id).remove();
+			switch(this.settings.userLevel){
+			case 0: break;
+			case 1: if (obj.relationship <= 2 || !exists(obj.relationship)) break;
+			case 2: this.notify("User Leave", "", obj.username + " has left the room.");//Don't have an image yet.
+			break;
+			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
+			}
 
 		},
 
@@ -163,6 +216,14 @@ PlugPlusApp.prototype = {
 			var vote = (obj.vote == 1) ? "woot" : "meh";
 
 			$("#" + obj.user.id).removeClass('woot meh').addClass(vote);
+
+			switch(this.settings.userLevel){
+			case 0: break;
+			case 1: if (obj.user.relationship <= 2 || !exists(obj.relationship)) break;
+			case 2: this.notify("Vote", "", obj.user.username + " " + vote + "'d this song.");//Don't have an image yet.
+			break;
+			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
+			}
 
 		},
 
@@ -247,7 +308,7 @@ PlugPlusApp.urls = {
 			return "http://img.youtube.com/vi/" + id + "/default.jpg";
 		},
 		plug : function(id){
-			
+
 		}
 };
 
@@ -292,7 +353,11 @@ ListUser.prototype.getDOM = function(){
 
 };
 
+function exists(obj){
+	return (typeof obj !== 'undefined');
+}
 
+(function(){
+	var plugplus = new PlugPlusApp();
+})();
 
-//TODO Make anonymous.
-var plugplus = new PlugPlusApp();
