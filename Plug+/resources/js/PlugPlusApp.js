@@ -55,7 +55,13 @@ PlugPlusApp.prototype = {
 		},
 
 		notify : function(title, image, text){
-			this.fireEvent("notify", {title: title, image: image, text: text});
+			if (this.settings.requireBlur){
+				if(!$(document.body).hasClass("hidden")){
+					return;
+				}
+			}
+
+			this.fireEvent("notify", {title: unescape(title), image: image, text: unescape(text)});
 		},
 
 		handlePlugPlusEvent : function(data){
@@ -144,6 +150,7 @@ PlugPlusApp.prototype = {
 		},
 
 		autoWoot : function(){
+			if (API.getUser().vote === -1) return; //Already meh'd.
 			if (this.settings.autoWoot){
 				setTimeout(function(){
 					$('#vote #woot').click();
@@ -153,6 +160,13 @@ PlugPlusApp.prototype = {
 
 		autoJoin : function(){
 			if (this.settings.autoJoin){
+				if ($('.cycle-toggle:contains(Disabled)').length > 0){
+					$('#autojoin').click().addClass('disabled').attr('title', "This is not available when the DJ Cycle is disabled.");
+					return; //Don't try to autojoin.
+				} else {
+					$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
+				}
+
 				if (API.getWaitList().length < 50){
 					API.djJoin();
 				} else {
