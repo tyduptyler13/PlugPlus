@@ -3,6 +3,7 @@
  ************/
 var PlugSettings = {
 		notifications : true, //Global notifications flag
+		requireBlur : true,
 		chatLevel : {
 			mention : true,
 			friend : true,
@@ -55,7 +56,7 @@ PlugPlus = function(){
 		$('.PPSetting.spinner').spinner();
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
-		$('#PPNotifications').button();
+		$('.PPSetting.button').button();
 
 		//Theme stuff
 		$('#themeControls button').button().click(function(){
@@ -170,6 +171,10 @@ PlugPlus.prototype = {
 			if (PlugSettings.notifications){
 				$('#PPNotifications').prop('checked', true);
 			}
+			
+			if (PlugSettings.requireBlur){
+				$('#PPRequireBlur').prop('checked', true);
+			}
 
 			if (PlugSettings.chatLevel.all){
 				$('.PPChat').prop('checked', true);
@@ -263,6 +268,7 @@ PlugPlus.prototype = {
 				$('#PPNotifyTimeout').val(0);
 			//Save
 			s.notifications = $('#PPNotifications').is(':checked');
+			s.requireBlur = $('#PPRequireBlur').is(':checked');
 			s.chatLevel.mention = $('#PPChatMentions').is(':checked');
 			s.chatLevel.friend = $('#PPChatFriends').is(':checked');
 			s.chatLevel.mod = $('#PPChatMod').is(':checked');
@@ -551,4 +557,46 @@ function convertImage(src, callback){
 	};
 	image.src = src;
 }
+
+/**
+ * Self managing window visibility detection.
+ * 
+ * From http://stackoverflow.com/questions/1060008/is-there-a-way-to-detect-if-a-browser-window-is-not-currently-active
+ * 
+ * Slightly modified to avoid conflicts.
+ */
+(function() {
+    var hidden = "hidden";
+
+    // Standards:
+    if (hidden in document)
+        document.addEventListener("visibilitychange", onchange);
+    else if ((hidden = "mozHidden") in document)
+        document.addEventListener("mozvisibilitychange", onchange);
+    else if ((hidden = "webkitHidden") in document)
+        document.addEventListener("webkitvisibilitychange", onchange);
+    else if ((hidden = "msHidden") in document)
+        document.addEventListener("msvisibilitychange", onchange);
+    // IE 9 and lower:
+    else if ('onfocusin' in document)
+        document.onfocusin = document.onfocusout = onchange;
+    // All others:
+    else
+        window.onpageshow = window.onpagehide 
+            = window.onfocus = window.onblur = onchange;
+
+    function onchange (evt) {
+        var v = 'visible', h = 'hidden',
+            evtMap = { 
+                focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h 
+            };
+
+        evt = evt || window.event;
+        var doc = $(document.body);
+        if (evt.type in evtMap)
+            doc.addClass(evtMap[evt.type]);
+        else        
+            this[hidden] ? doc.addClass("hidden") : doc.removeClass("hidden");
+    }
+})();
 

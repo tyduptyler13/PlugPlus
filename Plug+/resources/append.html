@@ -120,10 +120,18 @@
 						</tr>
 						<tr>
 							<td>Global Notifications</td>
-							<td><input type="checkbox" class="PPSetting"
+							<td><input type="checkbox" class="PPSetting button"
 								name="PPNotifications" id="PPNotifications" /><label
 								for="PPNotifications">Enabled</label></td>
 							<td>Disable this to disable all notifications completely.</td>
+						</tr>
+						<tr>
+							<td>Require Blur</td>
+							<td><input type="checkbox" class="PPSetting button"
+								name="PPRequireBlur" id="PPRequireBlur" /><label
+								for="PPRequireBlur">Enabled</label></td>
+							<td>This will require that plug.dj is not the active window
+								to display notifications.</td>
 						</tr>
 						<tr>
 							<td>Chat Level</td>
@@ -190,9 +198,9 @@
 							<td><input class="ui-corner-all spinner PPSetting"
 								id="PPNotifyTimeout" min="0" /></td>
 							<td>Length in seconds before a notification is closed
-								automatically. 0 disables my timeout code. (0-&infin;) Please note
-								that the new notifications have a maximum timeout setup in the
-								browser. This will not override that.</td>
+								automatically. 0 disables my timeout code. (0-&infin;) Please
+								note that the new notifications have a maximum timeout setup in
+								the browser. This will not override that.</td>
 						</tr>
 					</table>
 
@@ -207,18 +215,28 @@
 			title="Plug+ Updates">
 			<div>
 				<article>
+					<h3>Release 12/8 (v2.0.1.16)</h3>
+					Disabled autojoin in rooms that have DJ Cycle disabled.
+				</article>
+				<article>
+					<h3>Release 12/8 (v2.0.1.15)</h3>
+					This release adds a new notification setting allowing settings to
+					be blocked if the plug.dj is the top most tab. It also adds anti
+					autowoot code that will cancel the autowoot if you have already
+					meh'd the song.
+				</article>
+				<article>
 					<h3>Release 2.0</h3>
 					This release contains a new notifications system and many
 					improvements on the old code.
 				</article>
-				<hr>
 				<article>Old Beta updates are now excluded. To see what
 					has changed please view the github.</article>
 			</div>
 			<div>
 				The error reporting form has been removed. Please leave all comments
 				<a target="_blank"
-					href="https://github.com/tyduptyler13/PlugPlus/issues">here</a>.
+					href="https://github.com/tyduptyler13/PlugPlus/issues"><b>here</b></a>.
 				Please don't leave any comments referring to the lack of
 				notifications and the settings form.
 
