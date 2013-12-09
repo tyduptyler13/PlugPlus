@@ -13,26 +13,19 @@ var PlugSettings = {
 		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
 		autoJoin : false,
-		pluglist : false,
+		theme : [],//Future setting. (Theme tracking)
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
-		notifyTimeout: 7, //Time in seconds before the notification closes automatically. 0 means never timeout.
-		configVersion : 2
+		notifyTimeout: 0, //Time in seconds before the notification closes automatically. 0 means never timeout.
+		configVersion : 3 //This gets incremented when a setting is removed or the default values change.
 };
-
-var PlugSetting = {
-		"none" : 0,
-		"friends" : 1,
-		"all" : 2
-};
-
 
 /*************
  * Functions *
  *************/
 PlugPlus = function(){
 
-	this.channel = null;
+	this.port = null;
 
 	this.injectApp(function(plug){
 		//Anything that requires the interface to be complete goes here.
@@ -60,12 +53,9 @@ PlugPlus = function(){
 		//Settings stuff
 
 		$('.PPSetting.spinner').spinner();
-		$('#PPNotifyTimeout').spinner('disable');
 		$('.PPSetting.check').buttonset();
 		$('.PPSetting.radio').buttonset();
-		$('#PPNotifications').button({disabled: true});
-
-		$('.PPSetting.check > input, .PPSetting.radio > input').button('disable');
+		$('#PPNotifications').button();
 
 		//Theme stuff
 		$('#themeControls button').button().click(function(){
@@ -104,7 +94,11 @@ PlugPlus = function(){
 	//Anything that doesn't need to wait should go here for speed.
 	this.loadSettings();
 
-	window.addEventListener("message", this.onReceiveMessage);
+	var scope = this;
+	
+	window.addEventListener("message", function(message){
+		scope.onReceiveMessage(message);
+	});
 
 
 
@@ -200,7 +194,8 @@ PlugPlus.prototype = {
 				break;
 			case 2:
 				$('#PPUserLevelAll').prop('checked', true);
-			default: console.warn("Plug+ : UserLevel is incorrectly set. Recommend resetting it.");
+				break;
+			default: console.warn("Plug+: UserLevel is incorrectly set. Recommend resetting it.");
 			}
 
 			switch(PlugSettings.songUpdate){
@@ -213,7 +208,7 @@ PlugPlus.prototype = {
 			case 2:
 				$('#PPSongUpdateAll').prop('checked', true);
 				break;
-			default: console.warn("Plug+ : SongUpdate is incorrectly set. Recommend resetting it.");
+			default: console.warn("Plug+: SongUpdate is incorrectly set. Recommend resetting it.");
 			}
 
 			switch(PlugSettings.djUpdate){
@@ -267,13 +262,35 @@ PlugPlus.prototype = {
 			if ($('#PPNotifyTimeout').val()<0)
 				$('#PPNotifyTimeout').val(0);
 			//Save
-			//s.notifications = $('#PPNotifications').is(':checked');
-			//s.chatLevel = $('#PPChatLevel');
-			//s.userLevel = $('#PPUserLevel');
-			//s.songUpdate = $('#PPSongUpdate');
-			//s.djUpdate = $('#PPDJUpdate');
+			s.notifications = $('#PPNotifications').is(':checked');
+			s.chatLevel.mention = $('#PPChatMentions').is(':checked');
+			s.chatLevel.friend = $('#PPChatFriends').is(':checked');
+			s.chatLevel.mod = $('#PPChatMod').is(':checked');
+			s.chatLevel.all = $('#PPChatAll').is(':checked');
+
+			switch($('input[name=PPUserLevel]:checked').attr('id')){
+			case 'PPUserLevelAll': s.userLevel = 2; break;
+			case 'PPUserLevelFriends': s.userLevel = 1; break;
+			case 'PPUserLevelNone':
+			default: s.userLevel = 0;
+			}
+
+			switch($('input[name=PPSongUpdate]:checked').attr('id')){
+			case 'PPSongUpdateAll': s.songUpdate = 2; break;
+			case 'PPSongUpdateFriends': s.songUpdate = 1; break;
+			case 'PPSongUpdateNone':
+			default: s.songUpdate = 0;
+			}
+
+			switch($('input[name=PPDJUpdate]:checked').attr('id')){
+			case 'PPDJUpdateAll': s.djUpdate = 2; break;
+			case 'PPDJUpdateFriends': s.djUpdate = 1; break;
+			case 'PPDJUpdateNone':
+			default: s.djUpdate = 0;
+			}
+
 			s.autoWootDelay = $('#PPAutoWootDelay').val();
-			//s.notifyTimeout = $('#PPNotifyTimeout')[0].valueAsNumber;
+			s.notifyTimeout = $('#PPNotifyTimeout').val();
 
 			//Save settings
 			this.saveSettings();
@@ -287,26 +304,31 @@ PlugPlus.prototype = {
 			plugchat : null,
 			plugUpdates : null
 		},
-		
+
 		sendMessageToApp : function(type, data){
-			try{
-				var eventData = {from: "plugPlus", type:type, data:data};
-				window.postMessage(eventData, "http://plug.dj/*");
-			}catch(e){
-				console.error("Plug+: An error has occured!", e);
-			}
+
+			var eventData = {type:type, data:data};
+			this.port.postMessage(eventData);
+
 		},
 
 		onReceiveMessage : function(message){
+			var scope = this;
+			
 			if (message.data == "PlugPlusAppReady"){
-				this.channel = message.ports[0];
-				this.channel.onmessage = this.onMessageFromApp;
+				this.port = message.ports[0];
+				this.port.onmessage = function(message){
+					scope.onMessageFromApp(message);
+				};
+				console.log("Plug+: Hooked private connection to PlugPlusApp");
 			} //Ignore everything else.
 		},
 
 		onMessageFromApp : function(message){
-			console.log("Recieved message from App", message);
-			//TODO Finish channels
+			if (message.data.type == "notify"){
+				var d = message.data.data;
+				this.notify(d.title, d.image, d.text);
+			}
 		},
 
 		notify : function(title, image, text){
@@ -401,8 +423,8 @@ PlugPlus.prototype = {
 						close : function(){
 							plug.button.settings.removeClass('active');
 						},
-						width: 933,
-						height: 360
+						width: 800,
+						height: 350
 					});
 				}
 			},

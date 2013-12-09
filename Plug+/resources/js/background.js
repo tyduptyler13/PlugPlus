@@ -24,7 +24,7 @@ function notify(img, title, text, timeout){
 	ga('send', 'event', 'notify', 'create');
 	
 	chrome.notifications.create(text, opts, function(notification){
-		if (timeout != 0){
+		if (timeout > 0){
 			setTimeout(function() {
 				chrome.notifications.clear(notification, function(){});
 			}, timeout * 1000);
@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 		switch(request.action){
 		case "notify":
 			if (!checkURL(request.img))
-				request.img = chrome.extension.getURL("icon.png");
+				request.img = icon;
 			if (request.timeout == undefined || isNaN(request.timeout))
 				request.timeout = 7;
 			notify(request.img,request.title,request.text,request.timeout);
