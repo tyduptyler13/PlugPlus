@@ -24,7 +24,7 @@ var PlugSettings = {
 /*************
  * Functions *
  *************/
-PlugPlus = function(){
+var PlugPlus = function(){
 
 	this.port = null;
 
@@ -339,6 +339,8 @@ PlugPlus.prototype = {
 
 		notify : function(title, image, text){
 
+			if (!PlugSettings.notifications) return;
+			
 			chrome.runtime.sendMessage({
 				action: "notify",
 				img: image,
