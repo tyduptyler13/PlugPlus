@@ -150,9 +150,9 @@ PlugPlusApp.prototype = {
 		},
 
 		autoWoot : function(){
-			if (API.getUser().vote === -1) return; //Already meh'd.
 			if (this.settings.autoWoot){
 				setTimeout(function(){
+					if (API.getUser().vote === -1) return; //Already meh'd.
 					$('#vote #woot').click();
 				}, this.settings.autoWootDelay * 1000);
 			}
