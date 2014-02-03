@@ -41,6 +41,11 @@ PlugPlusApp = function(){
 	};
 
 	this.port.start();
+	
+	$('#chat-messages').on('mouseenter', '.text img', function(){
+		var element = $(this);
+		//TODO
+	});
 
 	// Setup other general functionality.
 	scope.setupMute();
@@ -108,6 +113,7 @@ PlugPlusApp.prototype = {
 			});
 			API.on(API.CHAT, function(obj){
 				scope.chat(obj);
+				scope.inline(obj.chatID);
 			});
 
 		},
@@ -260,6 +266,21 @@ PlugPlusApp.prototype = {
 			$('#plugSongStats').text(percent.toPrecision(4) + "%");
 
 
+		},
+
+		inline : function(id) {
+			if (this.settings.linkExpansion){
+				$('.cid-' + id + ' .text a').each(function(index, element){
+					element = $(element); //jQuery it.
+					var href = element.attr('href');
+					//Is it an image?
+					if (href.match(/(https?:\/\/.*\.(?:png|jpe?g|gif))/i)){
+						var html = "<img class=\"PPInline\" src=\"" + href + "\" alt=\"" + href + "\"\\>";
+						element.html(html);
+						element.before("<br>");
+					}
+				});
+			}
 		},
 
 		setupPlugList : function(){

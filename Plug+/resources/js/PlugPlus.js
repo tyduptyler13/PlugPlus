@@ -18,7 +18,8 @@ var PlugSettings = {
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
 		notifyTimeout: 10, //Time in seconds before the notification closes automatically. 0 means never timeout.
-		configVersion : 3 //This gets incremented when a setting is removed or the default values change.
+		linkExpansion: false,
+		configVersion : 4 //This gets incremented when a setting is removed or the default values change.
 };
 
 /*************
@@ -175,6 +176,10 @@ PlugPlus.prototype = {
 			if (PlugSettings.requireBlur){
 				$('#PPRequireBlur').prop('checked', true);
 			}
+			
+			if (PlugSettings.linkExpansion){
+				$('#PPLinkExpansion').prop('checked', true);
+			}
 
 			if (PlugSettings.chatLevel.all){
 				$('.PPChat').prop('checked', true);
@@ -269,6 +274,7 @@ PlugPlus.prototype = {
 			//Save
 			s.notifications = $('#PPNotifications').is(':checked');
 			s.requireBlur = $('#PPRequireBlur').is(':checked');
+			s.linkExpansion = $('#PPLinkExpansion').is(':checked');
 			s.chatLevel.mention = $('#PPChatMentions').is(':checked');
 			s.chatLevel.friend = $('#PPChatFriends').is(':checked');
 			s.chatLevel.mod = $('#PPChatMod').is(':checked');
