@@ -42,10 +42,26 @@ PlugPlusApp = function(){
 
 	this.port.start();
 	
-	$('#chat-messages').on('mouseenter', '.text img', function(){
+	//Setup LightBox.
+	$('#chat-messages').on('click', '.PPLB', function(){
 		var element = $(this);
-		//TODO
+		$('#PPLightBoxImage').attr('src', element.attr('src'));
+		$('#PPLightBox').fadeIn();
 	});
+	
+	$('#PPLightBox').click(function(){
+		$(this).fadeOut();
+	});
+	
+	var room = $('#room');
+	
+	var fixLB = function(){
+		$('#PPLightBoxImage').css({'max-width':room.width(), 'max-height': room.height()-50});
+	};
+
+	fixLB();
+	
+	room.resize(fixLB);
 
 	// Setup other general functionality.
 	scope.setupMute();
@@ -275,9 +291,9 @@ PlugPlusApp.prototype = {
 					var href = element.attr('href');
 					//Is it an image?
 					if (href.match(/(https?:\/\/.*\.(?:png|jpe?g|gif))/i)){
-						var html = "<img class=\"PPInline\" src=\"" + href + "\" alt=\"" + href + "\"\\>";
-						element.html(html);
-						element.before("<br>");
+						var html = "<img class=\"PPInline PPLB\" src=\"" + href + "\" alt=\"" + href + "\"\\>";
+						element.before("<br>"+html);
+						element.remove();
 					}
 				});
 			}
@@ -393,6 +409,6 @@ function exists(obj){
 }
 
 (function(){
-	var plugplus = new PlugPlusApp();
+	new PlugPlusApp();
 })();
 

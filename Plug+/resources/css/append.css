@@ -204,8 +204,8 @@ width
 	outline: solid #E90E82 thin;
 }
 
-#plugPlusContent:not (.right ) #themeLeft {
-	display: none !important;
+#plugPlusContent #themeLeft {
+	display: none;
 }
 
 #plugPlusContent.right #themeLeft {
@@ -227,24 +227,15 @@ width
 }
 
 #PPLightBox {
-	display: table;
+	display: none;
 	position: absolute;
 	height: 100%;
 	width: 100%;
+	background-color: rgba(0,0,0,.7);
+	z-index: 100;
 }
 
-#PPLightBoxContainer {
-	display: table-cell;
+#PPLightBox td {
 	vertical-align: middle;
-}
-
-#PPLightBoxImage {
-	margin: auto;
-	max-width: 90%;
-	max-height: 90%;
-}
-
-#PPLightBoxImage img {
-	max-width: 100%;
-	max-height: 100%;
+	text-align: center;
 }
