@@ -3,6 +3,12 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
+Latest Feature
+----
+Inline image expansion - Expand images mentioned in chat and view them
+in a built in lightbox by clicking them. (External links to the images
+removed by popular vote)
+
 Current Features
 ----
 * Featured Rooms
@@ -14,6 +20,8 @@ Current Features
 * AutoWoot Delayed Vote
 * Theme Controller
 * Turntable.FM Style Mute (via space bar)
+* Avatars in notifications
+* Inline image expansion
 
 Planned Features
 ----
@@ -24,24 +32,13 @@ Planned Features
 * Language Support
 * Music purchase sites (spotify, etc)
 * Reverse Youtube
+* Inline youtube embeds
+* RoomRanker
+* More themes
 
-
-Change Log
+Changelog
 ----
-* `2.0`   - Total rework for improvements in interface and code.
-* `1.1.4` - Background release (Avatars coming in a patch)
-* `1.1.3` - Stat counter
-* `1.1.2` - Manipulate mode
-* `1.1.1` - Huge update (All features reworked and cleaned up)
-* `1.0.5` - Chat Features and moved settings to chat commands
-* `1.0.4` - Clean up and added Plug List and Settings page
-* `1.0.3` - Notifications
-* `1.0.2` - Auto Features
-* `1.0.1` - Extension Dropdown
+We no longer track this here. See the git commits.
 
-Notes
-----
-+ Patch notes are no longer updated. To see what has changed, look at the commit history.
-+ Starting in version 2, the 4th version part is now a build or change counter. It will always increase with
-every change and will no longer reset with higher version part changes. 
+We are generally lazy about tags and commit logs but we plan to update the feature list.
 
