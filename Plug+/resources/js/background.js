@@ -37,18 +37,32 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 	try{
 		switch(request.action){
 		case "notify":
-			if (!checkURL(request.img))
-				request.img = icon;
-			if (request.timeout == undefined || isNaN(request.timeout))
-				request.timeout = 7;
-			notify(request.img,request.title,request.text,request.timeout);
+			
+			var data = request.data;
+			
+			if (data.convert === true && data.image != "undefined" && data.image.indexOf('.png')!=-1){
+				data.image = chrome.extension.getURL('/resources/images/' + data.image);
+			} else if (!checkURL(data.image)) {
+				data.image= icon;
+			}
+			
+			if (data.timeout == undefined || isNaN(data.timeout))
+				data.timeout = 7;
+			
+			try{
+				notify(data.image, data.title, data.text, data.timeout);
+			} catch (e) {
+				//Try again if something goes wrong.
+				notify(icon, data.title, data.text, data.timeout);
+			}
+			
 			break;
 		default:
 			console.warn("Request not defined!");
 			break;
 		}
 	}catch(err){
-		console.error("An error occured in the request!", this);
+		console.error("An error occured in the request!", err);
 	}
 });
 

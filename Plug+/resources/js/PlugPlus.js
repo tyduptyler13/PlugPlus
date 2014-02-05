@@ -17,8 +17,9 @@ var PlugSettings = {
 		theme : [],//Future setting. (Theme tracking)
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
-		notifyTimeout: 0, //Time in seconds before the notification closes automatically. 0 means never timeout.
-		configVersion : 3 //This gets incremented when a setting is removed or the default values change.
+		notifyTimeout: 10, //Time in seconds before the notification closes automatically. 0 means never timeout.
+		linkExpansion: false,
+		configVersion : 4 //This gets incremented when a setting is removed or the default values change.
 };
 
 /*************
@@ -96,7 +97,7 @@ var PlugPlus = function(){
 	this.loadSettings();
 
 	var scope = this;
-	
+
 	window.addEventListener("message", function(message){
 		scope.onReceiveMessage(message);
 	});
@@ -171,9 +172,13 @@ PlugPlus.prototype = {
 			if (PlugSettings.notifications){
 				$('#PPNotifications').prop('checked', true);
 			}
-			
+
 			if (PlugSettings.requireBlur){
 				$('#PPRequireBlur').prop('checked', true);
+			}
+			
+			if (PlugSettings.linkExpansion){
+				$('#PPLinkExpansion').prop('checked', true);
 			}
 
 			if (PlugSettings.chatLevel.all){
@@ -269,6 +274,7 @@ PlugPlus.prototype = {
 			//Save
 			s.notifications = $('#PPNotifications').is(':checked');
 			s.requireBlur = $('#PPRequireBlur').is(':checked');
+			s.linkExpansion = $('#PPLinkExpansion').is(':checked');
 			s.chatLevel.mention = $('#PPChatMentions').is(':checked');
 			s.chatLevel.friend = $('#PPChatFriends').is(':checked');
 			s.chatLevel.mod = $('#PPChatMod').is(':checked');
@@ -320,7 +326,7 @@ PlugPlus.prototype = {
 
 		onReceiveMessage : function(message){
 			var scope = this;
-			
+
 			if (message.data == "PlugPlusAppReady"){
 				this.port = message.ports[0];
 				this.port.onmessage = function(message){
@@ -333,21 +339,18 @@ PlugPlus.prototype = {
 		onMessageFromApp : function(message){
 			if (message.data.type == "notify"){
 				var d = message.data.data;
-				this.notify(d.title, d.image, d.text);
+				this.notify(message.data);
 			}
 		},
 
-		notify : function(title, image, text){
+		notify : function(message){
 
 			if (!PlugSettings.notifications) return;
-			
-			chrome.runtime.sendMessage({
-				action: "notify",
-				img: image,
-				text: text,
-				title: title,
-				timeout: PlugSettings.notifyTimeout
-			}, function(response){});
+
+			message.timeout = PlugSettings.notifyTimeout;
+			message.action = "notify";
+
+			chrome.runtime.sendMessage(message, function(response){});
 
 		},
 
@@ -568,37 +571,37 @@ function convertImage(src, callback){
  * Slightly modified to avoid conflicts.
  */
 (function() {
-    var hidden = "hidden";
+	var hidden = "hidden";
 
-    // Standards:
-    if (hidden in document)
-        document.addEventListener("visibilitychange", onchange);
-    else if ((hidden = "mozHidden") in document)
-        document.addEventListener("mozvisibilitychange", onchange);
-    else if ((hidden = "webkitHidden") in document)
-        document.addEventListener("webkitvisibilitychange", onchange);
-    else if ((hidden = "msHidden") in document)
-        document.addEventListener("msvisibilitychange", onchange);
-    // IE 9 and lower:
-    else if ('onfocusin' in document)
-        document.onfocusin = document.onfocusout = onchange;
-    // All others:
-    else
-        window.onpageshow = window.onpagehide 
-            = window.onfocus = window.onblur = onchange;
+	// Standards:
+	if (hidden in document)
+		document.addEventListener("visibilitychange", onchange);
+	else if ((hidden = "mozHidden") in document)
+		document.addEventListener("mozvisibilitychange", onchange);
+	else if ((hidden = "webkitHidden") in document)
+		document.addEventListener("webkitvisibilitychange", onchange);
+	else if ((hidden = "msHidden") in document)
+		document.addEventListener("msvisibilitychange", onchange);
+	// IE 9 and lower:
+	else if ('onfocusin' in document)
+		document.onfocusin = document.onfocusout = onchange;
+	// All others:
+	else
+		window.onpageshow = window.onpagehide 
+		= window.onfocus = window.onblur = onchange;
 
-    function onchange (evt) {
-        var v = 'visible', h = 'hidden',
-            evtMap = { 
-                focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h 
-            };
+	function onchange (evt) {
+		var v = 'visible', h = 'hidden',
+		evtMap = { 
+				focus:v, focusin:v, pageshow:v, blur:h, focusout:h, pagehide:h 
+		};
 
-        evt = evt || window.event;
-        var doc = $(document.body);
-        if (evt.type in evtMap)
-            doc.addClass(evtMap[evt.type]);
-        else        
-            this[hidden] ? doc.addClass("hidden") : doc.removeClass("hidden");
-    }
+		evt = evt || window.event;
+		var doc = $(document.body);
+		if (evt.type in evtMap)
+			doc.addClass(evtMap[evt.type]);
+		else        
+			this[hidden] ? doc.addClass("hidden") : doc.removeClass("hidden");
+	}
 })();
 

@@ -1,4 +1,4 @@
-#plugPlusContent{
+#plugPlusContent {
 	position: absolute;
 	color: white;
 	z-index: 99; /*Just below popups*/
@@ -11,36 +11,36 @@
 	font-size: small;
 }
 
-#plugPlusContent.right{
+#plugPlusContent.right {
 	left: auto;
 	right: 0;
 }
 
-#plugPlusContent.autoHide{
+#plugPlusContent.autoHide {
 	height: 25px;
 	transition: height .5s;
 	overflow: hidden;
 	-webkit-transition: height .5s;
 }
 
-#plugPlus footer{
+#plugPlus footer {
 	transition: opacity .25s;
 	-webkit-transition: opacity .25s;
 }
 
-#plugPlusContent.autoHide footer{
+#plugPlusContent.autoHide footer {
 	opacity: 0;
 }
 
-#plugPlusContent.autoHide:hover{
+#plugPlusContent.autoHide:hover {
 	height: 100%;
 }
 
-#plugPlusContent.autoHide:hover footer{
+#plugPlusContent.autoHide:hover footer {
 	opacity: 1;
 }
 
-#plugPlus div{
+#plugPlus div {
 	/* Disable text selection */
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -114,17 +114,17 @@
 	position: absolute;
 }
 
-#plugPlusUpdates article{
+#plugPlusUpdates article {
 	border: 1px white solid;
 	margin-top: 10px;
 	width: 100%;
 }
 
-#plugPlusUpdates div{
-	margin:10px;
+#plugPlusUpdates div {
+	margin: 10px;
 }
 
-footer{
+footer {
 	width: 100%;
 	text-align: center;
 	position: absolute;
@@ -132,76 +132,110 @@ footer{
 	right: 0;
 }
 
-#plugPlusSettingsForm{
+#plugPlusSettingsForm {
 	border-collapse: collapse;
 }
 
-#plugPlusSettingsForm{
+#plugPlusSettingsForm {
 	
 }
 
-#plugPlusSettingsForm tr td:nth-child(2){
-	width:325px;
+#plugPlusSettingsForm tr td:nth-child(2) {
+	width: 325px;
 }
 
-#plugPlusSettingsForm .spinner{
+#plugPlusSettingsForm .spinner {
 	position: static;
 }
 
-.PPSetting:not([type=checkbox]){
-	width:100%;
+.PPSetting
+:not
+ 
+(
+[
+type
+=
+checkbox
+]
+ 
+){
+width
+:
+ 
+100%;
+}
+#plugPlusList #refresh {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
 }
 
-#plugPlusList #refresh{
-	width:16px;
-	height:16px;
-	display:inline-block;
-}
-
-#plugPlusListArea{
+#plugPlusListArea {
 	text-align: center;
 }
 
-#plugPlusListArea div{
+#plugPlusListArea div {
 	background-color: #191975;
 	display: inline-block;
 	margin: 3px;
 }
 
-#plugPlusListArea .you{
+#plugPlusListArea .you {
 	border: solid #ff6600 thin;
 }
 
-#plugPlusListArea .woot{
+#plugPlusListArea .woot {
 	background-color: green;
 }
 
-#plugPlusListArea .meh{
+#plugPlusListArea .meh {
 	background-color: red;
 }
 
-#plugPlusListArea .fan, #plugPlusListArea .friend{
+#plugPlusListArea .fan,#plugPlusListArea .friend {
 	border: dashed yellow thin;
 }
 
-#plugPlusListArea .friend{
+#plugPlusListArea .friend {
 	border-style: solid;
 }
 
-#plugPlusListArea .mod{
-	outline: solid #E90E82 thin; 
+#plugPlusListArea .mod {
+	outline: solid #E90E82 thin;
 }
 
-#plugPlusContent:not(.right) #themeLeft{
-	display: none !important;
-}
-
-#plugPlusContent.right #themeLeft{
-	display: inline-block;
-}
-
-#plugPlusContent.right #themeRight{
+#plugPlusContent #themeLeft {
 	display: none;
 }
 
+#plugPlusContent.right #themeLeft {
+	display: inline-block;
+}
 
+#plugPlusContent.right #themeRight {
+	display: none;
+}
+
+.PPInline {
+	max-height: 100px;
+	transition: all .3s;
+}
+
+.PPInline:hover {
+	max-width: 90%;
+	max-height: 300px;
+}
+
+#PPLightBox {
+	display: none;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0,0,0,.7);
+	z-index: 100;
+}
+
+#PPLightBox td {
+	vertical-align: middle;
+	text-align: center;
+}

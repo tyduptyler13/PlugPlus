@@ -41,6 +41,27 @@ PlugPlusApp = function(){
 	};
 
 	this.port.start();
+	
+	//Setup LightBox.
+	$('#chat-messages').on('click', '.PPLB', function(){
+		var element = $(this);
+		$('#PPLightBoxImage').attr('src', element.attr('src'));
+		$('#PPLightBox').fadeIn();
+	});
+	
+	$('#PPLightBox').click(function(){
+		$(this).fadeOut();
+	});
+	
+	var room = $('#room');
+	
+	var fixLB = function(){
+		$('#PPLightBoxImage').css({'max-width':room.width(), 'max-height': room.height()-50});
+	};
+
+	fixLB();
+	
+	room.resize(fixLB);
 
 	// Setup other general functionality.
 	scope.setupMute();
@@ -54,14 +75,14 @@ PlugPlusApp.prototype = {
 			this.port.postMessage(eventData);
 		},
 
-		notify : function(title, image, text){
+		notify : function(title, image, text, convert){
 			if (this.settings.requireBlur){
 				if(!$(document.body).hasClass("hidden")){
 					return;
 				}
 			}
 
-			this.fireEvent("notify", {title: unescape(title), image: image, text: unescape(text)});
+			this.fireEvent("notify", {title: unescape(title), image: image, text: unescape(text), convert: convert});
 		},
 
 		handlePlugPlusEvent : function(data){
@@ -108,6 +129,7 @@ PlugPlusApp.prototype = {
 			});
 			API.on(API.CHAT, function(obj){
 				scope.chat(obj);
+				scope.inline(obj.chatID);
 			});
 
 		},
@@ -146,16 +168,16 @@ PlugPlusApp.prototype = {
 		},
 
 		nchat : function(obj){
-			this.notify("Chat", "", obj.from + " said \"" + obj.message + "\"");
+			this.notify("Chat", API.getUser(obj.fromID).avatarID + '.png', obj.from + " said \"" + obj.message + "\"", true);
 		},
 
 		autoWoot : function(){
-			if (this.settings.autoWoot){
-				setTimeout(function(){
-					if (API.getUser().vote === -1) return; //Already meh'd.
+			var scope = this;
+			setTimeout(function(){
+				if (scope.settings.autoWoot && API.getUser().vote !== -1){
 					$('#vote #woot').click();
-				}, this.settings.autoWootDelay * 1000);
-			}
+				}
+			}, this.settings.autoWootDelay * 1000);
 		},
 
 		autoJoin : function(){
@@ -194,7 +216,7 @@ PlugPlusApp.prototype = {
 			switch(this.settings.djUpdate){
 			case 0: break;
 			case 1: if (dj.relationship <= 2 || !exists(dj.relationship)) break;
-			case 2: this.notify("DJ Update", "", dj.username + " is now playing.");//Don't have an image yet.
+			case 2: this.notify("DJ Update", dj.avatarID + '.png', dj.username + " is now playing.", true);
 			break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
@@ -206,7 +228,7 @@ PlugPlusApp.prototype = {
 			switch(this.settings.userLevel){
 			case 0: break;
 			case 1: if (obj.relationship <= 2 || !exists(obj.relationship)) break;
-			case 2: this.notify("User Join", "", obj.username + " has joined the room.");//Don't have an image yet.
+			case 2: this.notify("User Join", obj.avatarID + '.png', obj.username + " has joined the room.", true);
 			break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
@@ -218,7 +240,7 @@ PlugPlusApp.prototype = {
 			switch(this.settings.userLevel){
 			case 0: break;
 			case 1: if (obj.relationship <= 2 || !exists(obj.relationship)) break;
-			case 2: this.notify("User Leave", "", obj.username + " has left the room.");//Don't have an image yet.
+			case 2: this.notify("User Leave", obj.avatarID + '.png', obj.username + " has left the room.", true);
 			break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
@@ -234,7 +256,7 @@ PlugPlusApp.prototype = {
 			switch(this.settings.userLevel){
 			case 0: break;
 			case 1: if (obj.user.relationship <= 2 || !exists(obj.relationship)) break;
-			case 2: this.notify("Vote", "", obj.user.username + " " + vote + "'d this song.");//Don't have an image yet.
+			case 2: this.notify("Vote", obj.user.avatarID + '.png', obj.user.username + " " + vote + "'d this song.", true);
 			break;
 			default: console.warn("Plug+: A setting has a value that has no association. Something bad might have happened.");
 			}
@@ -260,6 +282,21 @@ PlugPlusApp.prototype = {
 			$('#plugSongStats').text(percent.toPrecision(4) + "%");
 
 
+		},
+
+		inline : function(id) {
+			if (this.settings.linkExpansion){
+				$('.cid-' + id + ' .text a').each(function(index, element){
+					element = $(element); //jQuery it.
+					var href = element.attr('href');
+					//Is it an image?
+					if (href.match(/(https?:\/\/.*\.(?:png|jpe?g|gif))/i)){
+						var html = "<img class=\"PPInline PPLB\" src=\"" + href + "\" alt=\"" + href + "\"\\>";
+						element.before("<br>"+html);
+						element.remove();
+					}
+				});
+			}
 		},
 
 		setupPlugList : function(){
@@ -372,6 +409,6 @@ function exists(obj){
 }
 
 (function(){
-	var plugplus = new PlugPlusApp();
+	new PlugPlusApp();
 })();
 
