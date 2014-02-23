@@ -1,6 +1,6 @@
 {
 	"name": "Plug+",
-	"version": "2.0.2.18",
+	"version": "2.0.2.19",
 	"manifest_version": 2,
 	"description": "A plug.dj feature set.",
 	"icons": {
@@ -48,11 +48,11 @@
 			"js": [
 				"resources/js/analytics.js",
 				"resources/js/jquery.js",
-				"resources/js/jquery-ui-1.10.3.custom.js",
+				"resources/js/jquery-ui-1.10.4.custom.js",
 				"resources/js/PlugPlus.js"
 			],
 			"css": [
-				"resources/css/jquery-ui-1.10.3.custom.css",
+				"resources/css/jquery-ui-1.10.4.custom.css",
 				"resources/css/append.css"
 			],
 			"run_at": "document_end"
