@@ -41,26 +41,26 @@ PlugPlusApp = function(){
 	};
 
 	this.port.start();
-	
+
 	//Setup LightBox.
 	$('#chat-messages').on('click', '.PPLB', function(){
 		var element = $(this);
 		$('#PPLightBoxImage').attr('src', element.attr('src'));
 		$('#PPLightBox').fadeIn();
 	});
-	
+
 	$('#PPLightBox').click(function(){
 		$(this).fadeOut();
 	});
-	
+
 	var room = $('#room');
-	
+
 	var fixLB = function(){
 		$('#PPLightBoxImage').css({'max-width':room.width(), 'max-height': room.height()-50});
 	};
 
 	fixLB();
-	
+
 	room.resize(fixLB);
 
 	// Setup other general functionality.
@@ -182,9 +182,13 @@ PlugPlusApp.prototype = {
 
 		autoJoin : function(){
 			if (this.settings.autoJoin){
-				if ($('.cycle-toggle:contains(Disabled)').length > 0){
-					$('#autojoin').click().addClass('disabled').attr('title', "This is not available when the DJ Cycle is disabled.");
-					return; //Don't try to autojoin.
+				if (this.settings.autoJoinSafety){ //Skip
+					if ($('.cycle-toggle:contains(Disabled)').length > 0){
+						$('#autojoin').click().addClass('disabled').attr('title', "This is not available when the DJ Cycle is disabled.");
+						return; //Don't try to autojoin.
+					} else {
+						$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
+					}
 				} else {
 					$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
 				}

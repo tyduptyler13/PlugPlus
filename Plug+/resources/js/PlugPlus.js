@@ -14,6 +14,7 @@ var PlugSettings = {
 		autoWootDelay : 5, //Seconds to delay woot
 		autoWoot : false, //Persistent settings
 		autoJoin : false,
+		autoJoinSafety : true,
 		theme : [],//Future setting. (Theme tracking)
 		songUpdate : 2, //0 = none, 1 = only friends, 2 = all
 		djUpdate: 1, //0 = none, 1 = only friends, 2 = all
@@ -38,6 +39,7 @@ var PlugPlus = function(){
 				pluglist : $("#pluglist"),
 				settings : $("#psettings"),
 				plugchat : $("#plugchat"),
+				roomranker : $('#roomranker'),
 				plugupdates : $("#plugupdates"),
 				hidevideo : $('#hidevideo')
 		};
@@ -237,6 +239,10 @@ PlugPlus.prototype = {
 			$('#PPAutoWootDelay').val(PlugSettings.autoWootDelay);
 			$('#PPNotifyTimeout').val(PlugSettings.notifyTimeout);
 
+			if (PlugSettings.autoJoinSafety){
+				$('#PPAutojoinSafety').prop('checked', true);
+			}
+			
 			/**
 			 * Once again, finding broken methods in jqueryui and decided to make my own.
 			 * Basicly this will find the button elements, select the labels that represent them
@@ -303,6 +309,8 @@ PlugPlus.prototype = {
 
 			s.autoWootDelay = $('#PPAutoWootDelay').val();
 			s.notifyTimeout = $('#PPNotifyTimeout').val();
+			
+			s.autoJoinSafety = $('#PPAutojoinSafety').is(':checked');
 
 			//Save settings
 			this.saveSettings();
