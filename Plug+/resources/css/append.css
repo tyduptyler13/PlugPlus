@@ -144,6 +144,10 @@ footer {
 	width: 325px;
 }
 
+#plugPlusSettingsForm tr:nth-child(odd) {
+    background-color: rgba(0,0,0,.4);
+}
+
 #plugPlusSettingsForm .spinner {
 	position: static;
 }
