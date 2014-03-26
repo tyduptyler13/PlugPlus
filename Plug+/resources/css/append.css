@@ -152,22 +152,10 @@ footer {
 	position: static;
 }
 
-.PPSetting
-:not
- 
-(
-[
-type
-=
-checkbox
-]
- 
-){
-width
-:
- 
-100%;
+.PPSetting:not([type=checkbox]){
+	width:100%;
 }
+
 #plugPlusList #refresh {
 	width: 16px;
 	height: 16px;

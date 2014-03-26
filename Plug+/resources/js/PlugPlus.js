@@ -178,7 +178,7 @@ PlugPlus.prototype = {
 			if (PlugSettings.requireBlur){
 				$('#PPRequireBlur').prop('checked', true);
 			}
-			
+
 			if (PlugSettings.linkExpansion){
 				$('#PPLinkExpansion').prop('checked', true);
 			}
@@ -242,7 +242,7 @@ PlugPlus.prototype = {
 			if (PlugSettings.autoJoinSafety){
 				$('#PPAutojoinSafety').prop('checked', true);
 			}
-			
+
 			/**
 			 * Once again, finding broken methods in jqueryui and decided to make my own.
 			 * Basicly this will find the button elements, select the labels that represent them
@@ -309,7 +309,7 @@ PlugPlus.prototype = {
 
 			s.autoWootDelay = $('#PPAutoWootDelay').val();
 			s.notifyTimeout = $('#PPNotifyTimeout').val();
-			
+
 			s.autoJoinSafety = $('#PPAutojoinSafety').is(':checked');
 
 			//Save settings
@@ -346,7 +346,6 @@ PlugPlus.prototype = {
 
 		onMessageFromApp : function(message){
 			if (message.data.type == "notify"){
-				var d = message.data.data;
 				this.notify(message.data);
 			}
 		},
@@ -499,20 +498,22 @@ function init(){
 
 		var plug = new PlugPlus();
 
+		ga(function(){
+			console.log("Plug+(init): ga loaded.");
+		});
+		ga('create', 'UA-32685589-1', 'auto');
+		ga('require', 'linkid', 'linkid.js');
+		ga('send', 'pageview');
+
+		console.log("Plug+(init): Load completed.");
+
 	} else {
 		setTimeout(init, 250);
 	}
 
-	ga(function(){
-		console.log("Plug+: ga loaded.");
-	});
-	ga('create', 'UA-32685589-1', 'auto');
-	ga('send', 'pageview');
-	ga('require', 'linkid', 'linkid.js');
-
 }
 
-init();
+$(init);
 
 function isURL(data){
 	var string = "^" +
@@ -578,7 +579,7 @@ function convertImage(src, callback){
  * 
  * Slightly modified to avoid conflicts.
  */
-(function() {
+$(function() {
 	var hidden = "hidden";
 
 	// Standards:
@@ -611,5 +612,5 @@ function convertImage(src, callback){
 		else        
 			this[hidden] ? doc.addClass("hidden") : doc.removeClass("hidden");
 	}
-})();
+});
 

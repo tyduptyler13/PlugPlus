@@ -193,10 +193,15 @@ PlugPlusApp.prototype = {
 					$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
 				}
 
-				if (API.getWaitList().length < 50){
-					API.djJoin();
+				if (API.getWaitList().indexOf(API.getUser()) != -1){
+					console.log("Plug+: You are already in the list. No need to join.");
 				} else {
-					API.chatLog("Plug+: Waitlist is unavailable/full. Autojoin will not work.");
+					if (API.getWaitList().length < 50){
+						API.djJoin();
+						API.chatLog("Plug+: Joined the list successfully.");
+					} else {
+						API.chatLog("Plug+: Tried to join the waitlist but it was full before we could join.");
+					}
 				}
 			}
 		},
