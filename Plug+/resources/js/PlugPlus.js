@@ -48,7 +48,6 @@ var PlugPlus = function(){
 			try{
 				var id = $(this).attr('id');
 				plug.toggle[id](plug);
-				ga('send', 'event', 'button', 'clicked', id);
 			}catch(e){
 				console.warn("Plug+: A button has been pressed that does not have a toggle defined!");
 			}
@@ -496,16 +495,7 @@ function init(){
 	if ($('#audience').length>0){
 		if (document.location.pathname=="/" || $('.plugPlus').length>0) return;//Only one instance of plug at a time.
 
-		var plug = new PlugPlus();
-
-		ga(function(){
-			console.log("Plug+(init): ga loaded.");
-		});
-		ga('create', 'UA-32685589-1', 'auto');
-		ga('require', 'linkid', 'linkid.js');
-		ga('send', 'pageview');
-
-		console.log("Plug+(init): Load completed.");
+		new PlugPlus();
 
 	} else {
 		setTimeout(init, 250);

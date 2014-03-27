@@ -186,23 +186,25 @@ PlugPlusApp.prototype = {
 					if ($('.cycle-toggle:contains(Disabled)').length > 0){
 						$('#autojoin').click().addClass('disabled').attr('title', "This is not available when the DJ Cycle is disabled.");
 						return; //Don't try to autojoin.
-					} else {
-						$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
 					}
-				} else {
-					$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
 				}
 
-				if (API.getWaitList().indexOf(API.getUser()) != -1){
-					console.log("Plug+: You are already in the list. No need to join.");
-				} else {
-					if (API.getWaitList().length < 50){
-						API.djJoin();
-						API.chatLog("Plug+: Joined the list successfully.");
-					} else {
-						API.chatLog("Plug+: Tried to join the waitlist but it was full before we could join.");
-					}
+				var you = API.getUser();
+				var list = API.getWaitList();
+
+				for (var x=0; x < list.length; ++x){
+					if (list[x].id == you.id) return;
 				}
+
+				$('#autojoin.disabled').removeClass('disabled').attr('title', "Automatically join when you exit the booth.");
+
+				if (API.getWaitList().length < 50){
+					API.djJoin();
+					API.chatLog("Plug+: Joined the list successfully.");
+				} else {
+					API.chatLog("Plug+: Tried to join the waitlist but it was full before we could join.");
+				}
+
 			}
 		},
 
@@ -418,6 +420,10 @@ function exists(obj){
 }
 
 (function(){
+
+
+
 	new PlugPlusApp();
+
 })();
 
