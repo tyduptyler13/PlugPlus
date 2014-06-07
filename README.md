@@ -22,6 +22,9 @@ Current Features
 * Turntable.FM Style Mute (via space bar)
 * Avatars in notifications
 * Inline image expansion
+* AutoAfk
+* TempMute
+* AfkMessage
 
 Planned Features
 ----
