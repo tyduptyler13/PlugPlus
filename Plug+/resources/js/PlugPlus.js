@@ -3,6 +3,8 @@
  ************/
 var PlugSettings = {
 		notifications : true, //Global notifications flag
+		afkMessage : '',
+		autoAfk : 0,
 		requireBlur : true,
 		chatLevel : {
 			mention : true,
@@ -41,7 +43,8 @@ var PlugPlus = function(){
 				plugchat : $("#plugchat"),
 				roomranker : $('#roomranker'),
 				plugupdates : $("#plugupdates"),
-				hidevideo : $('#hidevideo')
+				hidevideo : $('#hidevideo'),
+				tempMute : $('#tempMute')
 		};
 
 		$('.plugButton:not(.disabled)').click(function(){
@@ -163,12 +166,21 @@ PlugPlus.prototype = {
 		},
 
 		applySettings : function(){//Apply settings only if they are true. Default state is false.
+
 			if (PlugSettings.autoJoin){
 				this.button.autojoin.switchClass("inactive", "active");
 			}
+
 			if (PlugSettings.autoWoot){
 				this.button.autowoot.switchClass("inactive", "active");
 			}
+
+			if (PlugSettings.afkMessage.length > 0){
+				$('#PPAfkMessage').val(PlugSettings.afkMessage);
+			}
+
+			$('#PPAutoAfk').val(PlugSettings.autoAfk);
+
 			//Settings form
 			if (PlugSettings.notifications){
 				$('#PPNotifications').prop('checked', true);
@@ -277,6 +289,8 @@ PlugPlus.prototype = {
 			if ($('#PPNotifyTimeout').val()<0)
 				$('#PPNotifyTimeout').val(0);
 			//Save
+			s.afkMessage = $('#PPAfkMessage').val();
+			s.autoAfk = $('#PPAutoAfk').val();
 			s.notifications = $('#PPNotifications').is(':checked');
 			s.requireBlur = $('#PPRequireBlur').is(':checked');
 			s.linkExpansion = $('#PPLinkExpansion').is(':checked');
@@ -483,6 +497,9 @@ PlugPlus.prototype = {
 					plug.button.hidevideo.addClass('active');
 					$('#playback').slideUp();
 				}
+			},
+			tempMute: function(){
+				//Do nothing.
 			}
 		}
 };
@@ -599,8 +616,9 @@ $(function() {
 		var doc = $(document.body);
 		if (evt.type in evtMap)
 			doc.addClass(evtMap[evt.type]);
-		else        
+		else
 			this[hidden] ? doc.addClass("hidden") : doc.removeClass("hidden");
+		doc.attr('data-lastActive', new Date());
 	}
 });
 

@@ -150,6 +150,7 @@ footer {
 
 #plugPlusSettingsForm .spinner {
 	position: static;
+	background-color: black;
 }
 
 .PPSetting:not([type=checkbox]){
@@ -210,6 +211,7 @@ footer {
 
 .PPInline {
 	max-height: 100px;
+	max-width: 90%;
 	transition: all .3s;
 }
 

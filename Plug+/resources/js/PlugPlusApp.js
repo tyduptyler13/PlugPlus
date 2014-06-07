@@ -65,6 +65,8 @@ PlugPlusApp = function(){
 
 	// Setup other general functionality.
 	scope.setupMute();
+	scope.setupTempMute();
+	scope.setupAutoAfk();
 };
 PlugPlusApp.prototype = {
 
@@ -136,6 +138,12 @@ PlugPlusApp.prototype = {
 
 		chat : function(obj){
 
+			var mentioned = (obj.message.indexOf("@" + API.getUser().username) !== -1);
+
+			if (mentioned && this.settings.afkMessage.length > 0 && API.getUser().status == API.STATUS.AFK){
+				API.sendChat(this.settings.afkMessage);
+			}
+
 			var from = API.getUser(obj.fromID);
 
 			if (this.settings.chatLevel.all){
@@ -143,7 +151,7 @@ PlugPlusApp.prototype = {
 			} else {
 
 				if (this.settings.chatLevel.mention){
-					if (obj.message.indexOf("@" + API.getUser().username) !== -1){
+					if (mentioned){
 						this.nchat(obj);
 						return;
 					}
@@ -363,7 +371,57 @@ PlugPlusApp.prototype = {
 
 				return true;
 			});
+		},
+
+		tempMute : function(){
+
+			var button = $('#tempMute');
+
+			if (button.hasClass('active')){ //Active -> Inactive
+				button.removeClass('active');
+
+				API.setVolume($('body').data("lastVolume"));
+			} else { //Inactice -> Actice
+				button.addClass('active');
+
+				$('body').data("lastVolume", API.getVolume());
+				API.setVolume(0);
+
+				API.once(API.DJ_ADVANCE, function(){
+					API.setVolume($('body').body('lastVolume'));
+				});
+
+			}
+
+		},
+
+		setupTempMute : function(){
+			var scope = this;
+			$('#tempMute').click(scope.tempMute);
+		},
+
+		setupAutoAfk : function(){
+
+			var scope = this;
+
+			if (this.settings.autoAfk != 0){
+				setInterval(function(){
+					var last = new Date($('body').attr('data-lastActive'));
+					var diff = new Date().getTime() - last.getTime();
+
+					if ($('body').hasClass('hidden') && !scope.afk){//Not already afk and should be.
+						if (diff / 1000 / 60 > scope.settings.autoAfk){ //Afk
+							scope.afk = true;
+							API.setStatus(API.STATUS.AFK);
+						}
+					} else if (scope.afk) {//Just left afk.
+						API.setStatus(API.STATUS.AVAILABLE);
+						scope.afk = false;
+					}
+				}, 3000); //Check for afk every 3 seconds.
+			}
 		}
+
 };
 PlugPlusApp.urls = {
 		youtube : function(id) {

@@ -29,6 +29,10 @@
 
 			<div class='plugButton' id='hidevideo'>Hide Video</div>
 
+			<div class='plugButton' id='tempMute'
+				title="This will temporarily mute the song until it has finished.">Temp
+				Mute</div>
+
 		</div>
 
 		<div id="plugPlusInfo" class="plugPlusSection">
@@ -121,6 +125,32 @@
 							<th>Description</th>
 						</tr>
 						<tr>
+							<td>Link Expansion</td>
+							<td><input type="checkbox" class="PPSetting button"
+								name="PPLinkExpansion" id="PPLinkExpansion" /><label
+								for="PPLinkExpansion">Enabled</label></td>
+							<td>Links in chat and the page description will
+								automatically get expanded and previewed. (Only pictures and
+								youtube)</td>
+						</tr>
+						<tr>
+							<td>Afk Message</td>
+							<td><input type="text" class="PPSetting text"
+								name="PPAfkMessage" id="PPAfkMessage"
+								placeholder="I am sorry, I am afk." /></td>
+							<td>Enter a message that should be printed if you are afk.
+								Empty will disable printing afk messages. (Status must be afk)</td>
+						</tr>
+						<tr>
+							<td>Auto AFK</td>
+							<td><input class="ui-corner-all spinner PPSetting"
+								id="PPAutoAfk" min="0" /></td>
+							<td>This will set your status to afk if you are not active
+								on the page for X minutes. This will set it to available if you
+								return. 0 disables this feature. (Must refresh to update
+								changes)</td>
+						</tr>
+						<tr>
 							<td>Global Notifications</td>
 							<td><input type="checkbox" class="PPSetting button"
 								name="PPNotifications" id="PPNotifications" /><label
@@ -134,15 +164,6 @@
 								for="PPRequireBlur">Enabled</label></td>
 							<td>This will require that plug.dj is not the active window
 								to display notifications.</td>
-						</tr>
-						<tr>
-							<td>Link Expansion</td>
-							<td><input type="checkbox" class="PPSetting button"
-								name="PPLinkExpansion" id="PPLinkExpansion" /><label
-								for="PPLinkExpansion">Enabled</label></td>
-							<td>Links in chat and the page description will
-								automatically get expanded and previewed. (Only pictures and
-								youtube)</td>
 						</tr>
 						<tr>
 							<td>Chat Level</td>
