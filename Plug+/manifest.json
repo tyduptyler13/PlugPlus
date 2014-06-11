@@ -1,6 +1,6 @@
 {
 	"name": "Plug+",
-	"version": "2.0.3.22",
+	"version": "2.0.4.23",
 	"manifest_version": 2,
 	"description": "A plug.dj feature set.",
 	"icons": {
@@ -12,27 +12,16 @@
 		"scripts": ["resources/js/background.js"],
 		"persistent": false
 	},
-	"browser_action": {
-		"default_title": "Plug+",
-		"default_icon": "resources/images/icon.png",
-		"default_popup": "resources/menu.html"
-	},
 	"permissions": [
 		"*://*.plug.dj/*",
-		"http://plug.myuplay.com/*",
+		"*://img.youtube.com/vi/*",
 		"storage",
-		"notifications",
-		"contextMenus"
-	],
-	"optional_permissions": [
-		"http://*/*",
-		"https://*/*"
+		"notifications"
 	],
 	"web_accessible_resources": [
 		"resources/js/PlugPlusApp.js",
 		"resources/append.html",
-		"resources/images/*.png",
-		"resources/images/animated-overlay.gif"
+		"resources/images/*"
 	],
 	"content_scripts": [
 		{
@@ -57,5 +46,5 @@
 			"run_at": "document_end"
 		}
 	],
-	"content_security_policy": "script-src 'self'; object-src 'self';"
+	"content_security_policy": "script-src 'self'; object-src 'self'; img-src *"
 }

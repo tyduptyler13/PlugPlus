@@ -24,8 +24,8 @@
 
 			<div class='plugButton disabled' id='roomranker' title="Coming soon!">RoomRanker</div>
 
-			<div class='plugButton' id='plugupdates'
-				title="Opens the updates window.">Updates</div>
+			<div class='plugButton' id='plugforum'
+				title="Opens the updates window.">Forum</div>
 
 			<div class='plugButton' id='hidevideo'>Hide Video</div>
 
@@ -254,62 +254,17 @@
 		<div class="plugPlusContext" id="plugPlusChat" title="Plug+ Chat">
 			Disabled for the time being.</div>
 
-		<div class="plugPlusContext" id="plugPlusUpdates"
-			title="Plug+ Updates">
-			<div>
-				<article>
-					<h3>Release 3/25/14 (v2.0.2.20)</h3>
-					Added new setting to remove autojoin room safety. (Request)<br>
-					Also added prep work for future features.
-				</article>
-				<article>
-					<h3>Release 2/23/14 (v2.0.2.19)</h3>
-					Added new jQuery versions and updated values to match.
-				</article>
-				<article>
-					<h3>Release 2/5/14 (v2.0.2.18)</h3>
-					Added inline image expansion and lightbox functionality.
-				</article>
-				<article>
-					<h3>Release 1/17/14 (v2.0.2.17)</h3>
-					<p>
-						Added avatar support in notifications and patched up a few bugs. I
-						also included a new icon! <a href="http://goo.gl/eckEdu"
-							target="_blank">Details</a>
-					</p>
-					<p>
-						Other patches:<br> Fixed autojoin meh skipping code to run
-						after timeout.<br> Fixed dropdown menu <br> Fixed master
-						notifications setting
-					</p>
-				</article>
-				<article>
-					<h3>Release 12/8 (v2.0.1.16)</h3>
-					Disabled autojoin in rooms that have DJ Cycle disabled.
-				</article>
-				<article>
-					<h3>Release 12/8 (v2.0.1.15)</h3>
-					This release adds a new notification setting allowing settings to
-					be blocked if the plug.dj is the top most tab. It also adds anti
-					autowoot code that will cancel the autowoot if you have already
-					meh'd the song.
-				</article>
-				<article>
-					<h3>Release 2.0</h3>
-					This release contains a new notifications system and many
-					improvements on the old code.
-				</article>
-				<article>Old Beta updates are now excluded. To see what
-					has changed please view the github.</article>
-			</div>
-			<div>
-				The error reporting form has been removed. Please leave all comments
-				<a target="_blank"
-					href="https://github.com/tyduptyler13/PlugPlus/issues"><b>here</b></a>.
-			</div>
+		<div class="plugPlusContext" id="plugPlusForum"
+			title="Plug+ Forum">
+			<iframe id="PPForum" src="javascript:void(0)" scrolling="no"
+				frameborder="0"></iframe>
+			<script>
+  				document.getElementById('PPForum').src =
+    			 'https://groups.google.com/forum/embed/?place=forum/plugplus'
+   				  + '&showsearch=true&showpopout=true&showtabs=false'
+   				  + '&parenturl=' + encodeURIComponent(window.location.href);
+			</script>
 		</div>
-	</div>
-
 </section>
 
 <table id="PPLightBox">

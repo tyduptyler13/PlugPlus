@@ -51,20 +51,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponce) {
 	}
 });
 
-/**
- * Standardized request container.
- * @param success {boolean}
- * @param data {Object}
- * @param callback {String}
- * @constructor
- */
-function RequestData(success, data, callback){
-	this.success = success;
-	this.responce = data;
-	this.callback = callback;
-}
-RequestData.prototype.constructor = RequestData;
-
 if (localStorage["lastVersion"] !== undefined) {
 	if (localStorage["lastVersion"] !== chrome.app.getDetails().version) {
 		notify(icon,"Update","Plug+ has been updated to " + chrome.app.getDetails().version,0);
