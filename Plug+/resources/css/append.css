@@ -40,6 +40,14 @@
 	opacity: 1;
 }
 
+#plugPlus {
+    position: fixed;
+    top: 52px;
+    bottom: 52px;
+    left: 0;
+    z-index: 9;
+}
+
 #plugPlus div {
 	/* Disable text selection */
 	-webkit-touch-callout: none;
@@ -114,16 +122,6 @@
 	position: absolute;
 }
 
-#plugPlusUpdates article {
-	border: 1px white solid;
-	margin-top: 10px;
-	width: 100%;
-}
-
-#plugPlusUpdates div {
-	margin: 10px;
-}
-
 footer {
 	width: 100%;
 	text-align: center;
@@ -154,7 +152,7 @@ footer {
 }
 
 .PPSetting:not([type=checkbox]){
-	width:100%;
+	width:99%;
 }
 
 #plugPlusList #refresh {
@@ -232,4 +230,11 @@ footer {
 #PPLightBox td {
 	vertical-align: middle;
 	text-align: center;
+}
+
+#PPForum{
+	width:99%;
+	height:99%;
+	background-color: white;
+	border-radius: 10px;
 }

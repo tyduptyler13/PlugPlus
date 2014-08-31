@@ -42,7 +42,7 @@ var PlugPlus = function(){
 				settings : $("#psettings"),
 				plugchat : $("#plugchat"),
 				roomranker : $('#roomranker'),
-				plugupdates : $("#plugupdates"),
+				plugforum : $("#plugforum"),
 				hidevideo : $('#hidevideo'),
 				tempMute : $('#tempMute')
 		};
@@ -474,15 +474,15 @@ PlugPlus.prototype = {
 					});
 				}
 			},
-			plugupdates: function(plug){
-				if (plug.button.plugupdates.hasClass('active')){
-					plug.button.plugupdates.removeClass('active');
-					plug.closePopup('#plugPlusUpdates');
+			plugforum: function(plug){
+				if (plug.button.plugforum.hasClass('active')){
+					plug.button.plugforum.removeClass('active');
+					plug.closePopup('#plugPlusForum');
 				} else {
-					plug.button.plugupdates.addClass('active');
-					plug.openPopup('#plugPlusUpdates', {
+					plug.button.plugforum.addClass('active');
+					plug.openPopup('#plugPlusForum', {
 						close : function(){
-							plug.button.plugupdates.removeClass('active');
+							plug.button.plugforum.removeClass('active');
 						},
 						width: 850,
 						height: 600

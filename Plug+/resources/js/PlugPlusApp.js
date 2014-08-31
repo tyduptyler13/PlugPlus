@@ -30,7 +30,7 @@ PlugPlusApp = function(){
 
 	var channel = new MessageChannel();
 
-	window.postMessage("PlugPlusAppReady", "http://plug.dj", [channel.port2]);
+	window.postMessage("PlugPlusAppReady", "https://plug.dj", [channel.port2]);
 
 	this.port = channel.port1;
 
@@ -131,7 +131,7 @@ PlugPlusApp.prototype = {
 			});
 			API.on(API.CHAT, function(obj){
 				scope.chat(obj);
-				scope.inline(obj.chatID);
+				scope.inline(obj.cid);
 			});
 
 		},
@@ -286,7 +286,7 @@ PlugPlusApp.prototype = {
 			var userCount = API.getUsers().length;
 			var waitListLength = API.getWaitList().length;
 			var waitListPosition = API.getWaitListPosition() + 1;//Don't use zero base for users. -_-
-			var roomVotes = API.getRoomScore();
+			var roomVotes = API.getScore();
 			var percent = (.5 + ((roomVotes.positive/(userCount-1)) - (roomVotes.negative/(userCount-1))) *.5 ) * 100;
 			//50% + (Positive Votes Percent - Negative Votes Percent)*50% with the dj taken out of the total since he cant vote. 
 
@@ -305,7 +305,7 @@ PlugPlusApp.prototype = {
 
 		inline : function(id) {
 			if (this.settings.linkExpansion){
-				$('.cid-' + id + ' .text a').each(function(index, element){
+				$('[data-cid="' + id + '"] .text a').each(function(index, element){
 					element = $(element); //jQuery it.
 					var href = element.attr('href');
 					//Is it an image?
