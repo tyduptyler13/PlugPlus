@@ -40,6 +40,14 @@
 	opacity: 1;
 }
 
+#plugPlus {
+    position: fixed;
+    top: 52px;
+    bottom: 52px;
+    left: 0;
+    z-index: 9;
+}
+
 #plugPlus div {
 	/* Disable text selection */
 	-webkit-touch-callout: none;
