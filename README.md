@@ -3,6 +3,10 @@ PlugPlus
 
 Plug.dj script plugin for Chrome
 
+<span style="color:red">Officially discontinued</span>
+
+Looking for a new maintainer.
+
 Latest Feature
 ----
 Inline image expansion - Expand images mentioned in chat and view them
