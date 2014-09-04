@@ -100,12 +100,17 @@ PlugPlusApp.prototype = {
 
 		setupEvents : function(){
 			var scope = this;
-
+			var button = $('#tempMute');
+			var body = $('body')
 			//Plug.dj listeners
-			API.on(API.DJ_ADVANCE, function(obj){
+			API.on(API.ADVANCE, function(obj){
 				scope.autoWoot();
 				scope.songUpdate(obj);
 				scope.updateRoomStats();
+				if (button.hasClass('active')){
+					button.removeClass('active');
+					setTimeout ("API.setVolume(" + body.data("lastVolume") + ");", 1000); 
+				}
 			});
 			API.on(API.DJ_UPDATE, function(obj){
 				scope.autoJoin();
@@ -387,9 +392,6 @@ PlugPlusApp.prototype = {
 				$('body').data("lastVolume", API.getVolume());
 				API.setVolume(0);
 
-				API.once(API.DJ_ADVANCE, function(){
-					API.setVolume($('body').body('lastVolume'));
-				});
 
 			}
 
